@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: NSRunLoop | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/nsrunloop/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[iOS - Cocoa Non-Blocking sleep wait background task]]></title>
+    <link href="http://allenwei.github.io/blog/2011/10/30/cocoa-non-blocking-sleep-wait-background-task/"/>
+    <updated>2011-10-30T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2011/10/30/cocoa-non-blocking-sleep-wait-background-task</id>
+    <content type="html"><![CDATA[<p>If you have some async task running in background, and you need wait this background task until it finished, code below will help u:</p>
+
+<p>``` c
+ NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:0.1];</p>
+
+<pre><code>while (![self isFinished] &amp;&amp; [[NSRunLoop currentRunLoop] runMode: NSDefaultRunLoopMode beforeDate:loopUntil]) {
+    loopUntil = [NSDate dateWithTimeIntervalSinceNow:0.1];
+}
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+</feed>

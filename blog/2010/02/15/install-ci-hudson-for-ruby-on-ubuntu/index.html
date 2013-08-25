@@ -1,0 +1,404 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Install CI Hudson for Ruby on Ubuntu - Digruby</title>
+	<meta name="author" content="Allen Wei">
+
+	
+	<meta name="description" content="Install CI Hudson for Ruby on Ubuntu Before switch to Hudson, we use CruiseControl.rb
+Compare to CruiseControl.rb, these features is what I &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Digruby" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://allenwei.github.io/blog/2010/02/15/install-ci-hudson-for-ruby-on-ubuntu/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("digruby@gmail.com") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+</div>
+<hgroup>
+  <h1>Digruby</h1>
+  
+    <h2><a href="/">Allen Wei's Tech Notes</a></h2>
+  
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		<a class="twitter" href="http://twitter.com/allenwei" title="Twitter">Twitter</a>
+		
+		
+		<a class="github" href="https://github.com/allenwei" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		<a class="delicious" href="http://delicious.com/allenwei" title="Delicious">Delicious</a>
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Install CI Hudson for Ruby on Ubuntu</h1>
+	<div class="entry-content" itemprop="articleBody"><p>Before switch to Hudson, we use CruiseControl.rb
+Compare to CruiseControl.rb, these features is what I favourite</p>
+
+<ul>
+<li>We can easily kill or start a new build</li>
+<li>We can test all branches or some branches in a git repository. It&rsquo;s</li>
+<li>It will send email to a mail list  when test broke and send another email to someone who break the test.</li>
+<li>It has code coverage plugin.</li>
+</ul>
+
+
+<h3>Then how to install on ubuntu</h3>
+
+<h4>Add Hudson source to ubuntu</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>wget -O - http://hudson-ci.org/debian/hudson-ci.org.key | sudo apt-key add -
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Add These line to</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/apt/sources.list</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>deb http://hudson-ci.org/debian binary/
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Install Hudson</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get update
+</span><span class='line'>sudo apt-get install hudson
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Start is easy</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo /etc/init.d/hudson start
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Configuration</h4>
+
+<p>Now you can enter with <code>your_server_url:8080</code></p>
+
+<h4>Install Hudson Plugin</h4>
+
+<p>Go to <code>Manage Hudson &gt; Manage Plugins &gt; Available</code>
+These plugins you need to install</p>
+
+<ul>
+<li>Rake</li>
+<li>Ruby Plugin</li>
+<li>Ruby metrics plugin</li>
+<li>Git Plugin (optional)</li>
+</ul>
+
+
+<h4>Create a new Hudson Job</h4>
+
+<ul>
+<li>Click</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>New Job</span></code></pre></td></tr></table></div></figure>
+
+
+<p> link
+* Enter your</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Job name</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Select</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Build a free-style software project</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Setup Git repository
+<strong> Enter Your URL of repository
+</strong> Branch Specifier, if you only want to test master you can type in</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>*/master</span></code></pre></td></tr></table></div></figure>
+
+
+<p>, leave blank hudson will test all your branches</p>
+
+<p>Ok, Save. We leave other configuration for now. we will back.</p>
+
+<p>Click</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Build Now</span></code></pre></td></tr></table></div></figure>
+
+
+<p> link at left. Hudson will clone your repository to it&rsquo;s workspace.
+If everything is ok, you can see your code in <code>/var/lib/hudson/jobs/YOUR_JOB_NAME/workspace</code></p>
+
+<h4>Add ci required rails plugins</h4>
+
+<p>Before you add these plugins, you need:</p>
+
+<ul>
+<li>create a new branch <code>git checkout -b ci</code></li>
+<li>Install ci_reporter plugin <code>./script/plugin install git://github.com/nicksieger/ci_reporter.git</code></li>
+<li>Install rails_rcov_engines plugin <code>./script/plugin install git://github.com/dam5s/rails_rcov_engines.git</code></li>
+<li><code>git add vendor/plugins/ci_reporter vendor/plugins/rails_rcov_engines</code></li>
+<li><code>git commit -m "add ci related plugins"</code></li>
+</ul>
+
+
+<h4>Continue Configuration</h4>
+
+<p>Back to you job configuration, finish reset parts of configuration</p>
+
+<ul>
+<li>Click the button</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Advanced..</span></code></pre></td></tr></table></div></figure>
+
+
+<p>, above &ldquo;Repository browser&rdquo;
+* Enter</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ci</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Build Triggers > Poll SCM</span></code></pre></td></tr></table></div></figure>
+
+
+<p> */10 * * * * , Poll git commit every 10 mins
+*</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Build > Add build step > Execute shell</span></code></pre></td></tr></table></div></figure>
+
+
+<p>, then enter</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake gems:install
+</span><span class='line'><span class="nb">export </span><span class="nv">CI_REPORTS</span><span class="o">=</span>results
+</span><span class='line'><span class="nb">export </span><span class="nv">RAILS_ENV</span><span class="o">=</span><span class="nb">test</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">CI_REPORTS</span><span class="o">=</span>results
+</span><span class='line'><span class="nb">export </span><span class="nv">RAILS_ENV</span><span class="o">=</span><span class="nb">test</span>
+</span><span class='line'><span class="c"># Prepare for rcov</span>
+</span><span class='line'><span class="o">[</span> -d <span class="s2">&quot;coverage&quot;</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> rm -rf coverage
+</span><span class='line'><span class="o">[</span> -d <span class="s2">&quot;results&quot;</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> rm -rf results
+</span><span class='line'>mkdir coverage
+</span><span class='line'>mkdir results
+</span><span class='line'><span class="c"># invoke rake</span>
+</span><span class='line'>rake db:create db:migrate ci:setup:testunit <span class="nb">test</span>:test:rcov <span class="nv">SHOW_ONLY</span><span class="o">=</span>models,helpers,controllers <span class="nv">RAILS_ENV</span><span class="o">=</span><span class="nb">test </span><span class="nv">RCOV_PARAMS</span><span class="o">=</span><span class="s2">&quot;--aggregate coverage/aggregate.data&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Post-build Actions > Publish JUnit test result report</span></code></pre></td></tr></table></div></figure>
+
+
+<p> enter</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>results/*.xml</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Post-build Actions > Publish Rcov report</span></code></pre></td></tr></table></div></figure>
+
+
+<p>, enter</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>coverage/test</span></code></pre></td></tr></table></div></figure>
+
+
+<p> in Rcov report directory
+*</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Post-build Actions > E-mail Notification</span></code></pre></td></tr></table></div></figure>
+
+
+<p>, config emails you want to send when test broke</p>
+
+<p>Ok, you can click Build Now. After build you will see the test result code coverage.</p>
+
+<blockquote><p>Test make perfect!</p></blockquote>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2013 - Allen Wei -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			
+
+<script type="text/javascript">
+      var disqus_shortname = 'digrubycom';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://allenwei.github.io/blog/2010/02/15/install-ci-hudson-for-ruby-on-ubuntu/';
+        var disqus_url = 'http://allenwei.github.io/blog/2010/02/15/install-ci-hudson-for-ruby-on-ubuntu/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

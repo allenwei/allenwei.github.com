@@ -1,0 +1,233 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Rotate your log file - Digruby</title>
+	<meta name="author" content="Allen Wei">
+
+	
+	<meta name="description" content="Rotate Your Log File Configuring config file locate at 1
+/etc/logrotate.conf Sample: 1
+2
+3
+4
+5
+6
+7
+8
+9
+10 # Rotate Rails application logs /path/to/ &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Digruby" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://allenwei.github.io/blog/2010/02/15/rotate-your-log-file/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("digruby@gmail.com") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+</div>
+<hgroup>
+  <h1>Digruby</h1>
+  
+    <h2><a href="/">Allen Wei's Tech Notes</a></h2>
+  
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		<a class="twitter" href="http://twitter.com/allenwei" title="Twitter">Twitter</a>
+		
+		
+		<a class="github" href="https://github.com/allenwei" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		<a class="delicious" href="http://delicious.com/allenwei" title="Delicious">Delicious</a>
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Rotate Your Log File</h1>
+	<div class="entry-content" itemprop="articleBody"><p>Configuring</p>
+
+<p>config file locate at</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/logrotate.conf</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Sample:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>   # Rotate Rails application logs
+</span><span class='line'>   /path/to/your/rails/applicaton/log/*.log {
+</span><span class='line'>     daily
+</span><span class='line'>     missingok
+</span><span class='line'>     rotate 7
+</span><span class='line'>     compress
+</span><span class='line'>     delaycompress
+</span><span class='line'>     notifempty
+</span><span class='line'>     copytruncate
+</span><span class='line'>   }</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><p>/path/to/your/rails/applicaton/log/<em>.log &ndash; Use the full path to the log directory of your Rails application (symbolic links are acceptable too). &ldquo;</em>.log&rdquo; will rotate any file in the log directory with .log at the end. If you only want to rotate certain log files you can be more specific.</p></li>
+<li><p>daily &ndash; Rotates the log files every day. You could specify weekly or monthly instead.</p></li>
+<li><p>missingok &ndash; Don&rsquo;t issue an error message if log files are missing.</p></li>
+<li><p>rotate 7 &ndash; The maximum number of log files to keep. Once you have more than this number, the oldest file will be deleted. I set it to keep seven days worth but feel free to change this number.</p></li>
+<li><p>compress &ndash; Compress old versions of log files to save space (uses gzip by default).</p></li>
+<li><p>delaycompress &ndash; Delays the compression until the next log rotation. It&rsquo;s a minor point and probably not strictly necessary, but it makes sure that the log file is truly no longer active before compressing it.</p></li>
+<li><p>notifempty &ndash; If the log file is empty, there&rsquo;s no need to rotate it. You can remove this option if you want to rotate even blank log files; just keep in mind that you may erase a log file that has lots of information to make room for your blank log file.</p></li>
+<li><p>copytruncate &ndash; Makes a backup copy of the current log and then clears the log file for continued writing. The alternative is to use create which will perform the rotation by renaming the current file and then creating a new log file with the same name as the old file. I strongly recommend that you use copytruncate unless you know that you need create. The reason why is that Rails, FastCGI, Mongrel, etc. may still keep pointing to the old log file even though its name has changed and they may require restarting to locate the new log file. copytruncate avoids this by keeping the same file as the active file.</p></li>
+</ul>
+
+
+<p>If you have more than one Rails application, you can repeat this code to rotate them all one-after-another. There other options you can specify, man logrotate will show you them all. I haven&rsquo;t used them but the options to mail log files on creation or deletion look interesting. It is also possible to have rotate the logs once they get to a certain size instead of at a certain time.</p>
+
+<p>Using <a href="http://linuxcommand.org/man_pages/logrotate8.html">logrotate</a></p>
+
+<p>To use the log rotation you just configured, you have two choices.</p>
+
+<h1>Wait for the next day (or whatever time period you specified). If you configured it correctly, rotation should occur automatically and without further commands.</h1>
+
+<h1>Run it immediately by typing /usr/sbin/logrotate -f /etc/logrotate.conf on the command line. (The -f is for &ldquo;force&rdquo; it to run now.)</h1>
+
+<p>That&rsquo;s all there is to it! Now your log files won&rsquo;t fill up to an unmanagable size yet you&rsquo;ll still be able to go back and track any recent errors.</p>
+
+<p>By default, logrotate will add cron task to /etc/cron.daily/logrotate. So you don&rsquo;t need to worry how to add cron task.</p>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2013 - Allen Wei -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			
+
+<script type="text/javascript">
+      var disqus_shortname = 'digrubycom';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://allenwei.github.io/blog/2010/02/15/rotate-your-log-file/';
+        var disqus_url = 'http://allenwei.github.io/blog/2010/02/15/rotate-your-log-file/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

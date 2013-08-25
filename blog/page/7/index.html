@@ -1,0 +1,989 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Digruby</title>
+	<meta name="author" content="Allen Wei">
+
+	
+	<meta name="description" content="Feb 15th, 2010 RubyOnRails, Tips, load_path, ruby Tips - Require All File in a Folder No recursion 1 $LOAD_PATH &lt;&lt; File.join(File.dirname( &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Digruby" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://allenwei.github.io/blog/page/7/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("digruby@gmail.com") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+</div>
+<hgroup>
+  <h1>Digruby</h1>
+  
+    <h2><a href="/">Allen Wei's Tech Notes</a></h2>
+  
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		<a class="twitter" href="http://twitter.com/allenwei" title="Twitter">Twitter</a>
+		
+		
+		<a class="github" href="https://github.com/allenwei" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		<a class="delicious" href="http://delicious.com/allenwei" title="Delicious">Delicious</a>
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner">
+<div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-02-15T00:00:00+08:00" data-updated="true" itemprop="datePublished">Feb 15<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/load-path/'>load_path</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/02/15/tips-require-all-file-in-a-folder/" itemprop="url">Tips - Require All File in a Folder</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h4>No recursion</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="vg">$LOAD_PATH</span> <span class="o">&lt;&lt;</span> <span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">),</span> <span class="s1">&#39;../app/drops&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Recursively</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="no">Dir</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">),</span> <span class="s1">&#39;../app/drops/*.rb&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span><span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="nb">require</span> <span class="n">f</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-02-15T00:00:00+08:00" data-updated="true" itemprop="datePublished">Feb 15<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/cache/'>cache</a>, <a class='category' href='/blog/categories/fragment-cache/'>fragment_cache</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/02/15/tips-rails-expire-fragment-cache-outside/" itemprop="url">Tips - Rails Expire Fragment Cache Outside</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Add these code in where you want to use [expire_fragment]: (<a href="http://api.rubyonrails.org/classes/ActionController/Caching/Fragments.html#M000458">http://api.rubyonrails.org/classes/ActionController/Caching/Fragments.html#M000458</a>)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="kp">include</span> <span class="ss">ActionController</span><span class="p">:</span><span class="ss">:Caching</span><span class="o">::</span><span class="no">Fragments</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'> <span class="k">def</span> <span class="nf">cache_store</span>
+</span><span class='line'>      <span class="ss">ActionController</span><span class="p">:</span><span class="ss">:Base</span><span class="o">.</span><span class="n">cache_store</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">benchmark</span><span class="p">(</span> <span class="o">*</span><span class="n">params</span> <span class="p">)</span>
+</span><span class='line'>      <span class="k">yield</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">cache_configured?</span>
+</span><span class='line'>      <span class="kp">true</span>
+</span><span class='line'>    <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then you can call</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>expire_fragment(key,options)</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-02-15T00:00:00+08:00" data-updated="true" itemprop="datePublished">Feb 15<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/unittest/'>unittest</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/02/15/tips-preload-fixtureadd-unitest-method-on-the-fl/" itemprop="url">Tips - Preload Fixture,add Unitest Method on the Fly</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="no">Fixtures</span><span class="o">.</span><span class="n">create_fixtures</span><span class="p">(</span><span class="s2">&quot;test/fixtures&quot;</span><span class="p">,</span> <span class="s2">&quot;panel_types&quot;</span><span class="p">)</span> <span class="c1"># prelaod fixture</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">panel</span> <span class="o">=</span> <span class="no">PanelType</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">panel_id</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">define_method</span> <span class="s2">&quot;test_</span><span class="si">#{</span><span class="n">panel</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">downcase</span><span class="si">}</span><span class="s2">_</span><span class="si">#{</span><span class="n">panel</span><span class="o">.</span><span class="n">category</span><span class="o">.</span><span class="n">downcase</span><span class="si">}</span><span class="s2">_page&quot;</span><span class="o">.</span><span class="n">to_sym</span> <span class="k">do</span>
+</span><span class='line'>    <span class="c1"># test code </span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-02-15T00:00:00+08:00" data-updated="true" itemprop="datePublished">Feb 15<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/log/'>log</a>, <a class='category' href='/blog/categories/parse/'>parse</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/02/15/tips-parse-log-file/" itemprop="url">Tips - Parse Log File Tips</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h1>separate variables by &ldquo;|&rdquo;</h1>
+
+<h1>Analyze</h1>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">field_names</span> <span class="o">=</span> <span class="o">[</span><span class="ss">:level</span><span class="p">,</span> <span class="ss">:time</span><span class="p">,</span> <span class="ss">:pid</span><span class="p">,</span> <span class="ss">:location</span><span class="p">,</span> <span class="ss">:token</span><span class="p">,</span> <span class="ss">:query</span><span class="p">,</span> <span class="ss">:proxy</span><span class="p">,</span> <span class="ss">:action</span><span class="p">,</span> <span class="ss">:cost</span><span class="p">,</span> <span class="ss">:msg</span><span class="o">]</span>
+</span><span class='line'><span class="n">log_data</span> <span class="o">=</span> <span class="no">Hash</span><span class="o">[*</span><span class="n">field_names</span><span class="o">.</span><span class="n">zip</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then you can easily get all your variables
+[cc lany=&ldquo;ruby&rdquo;]
+puts log_data[:level]
+puts log_data[:time]</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Combined log files analyze </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p> ruby</p>
+
+<h1>code in analyzer.rb</h1>
+
+<p>ARGF.each_line do |line|
+  puts line
+end</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Then</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ruby analyzer.rb log1.log log2.log
+&#8220;`</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-02-15T00:00:00+08:00" data-updated="true" itemprop="datePublished">Feb 15<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/retry/'>retry</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/02/15/tips-how-to-write-ruby-retry/" itemprop="url">Tips - How to Write Ruby Retry</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">retry_times</span> <span class="o">=</span> <span class="mi">3</span>
+</span><span class='line'>  <span class="k">begin</span>
+</span><span class='line'>    <span class="c1"># Exception here</span>
+</span><span class='line'>  <span class="k">rescue</span> <span class="no">Exception</span> <span class="o">=&gt;</span> <span class="n">e</span>
+</span><span class='line'>    <span class="k">retry</span> <span class="k">if</span> <span class="p">(</span><span class="n">retry_times</span> <span class="o">-=</span> <span class="mi">1</span> <span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Retryable method I wrote:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="c1"># If you want to get a proxy but afraid of proxy failture, you can use this method.</span>
+</span><span class='line'>  <span class="c1"># If retry times more than retry times in option parameter, will raise a RetryError.</span>
+</span><span class='line'>  <span class="c1"># * :retry_times - Retry times , Defaults 10</span>
+</span><span class='line'>  <span class="c1"># * :on - The Exception on which a retry will be performed. Defaults Exception</span>
+</span><span class='line'>  <span class="c1"># Notice: This method will call block many times, so don&#39;t put can&#39;t retryable code in it.</span>
+</span><span class='line'>  <span class="c1"># Example</span>
+</span><span class='line'>  <span class="c1"># =======</span>
+</span><span class='line'>  <span class="c1">#    begin </span>
+</span><span class='line'>  <span class="c1">#      retryable_proxy(:retry_times =&gt; 10,:on =&gt; Timeout::Error) do |ip,port|</span>
+</span><span class='line'>  <span class="c1">#         # your code here</span>
+</span><span class='line'>  <span class="c1">#      end</span>
+</span><span class='line'>  <span class="c1">#    rescue RetryError </span>
+</span><span class='line'>  <span class="c1">#      # handle error</span>
+</span><span class='line'>  <span class="c1">#    end </span>
+</span><span class='line'>  <span class="c1">#</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">retryable_proxy</span><span class="p">(</span><span class="n">options</span> <span class="o">=</span> <span class="p">{},</span><span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">opts</span> <span class="o">=</span> <span class="p">{</span><span class="ss">:retry_times</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">,</span><span class="ss">:on</span> <span class="o">=&gt;</span> <span class="no">Exception</span><span class="p">}</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">retry_times</span><span class="p">,</span> <span class="n">try_exception</span> <span class="o">=</span> <span class="n">opts</span><span class="o">[</span><span class="ss">:retry_times</span><span class="o">]</span><span class="p">,</span> <span class="n">opts</span><span class="o">[</span><span class="ss">:on</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">begin</span>
+</span><span class='line'>      <span class="n">proxy</span> <span class="o">=</span> <span class="ss">Lookup</span><span class="p">:</span><span class="ss">:Models</span><span class="o">::</span><span class="no">ProxyList</span><span class="o">.</span><span class="n">random</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">block</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">proxy</span><span class="o">.</span><span class="n">ip</span><span class="p">,</span><span class="n">proxy</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">rescue</span> <span class="n">try_exception</span> <span class="o">=&gt;</span> <span class="n">e</span>
+</span><span class='line'>      <span class="k">retry</span> <span class="k">if</span> <span class="p">(</span><span class="n">retry_times</span> <span class="o">-=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="k">raise</span> <span class="no">RetryError</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-02-15T00:00:00+08:00" data-updated="true" itemprop="datePublished">Feb 15<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/console/'>console</a>, <a class='category' href='/blog/categories/unix/'>unix</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/02/15/tips-dont-prompt-password-when-sudo/" itemprop="url">Tips - Don&#8217;t Prompt Password When Sudo</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>first run</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo visudo</span></code></pre></td></tr></table></div></figure>
+
+
+<p> then put following line in the file</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>%admin  ALL=(ALL) NOPASSWD: ALL</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-02-15T00:00:00+08:00" data-updated="true" itemprop="datePublished">Feb 15<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/activerecord/'>activerecord</a>, <a class='category' href='/blog/categories/mysql/'>mysql</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/02/15/tips-distinct-in-activerecord-find/" itemprop="url">Tips - Distinct in ActiveRecord Find</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Item</span><span class="o">.</span><span class="n">find</span><span class="p">(</span> <span class="ss">:all</span><span class="p">,</span> <span class="ss">:select</span> <span class="o">=&gt;</span> <span class="s1">&#39;DISTINCT fieldname&#39;</span> <span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-02-15T00:00:00+08:00" data-updated="true" itemprop="datePublished">Feb 15<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/actionview/'>actionview</a>, <a class='category' href='/blog/categories/benchmark/'>benchmark</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/02/15/tips-benchmark-your-view/" itemprop="url">Tips - Benchmark Your View</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sx">% benchmark </span><span class="s2">&quot;My View&quot;</span> <span class="k">do</span> <span class="sx">%&gt; </span>
+</span><span class='line'><span class="sx">&lt;!-- View Segment Here--&gt;</span>
+</span><span class='line'><span class="o">&lt;%</span> <span class="k">end</span><span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You&rsquo;d better add some keyword in benchmark name, it is good to search in log.<br/>
+You can see result in your log.</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-02-15T00:00:00+08:00" data-updated="true" itemprop="datePublished">Feb 15<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/log/'>log</a>, <a class='category' href='/blog/categories/logrotate/'>logrotate</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/02/15/rotate-your-log-file/" itemprop="url">Rotate Your Log File</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Configuring</p>
+
+<p>config file locate at</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/logrotate.conf</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Sample:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>   # Rotate Rails application logs
+</span><span class='line'>   /path/to/your/rails/applicaton/log/*.log {
+</span><span class='line'>     daily
+</span><span class='line'>     missingok
+</span><span class='line'>     rotate 7
+</span><span class='line'>     compress
+</span><span class='line'>     delaycompress
+</span><span class='line'>     notifempty
+</span><span class='line'>     copytruncate
+</span><span class='line'>   }</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><p>/path/to/your/rails/applicaton/log/<em>.log &ndash; Use the full path to the log directory of your Rails application (symbolic links are acceptable too). &ldquo;</em>.log&rdquo; will rotate any file in the log directory with .log at the end. If you only want to rotate certain log files you can be more specific.</p></li>
+<li><p>daily &ndash; Rotates the log files every day. You could specify weekly or monthly instead.</p></li>
+<li><p>missingok &ndash; Don&rsquo;t issue an error message if log files are missing.</p></li>
+<li><p>rotate 7 &ndash; The maximum number of log files to keep. Once you have more than this number, the oldest file will be deleted. I set it to keep seven days worth but feel free to change this number.</p></li>
+<li><p>compress &ndash; Compress old versions of log files to save space (uses gzip by default).</p></li>
+<li><p>delaycompress &ndash; Delays the compression until the next log rotation. It&rsquo;s a minor point and probably not strictly necessary, but it makes sure that the log file is truly no longer active before compressing it.</p></li>
+<li><p>notifempty &ndash; If the log file is empty, there&rsquo;s no need to rotate it. You can remove this option if you want to rotate even blank log files; just keep in mind that you may erase a log file that has lots of information to make room for your blank log file.</p></li>
+<li><p>copytruncate &ndash; Makes a backup copy of the current log and then clears the log file for continued writing. The alternative is to use create which will perform the rotation by renaming the current file and then creating a new log file with the same name as the old file. I strongly recommend that you use copytruncate unless you know that you need create. The reason why is that Rails, FastCGI, Mongrel, etc. may still keep pointing to the old log file even though its name has changed and they may require restarting to locate the new log file. copytruncate avoids this by keeping the same file as the active file.</p></li>
+</ul>
+
+
+<p>If you have more than one Rails application, you can repeat this code to rotate them all one-after-another. There other options you can specify, man logrotate will show you them all. I haven&rsquo;t used them but the options to mail log files on creation or deletion look interesting. It is also possible to have rotate the logs once they get to a certain size instead of at a certain time.</p>
+
+<p>Using <a href="http://linuxcommand.org/man_pages/logrotate8.html">logrotate</a></p>
+
+<p>To use the log rotation you just configured, you have two choices.</p>
+
+<h1>Wait for the next day (or whatever time period you specified). If you configured it correctly, rotation should occur automatically and without further commands.</h1>
+
+<h1>Run it immediately by typing /usr/sbin/logrotate -f /etc/logrotate.conf on the command line. (The -f is for &ldquo;force&rdquo; it to run now.)</h1>
+
+<p>That&rsquo;s all there is to it! Now your log files won&rsquo;t fill up to an unmanagable size yet you&rsquo;ll still be able to go back and track any recent errors.</p>
+
+<p>By default, logrotate will add cron task to /etc/cron.daily/logrotate. So you don&rsquo;t need to worry how to add cron task.</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-02-15T00:00:00+08:00" data-updated="true" itemprop="datePublished">Feb 15<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/agile/'>Agile</a>, <a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/ccb/'>ccb</a>, <a class='category' href='/blog/categories/ci/'>ci</a>, <a class='category' href='/blog/categories/cruisecontrol-dot-rb/'>cruisecontrol.rb</a>, <a class='category' href='/blog/categories/hudson/'>hudson</a>, <a class='category' href='/blog/categories/ubuntu/'>ubuntu</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/02/15/install-ci-hudson-for-ruby-on-ubuntu/" itemprop="url">Install CI Hudson for Ruby on Ubuntu</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Before switch to Hudson, we use CruiseControl.rb
+Compare to CruiseControl.rb, these features is what I favourite</p>
+
+<ul>
+<li>We can easily kill or start a new build</li>
+<li>We can test all branches or some branches in a git repository. It&rsquo;s</li>
+<li>It will send email to a mail list  when test broke and send another email to someone who break the test.</li>
+<li>It has code coverage plugin.</li>
+</ul>
+
+
+<h3>Then how to install on ubuntu</h3>
+
+<h4>Add Hudson source to ubuntu</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>wget -O - http://hudson-ci.org/debian/hudson-ci.org.key | sudo apt-key add -
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Add These line to</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/apt/sources.list</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>deb http://hudson-ci.org/debian binary/
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Install Hudson</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get update
+</span><span class='line'>sudo apt-get install hudson
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Start is easy</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo /etc/init.d/hudson start
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Configuration</h4>
+
+<p>Now you can enter with <code>your_server_url:8080</code></p>
+
+<h4>Install Hudson Plugin</h4>
+
+<p>Go to <code>Manage Hudson &gt; Manage Plugins &gt; Available</code>
+These plugins you need to install</p>
+
+<ul>
+<li>Rake</li>
+<li>Ruby Plugin</li>
+<li>Ruby metrics plugin</li>
+<li>Git Plugin (optional)</li>
+</ul>
+
+
+<h4>Create a new Hudson Job</h4>
+
+<ul>
+<li>Click</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>New Job</span></code></pre></td></tr></table></div></figure>
+
+
+<p> link
+* Enter your</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Job name</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Select</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Build a free-style software project</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Setup Git repository
+<strong> Enter Your URL of repository
+</strong> Branch Specifier, if you only want to test master you can type in</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>*/master</span></code></pre></td></tr></table></div></figure>
+
+
+<p>, leave blank hudson will test all your branches</p>
+
+<p>Ok, Save. We leave other configuration for now. we will back.</p>
+
+<p>Click</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Build Now</span></code></pre></td></tr></table></div></figure>
+
+
+<p> link at left. Hudson will clone your repository to it&rsquo;s workspace.
+If everything is ok, you can see your code in <code>/var/lib/hudson/jobs/YOUR_JOB_NAME/workspace</code></p>
+
+<h4>Add ci required rails plugins</h4>
+
+<p>Before you add these plugins, you need:</p>
+
+<ul>
+<li>create a new branch <code>git checkout -b ci</code></li>
+<li>Install ci_reporter plugin <code>./script/plugin install git://github.com/nicksieger/ci_reporter.git</code></li>
+<li>Install rails_rcov_engines plugin <code>./script/plugin install git://github.com/dam5s/rails_rcov_engines.git</code></li>
+<li><code>git add vendor/plugins/ci_reporter vendor/plugins/rails_rcov_engines</code></li>
+<li><code>git commit -m "add ci related plugins"</code></li>
+</ul>
+
+
+<h4>Continue Configuration</h4>
+
+<p>Back to you job configuration, finish reset parts of configuration</p>
+
+<ul>
+<li>Click the button</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Advanced..</span></code></pre></td></tr></table></div></figure>
+
+
+<p>, above &ldquo;Repository browser&rdquo;
+* Enter</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ci</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Build Triggers > Poll SCM</span></code></pre></td></tr></table></div></figure>
+
+
+<p> */10 * * * * , Poll git commit every 10 mins
+*</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Build > Add build step > Execute shell</span></code></pre></td></tr></table></div></figure>
+
+
+<p>, then enter</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake gems:install
+</span><span class='line'><span class="nb">export </span><span class="nv">CI_REPORTS</span><span class="o">=</span>results
+</span><span class='line'><span class="nb">export </span><span class="nv">RAILS_ENV</span><span class="o">=</span><span class="nb">test</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">CI_REPORTS</span><span class="o">=</span>results
+</span><span class='line'><span class="nb">export </span><span class="nv">RAILS_ENV</span><span class="o">=</span><span class="nb">test</span>
+</span><span class='line'><span class="c"># Prepare for rcov</span>
+</span><span class='line'><span class="o">[</span> -d <span class="s2">&quot;coverage&quot;</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> rm -rf coverage
+</span><span class='line'><span class="o">[</span> -d <span class="s2">&quot;results&quot;</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> rm -rf results
+</span><span class='line'>mkdir coverage
+</span><span class='line'>mkdir results
+</span><span class='line'><span class="c"># invoke rake</span>
+</span><span class='line'>rake db:create db:migrate ci:setup:testunit <span class="nb">test</span>:test:rcov <span class="nv">SHOW_ONLY</span><span class="o">=</span>models,helpers,controllers <span class="nv">RAILS_ENV</span><span class="o">=</span><span class="nb">test </span><span class="nv">RCOV_PARAMS</span><span class="o">=</span><span class="s2">&quot;--aggregate coverage/aggregate.data&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Post-build Actions > Publish JUnit test result report</span></code></pre></td></tr></table></div></figure>
+
+
+<p> enter</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>results/*.xml</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Post-build Actions > Publish Rcov report</span></code></pre></td></tr></table></div></figure>
+
+
+<p>, enter</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>coverage/test</span></code></pre></td></tr></table></div></figure>
+
+
+<p> in Rcov report directory
+*</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Post-build Actions > E-mail Notification</span></code></pre></td></tr></table></div></figure>
+
+
+<p>, config emails you want to send when test broke</p>
+
+<p>Ok, you can click Build Now. After build you will see the test result code coverage.</p>
+
+<blockquote><p>Test make perfect!</p></blockquote>
+
+		
+		
+	</div>
+
+</article>
+
+</div>
+<nav id="pagenavi">
+    
+        <a href="/blog/page/6/" class="prev">Prev</a>
+    
+    
+        <a href="/blog/page/8/" class="next">Next</a>
+    
+    <div class="center"><a href="/blog/archives">Blog Archives</a></div>
+</nav></div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2013 - Allen Wei -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			
+
+<script type="text/javascript">
+      var disqus_shortname = 'digrubycom';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

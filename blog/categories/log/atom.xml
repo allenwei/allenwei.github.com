@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: log | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/log/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Tips - parse log file tips]]></title>
+    <link href="http://allenwei.github.io/blog/2010/02/15/tips-parse-log-file/"/>
+    <updated>2010-02-15T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/02/15/tips-parse-log-file</id>
+    <content type="html"><![CDATA[<h1>separate variables by &ldquo;|&rdquo;</h1>
+
+<h1>Analyze</h1>
+
+<p><code>ruby
+field_names = [:level, :time, :pid, :location, :token, :query, :proxy, :action, :cost, :msg]
+log_data = Hash[*field_names.zip(parts).flatten]
+</code></p>
+
+<p>Then you can easily get all your variables
+[cc lany=&ldquo;ruby&rdquo;]
+puts log_data[:level]
+puts log_data[:time]
+```</p>
+
+<h1>Combined log files analyze</h1>
+
+<p>``` ruby</p>
+
+<h1>code in analyzer.rb</h1>
+
+<p>ARGF.each_line do |line|
+  puts line
+end
+<code>
+Then
+</code>
+ruby analyzer.rb log1.log log2.log
+```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rotate your log file]]></title>
+    <link href="http://allenwei.github.io/blog/2010/02/15/rotate-your-log-file/"/>
+    <updated>2010-02-15T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/02/15/rotate-your-log-file</id>
+    <content type="html"><![CDATA[<p>Configuring</p>
+
+<p>config file locate at <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/logrotate.conf</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Sample:</p>
+
+<p>```
+   # Rotate Rails application logs
+   /path/to/your/rails/applicaton/log/*.log {</p>
+
+<pre><code> daily
+ missingok
+ rotate 7
+ compress
+ delaycompress
+ notifempty
+ copytruncate
+</code></pre>
+
+<p>   }
+```</p>
+
+<ul>
+<li><p>/path/to/your/rails/applicaton/log/<em>.log &ndash; Use the full path to the log directory of your Rails application (symbolic links are acceptable too). &ldquo;</em>.log&rdquo; will rotate any file in the log directory with .log at the end. If you only want to rotate certain log files you can be more specific.</p></li>
+<li><p>daily &ndash; Rotates the log files every day. You could specify weekly or monthly instead.</p></li>
+<li><p>missingok &ndash; Don&rsquo;t issue an error message if log files are missing.</p></li>
+<li><p>rotate 7 &ndash; The maximum number of log files to keep. Once you have more than this number, the oldest file will be deleted. I set it to keep seven days worth but feel free to change this number.</p></li>
+<li><p>compress &ndash; Compress old versions of log files to save space (uses gzip by default).</p></li>
+<li><p>delaycompress &ndash; Delays the compression until the next log rotation. It&rsquo;s a minor point and probably not strictly necessary, but it makes sure that the log file is truly no longer active before compressing it.</p></li>
+<li><p>notifempty &ndash; If the log file is empty, there&rsquo;s no need to rotate it. You can remove this option if you want to rotate even blank log files; just keep in mind that you may erase a log file that has lots of information to make room for your blank log file.</p></li>
+<li><p>copytruncate &ndash; Makes a backup copy of the current log and then clears the log file for continued writing. The alternative is to use create which will perform the rotation by renaming the current file and then creating a new log file with the same name as the old file. I strongly recommend that you use copytruncate unless you know that you need create. The reason why is that Rails, FastCGI, Mongrel, etc. may still keep pointing to the old log file even though its name has changed and they may require restarting to locate the new log file. copytruncate avoids this by keeping the same file as the active file.</p></li>
+</ul>
+
+
+<p>If you have more than one Rails application, you can repeat this code to rotate them all one-after-another. There other options you can specify, man logrotate will show you them all. I haven&rsquo;t used them but the options to mail log files on creation or deletion look interesting. It is also possible to have rotate the logs once they get to a certain size instead of at a certain time.</p>
+
+<p>Using <a href="http://linuxcommand.org/man_pages/logrotate8.html">logrotate</a></p>
+
+<p>To use the log rotation you just configured, you have two choices.</p>
+
+<h1>Wait for the next day (or whatever time period you specified). If you configured it correctly, rotation should occur automatically and without further commands.</h1>
+
+<h1>Run it immediately by typing /usr/sbin/logrotate -f /etc/logrotate.conf on the command line. (The -f is for &ldquo;force&rdquo; it to run now.)</h1>
+
+<p>That&rsquo;s all there is to it! Now your log files won&rsquo;t fill up to an unmanagable size yet you&rsquo;ll still be able to go back and track any recent errors.</p>
+
+<p>By default, logrotate will add cron task to /etc/cron.daily/logrotate. So you don&rsquo;t need to worry how to add cron task.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[analyze rails log using request-log-analyzer ]]></title>
+    <link href="http://allenwei.github.io/blog/2010/02/15/analyze-rails-log-using-request-log-analyzer/"/>
+    <updated>2010-02-15T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/02/15/analyze-rails-log-using-request-log-analyzer</id>
+    <content type="html"><![CDATA[<p>Install <a href="http://github.com/wvanbergen/request-log-analyzer/">request-log-analyzer</a></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem install request-log-analyzer</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>How to use
+<code>
+request-log-analyzer log/production.log #print result to console
+request-log-analyzer log/production.log -o HTML -email someone@company.com #generate html report and send email
+</code></p>
+
+<p>More:
+<a href="http://github.com/wvanbergen/request-log-analyzer/">http://github.com/wvanbergen/request-log-analyzer/</a></p>
+]]></content>
+  </entry>
+  
+</feed>

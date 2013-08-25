@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: metaprograming | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/metaprograming/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Tips - Move Eval from Runtime to Parse Time]]></title>
+    <link href="http://allenwei.github.io/blog/2010/12/01/tips-move-eval-from-runtime-to-parse-time/"/>
+    <updated>2010-12-01T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/12/01/tips-move-eval-from-runtime-to-parse-time</id>
+    <content type="html"><![CDATA[<p>As we @eval@ some code on runtime, but do you know eval is slow?</p>
+
+<p>A best practice is move eval from uuntime to parse time</p>
+
+<p>Here is the benchmark:
+```</p>
+
+<pre><code>            user     system      total        real
+</code></pre>
+
+<p>runtime     0.180000   0.020000   0.200000 (  0.201734)
+parse time  0.270000   0.030000   0.300000 (  0.323348)</p>
+
+<p>```</p>
+
+<p>Here is the code
+``` ruby
+require &lsquo;benchmark&rsquo;</p>
+
+<p>Benchmark.bm(10) do |x|
+  x.report(&ldquo;runtime&rdquo;) {</p>
+
+<pre><code>class PersonA
+  10_000.times do |i|
+    define_method "method_#{i}" do 
+      eval "#{i}"
+    end
+  end
+end
+</code></pre>
+
+<p>  a = PersonA.new
+  10_000.times do |i|</p>
+
+<pre><code>a.send("method_#{i}")
+</code></pre>
+
+<p>  end
+  }
+  x.report(&ldquo;parse time&rdquo;) {</p>
+
+<pre><code>class PersonB
+  10_000.times do |i|
+    eval "define_method 'method_#{i}' do 
+    #{i}
+end"
+  end
+end
+</code></pre>
+
+<p>  b = PersonB.new
+  10_000.times do |i|</p>
+
+<pre><code>b.send("method_#{i}")
+</code></pre>
+
+<p>  end
+  }
+end
+```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Tips - Wrap a method which might be overrided by subclass]]></title>
+    <link href="http://allenwei.github.io/blog/2010/04/14/tips-wrap-a-method-which-might-be-overrided-by-subclass/"/>
+    <updated>2010-04-14T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/04/14/tips-wrap-a-method-which-might-be-overrided-by-subclass</id>
+    <content type="html"><![CDATA[<h3>Problem</h3>
+
+<p>As you may know you can easily using <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>alias_method_chain</span></code></pre></td></tr></table></div></figure></notextile></div> to wrap a method, but somethings it won&rsquo;t work if your subclass override this method.</p>
+
+<p>Aussuming you have class A, and B</p>
+
+<p>``` ruby
+require &lsquo;rubygems&rsquo;
+require &lsquo;active_support&rsquo;</p>
+
+<p>class A
+  def hello</p>
+
+<pre><code>puts "hello"
+</code></pre>
+
+<p>  end</p>
+
+<p>  def hello_with_from</p>
+
+<pre><code>hello_without_from
+p self.class.name
+</code></pre>
+
+<p>  end
+  alias_method_chain :hello, :from</p>
+
+<p>end
+class B &lt; A
+  def hello</p>
+
+<pre><code>puts "hello"
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>B.new.hello # => hello
+```</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>alias_method_chain</span></code></pre></td></tr></table></div></figure></notextile></div> doesn&rsquo;t work here. because class B override hello method.</p>
+
+<h3>Sollution</h3>
+
+<p>replace <div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">alias_method_chain</span> <span class="ss">:hello</span><span class="p">,</span> <span class="ss">:from</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div> to
+``` ruby
+  #alias_method_chain :hello, :from
+  def self.method_added(method_name)</p>
+
+<pre><code>return if @_in_method_added
+@_in_method_added = true
+if method_name.to_s == "hello"
+  alias_method_chain :hello, :from
+end
+@_in_method_added = false
+</code></pre>
+
+<p>  end
+```</p>
+
+<p>@method_added@ is the method which be called when adding method into class. So we add @alias_method_chain@ after @class B@ add method @hello@.</p>
+
+<h3>Whole Code</h3>
+
+<p>``` ruby
+require &lsquo;rubygems&rsquo;
+require &lsquo;active_support&rsquo;</p>
+
+<p>class A
+  def hello</p>
+
+<pre><code>puts "hello"
+</code></pre>
+
+<p>  end</p>
+
+<p>  def hello_with_from</p>
+
+<pre><code>hello_without_from
+puts self.class.name
+</code></pre>
+
+<p>  end</p>
+
+<p>  def self.method_added(meth)</p>
+
+<pre><code>return if @_in_method_added
+@_in_method_added = true
+if meth.to_s == "hello"
+  alias_method_chain :hello, :from
+end
+@_in_method_added = false
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>class B &lt; A
+  def hello</p>
+
+<pre><code>puts "hello"
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>B.new.hello # => hello \n B</p>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Tips - Send method into Active Record]]></title>
+    <link href="http://allenwei.github.io/blog/2010/03/30/tips-send-method-into-active-record/"/>
+    <updated>2010-03-30T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/03/30/tips-send-method-into-active-record</id>
+    <content type="html"><![CDATA[<h4>If you want to enhance @ActiveRecord@, what you need do?</h4>
+
+<p>Write a piece of code in @lib@ like this
+``` ruby</p>
+
+<h1>Usage</h1>
+
+<h1>=========</h1>
+
+<h1>class SomeModel</h1>
+
+<h1>money :amount,:consideration_value</h1>
+
+<h1>end</h1>
+
+<p>#</p>
+
+<h1>options</h1>
+
+<h1>========</h1>
+
+<h1>precision => 2</h1>
+
+<h1>delimiter => &ldquo;,&rdquo;</h1>
+
+<p>module Moneyable
+  def self.included(base)</p>
+
+<pre><code>base.extend ClassMethods
+</code></pre>
+
+<p>  end</p>
+
+<p>  module ClassMethods</p>
+
+<pre><code>include ::CurrencyRounding
+def money(*names)
+  include CurrencyRounding
+  if names.last.kind_of?(Hash)
+    options = names.pop
+  else
+    options = {}
+  end
+  cattr_accessor :variables_need_format
+  names.each do  |name|
+    self.variables_need_format ||= []
+    self.variables_need_format &lt;&lt; name.to_sym
+    define_method "formatted_#{name.to_s}" do 
+      nice_rounding_with_format(send(name),options)
+    end 
+  end
+end
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>Then Hack @AcitveRecord@
+puts code below in enviroment.rb
+``` ruby</p>
+
+<h1>in &lsquo;Rails::Initializer.run do |config|&rsquo; block</h1>
+
+<h1>if there is &lsquo;no config.after_initialize&rsquo;</h1>
+
+<p> config.after_initialize do</p>
+
+<pre><code>ActiveRecord::Base.send(:include, Moneyable)
+</code></pre>
+
+<p> end
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

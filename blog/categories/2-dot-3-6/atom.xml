@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 2.3.6 | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/2-dot-3-6/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[What Changed in Rails v2.3.6 - redirect_to with flash]]></title>
+    <link href="http://allenwei.github.io/blog/2010/08/15/what-changed-in-rails-v2-3-6-redirect_to-with-flash/"/>
+    <updated>2010-08-15T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/08/15/what-changed-in-rails-v2-3-6-redirect_to-with-flash</id>
+    <content type="html"><![CDATA[<p>In <a href="http://github.com/rails/rails/commit/e6cadd422b72ba9818cc2f3b22243a6aa754c9f8">this commit</a> rails team improved @redirect_to@ method, we can passing flash option directly.</p>
+
+<p>``` ruby</p>
+
+<h1>&hellip; in an action</h1>
+
+<h1>old style</h1>
+
+<p>flash[:notice] = &ldquo;Pay attention to the road&rdquo;
+redirect_to post_url(@post)</p>
+
+<h1>new way</h1>
+
+<p>redirect_to post_url(@post), :notice => &ldquo;Pay attention to the road&rdquo;
+```</p>
+
+<p>They also add some convenient  methods for flash object. Now you can get/set flash object in view by @alert,alert=(message),notice,notice=(message)@</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[What Changed in Rails v2.3.6 - finally we got inverse_of]]></title>
+    <link href="http://allenwei.github.io/blog/2010/08/15/what-changed-in-rails-v2-3-6-finally-we-got-inverse_of/"/>
+    <updated>2010-08-15T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/08/15/what-changed-in-rails-v2-3-6-finally-we-got-inverse_of</id>
+    <content type="html"><![CDATA[<p>In <a href="http://github.com/rails/rails/commit/5374fb3cad2970c95aa9d294d006b5804b760754#diff-12">this commit</a> we found we big improvement.</p>
+
+<p>They add @:inverse_of@ for active_record association</p>
+
+<p>What is that used for?</p>
+
+<p>Here is the example from commit message</p>
+
+<p>``` ruby
+class Man &lt; ActiveRecord::Base
+  has_one :face, :inverse_of => :man
+end</p>
+
+<p>class Face &lt; ActiveRecord::Base
+  belongs_to :man, :inverse_of => :face
+end</p>
+
+<p>m = Man.first
+f = m.face
+```</p>
+
+<p>If we don&rsquo;t have @:inverse_of@, @f.man@ will be different object, not @m@ object and what&rsquo;s more active_record will fire another sql query if you can @f.man@.</p>
+
+<p>After we add @:inverse_of@ option, @ m == f.man @, and @f.man@ will not fire a sql query.</p>
+
+<p>But now @:inverse_of@ only works for @has_one@, @has_many@. It also supplies inverse support for @belongs_to@
+associations where the inverse is a has_one and it&rsquo;s not a polymorphic.</p>
+
+<p>I think <a href="http://datamapper.org">DataMapper</a> need change their website <a href="http://datamapper.org/why.">why DataMapper</a> Active Record has @Identity Map@ now</p>
+
+<p>Thanks <a href="http://github.com/h-lame">h-lame</a> for giving us this very useful feature which also have sufficient test.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[What Changed in Rails v2.3.6 - Add Column With Positioning]]></title>
+    <link href="http://allenwei.github.io/blog/2010/07/31/what-changed-in-rails-v2-3-6-add-column-with-positioning/"/>
+    <updated>2010-07-31T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/07/31/what-changed-in-rails-v2-3-6-add-column-with-positioning</id>
+    <content type="html"><![CDATA[<p>In <a href="http://github.com/rails/rails/commit/ccb197b2e6c2e773f908d3b00f5debe57c22311a">this commit</a> Rails add a new feature that we can specify what&rsquo;s the postillion to add a column.</p>
+
+<p>``` ruby</p>
+
+<h1>In migration</h1>
+
+<h1>add column to in first position</h1>
+
+<p>add_column :testings, :new_col, :integer, :first => true</p>
+
+<h1>add column after another column</h1>
+
+<p>add_column :testings, :new_col, :integer, :after => &ldquo;column_a&rdquo;</p>
+
+<h1>change a column with position</h1>
+
+<p>change_column :testings, :second, :integer, :first => true
+change_column :testings, :second, :integer, :after => &ldquo;column_c&rdquo;
+```</p>
+
+<p>About how column position affect performance, you can see <a href="http://explainextended.com/2009/05/21/choosing-column-order/">this blog post</a></p>
+
+<p>Thanks <a href="http://github.com/bmarini">bmarini</a> commit this feature, also thanks <a href="http://github.com/jeremy">jeremy</a>  reviewed this commit.</p>
+]]></content>
+  </entry>
+  
+</feed>

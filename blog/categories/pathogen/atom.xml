@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: pathogen | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/pathogen/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Tips - Using git submodule keep your vim plugin up-to-date]]></title>
+    <link href="http://allenwei.github.io/blog/2010/04/08/tips-using-git-submodule-keep-your-plugin-up-to-date/"/>
+    <updated>2010-04-08T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/04/08/tips-using-git-submodule-keep-your-plugin-up-to-date</id>
+    <content type="html"><![CDATA[<p>Before this post. I assuming you already have a git repository for your vim config files somewhere.</p>
+
+<p>When we install vim plugin we need copy files to different folders, it&rsquo;s hard to keep it up-to-date. As lot&rsquo;s of vim plugin have github repository. we can use git submodule and vim plugin pathogen to keep your plugin up-to-date.</p>
+
+<h3>Add bundle support for vim</h3>
+
+<p>Fortunately <a href="http://www.vim.org/account/profile.php?user_id=9012">Tim Pope</a> wrote a plugin called <a href="http://www.vim.org/scripts/script.php?script_id=2332">pathogen</a> ,which make things easier.</p>
+
+<p>In the <a href="http://www.vim.org/scripts/script.php?script_id=2332">home page of the plugin</a> you can find fully install details.</p>
+
+<p>After you add this plugin you can manage your vim plugin in on @.vim/bundle@ folder. You can unzip/untar/svn-checkout/git-clone plugin into this folder. <a href="http://www.vim.org/scripts/script.php?script_id=2332">pathogen</a>  plugin will load it automatically.
+this this what your @.vim@ folder structure look like
+<code>
+.vim/
+|-- bundle
+|   |-- ack
+|   |   `-- plugin
+|   |       `-- ack.vim
+|   |-- bufexplorer
+|   |   |-- doc
+|   |   |   `-- bufexplorer.txt
+|   |   `-- plugin
+|   |       `-- bufexplorer.vim
+|   |-- conque
+|   |   |-- autoload
+|   |   |   `-- conque_term.vim
+|   |   |-- doc
+|   |   |   `-- conque_term.txt
+|   |   |-- plugin
+|   |   |   `-- conque_term.vim
+|   |   `-- syntax
+|   |       `-- conque_term.vim
+</code></p>
+
+<p>So we have chance to maintain vim plugin as a whole.</p>
+
+<h3>How to add a submodule</h3>
+
+<p>For example, we add a git plugin fugitive as a submodule of our vim repository.</p>
+
+<p>If you have already added this plugin, make sure remove folder using
+<code>
+git rm -r .vim/bundle/fugitive
+</code>
+Otherwise you will get error <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lsquo;fugitive&rsquo; already exists in the index</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Then we add vim-fugitive as submodule
+<code>
+git submodule add git://github.com/tpope/vim-fugitive.git .vim/bundle/fugitive
+</code></p>
+
+<p>After you add submodule you need register it, using
+<code>
+git submodule init
+</code></p>
+
+<h3>How to update submodule</h3>
+
+<p>If this plugin have updates, you can run
+<code>
+git submodule update
+</code>
+to update your submodule repository</p>
+
+<p>The last step push your changes to github, you will see this in your github repository</p>
+
+<p><img src="http://www.allenwei.cn/wp-content/uploads/2010/04/Picture-2.png" alt="Picture 2.png" border="0" width="343" height="77" /></p>
+
+<h3>How to remove a submodule</h3>
+
+<p>There is not efficient way to remove a submodule
+* first step is remove references to the submodule in <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.gitmodules</span></code></pre></td></tr></table></div></figure></notextile></div> and <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.git/config</span></code></pre></td></tr></table></div></figure></notextile></div>.
+* Then <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git rm &mdash;cached .vim/bundle/fugitive</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Thanks</h3>
+
+<p>Thanks <a href="http://github.com">github</a> and <a href="http://github.com/guides/using-git-submodules-to-track-plugins">github guides about submodule</a> and <a href="http://www.vim.org/account/profile.php?user_id=9012">Tim Pope</a> who wrote many greate vim plugin.</p>
+]]></content>
+  </entry>
+  
+</feed>

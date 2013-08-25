@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: oo | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/oo/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Vim OOP javascript indentation plugin ]]></title>
+    <link href="http://allenwei.github.io/blog/2010/04/03/vim-oop-javascript-indentation-plugin/"/>
+    <updated>2010-04-03T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/04/03/vim-oop-javascript-indentation-plugin</id>
+    <content type="html"><![CDATA[<p><a href="http://www.allenwei.cn/vim-javascript-code-formatter-jsbeautify/">Last post</a> I introduced a vim javascript plugin called <a href="http://www.vim.org/scripts/script.php?script_id=2727">jsBeautify</a></p>
+
+<p>But you&rsquo;ll find when you write OO javascript, vim indent is wrong.</p>
+
+<p>There also a vim indent plugin called <a href="http://www.vim.org/scripts/script.php?script_id=1936">OOP javascript indentation</a> is want you need</p>
+
+<p>Download the script put at @~/.vim/indent@</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: eval | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/eval/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Tips - Move Eval from Runtime to Parse Time]]></title>
+    <link href="http://allenwei.github.io/blog/2010/12/01/tips-move-eval-from-runtime-to-parse-time/"/>
+    <updated>2010-12-01T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/12/01/tips-move-eval-from-runtime-to-parse-time</id>
+    <content type="html"><![CDATA[<p>As we @eval@ some code on runtime, but do you know eval is slow?</p>
+
+<p>A best practice is move eval from uuntime to parse time</p>
+
+<p>Here is the benchmark:
+```</p>
+
+<pre><code>            user     system      total        real
+</code></pre>
+
+<p>runtime     0.180000   0.020000   0.200000 (  0.201734)
+parse time  0.270000   0.030000   0.300000 (  0.323348)</p>
+
+<p>```</p>
+
+<p>Here is the code
+``` ruby
+require &lsquo;benchmark&rsquo;</p>
+
+<p>Benchmark.bm(10) do |x|
+  x.report(&ldquo;runtime&rdquo;) {</p>
+
+<pre><code>class PersonA
+  10_000.times do |i|
+    define_method "method_#{i}" do 
+      eval "#{i}"
+    end
+  end
+end
+</code></pre>
+
+<p>  a = PersonA.new
+  10_000.times do |i|</p>
+
+<pre><code>a.send("method_#{i}")
+</code></pre>
+
+<p>  end
+  }
+  x.report(&ldquo;parse time&rdquo;) {</p>
+
+<pre><code>class PersonB
+  10_000.times do |i|
+    eval "define_method 'method_#{i}' do 
+    #{i}
+end"
+  end
+end
+</code></pre>
+
+<p>  b = PersonB.new
+  10_000.times do |i|</p>
+
+<pre><code>b.send("method_#{i}")
+</code></pre>
+
+<p>  end
+  }
+end
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Restkit | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/restkit/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[iOS - Restkit Parse ActiveRecord Timestamp]]></title>
+    <link href="http://allenwei.github.io/blog/2011/10/28/restkit-parse-activerecord-timestamp/"/>
+    <updated>2011-10-28T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2011/10/28/restkit-parse-activerecord-timestamp</id>
+    <content type="html"><![CDATA[<p>If you are using Rails as your backend, Reskit will have trouble to parse ActiveRecord timestamp.</p>
+
+<p>Default ActiveRecord timestamp JSON out is @2008-12-29T00:27:42-08:00@</p>
+
+<p>You can not convert it to @NSDate@ directly use @NSDateFomatter@
+you must convert it to @2008-12-29T00:27:42-0800@</p>
+
+<p>But you have not chance to convert when you use Restkit Mapping.</p>
+
+<p>Here is my solution
+1. Monkey patch Time and DateTime class</p>
+
+<p>``` ruby
+class Time
+  def as_json(option=nil)</p>
+
+<pre><code>self.strftime("%Y-%m-%dT%H:%m:%S%z")
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>``` ruby
+class DateTime
+  def as_json(format=nil)</p>
+
+<pre><code>self.strftime("%Y-%m-%dT%H:%m:%S%z")
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<ol>
+<li>Add default date fomatter to RKObjectMapping
+<code>c
+ NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+ [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
+ [RKObjectMapping addDefaultDateFormatter:dateFormatter];
+</code></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS - Restkit Parse ActiveRecord Timestamp]]></title>
+    <link href="http://allenwei.github.io/blog/2011/10/28/restkit-parse-activerecord-timestamp/"/>
+    <updated>2011-10-28T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2011/10/28/restkit-parse-activerecord-timestamp</id>
+    <content type="html"><![CDATA[<p>If you are using Rails as your backend, Reskit will have trouble to parse ActiveRecord timestamp.</p>
+
+<p>Default ActiveRecord timestamp JSON out is @2008-12-29T00:27:42-08:00@</p>
+
+<p>You can not convert it to @NSDate@ directly use @NSDateFomatter@
+you must convert it to @2008-12-29T00:27:42-0800@</p>
+
+<p>But you have not chance to convert when you use Restkit Mapping.</p>
+
+<p>Here is my solution
+1. Monkey patch Time and DateTime class</p>
+
+<p>``` ruby
+class Time
+  def as_json(option=nil)</p>
+
+<pre><code>self.strftime("%Y-%m-%dT%H:%m:%S%z")
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>``` ruby
+class DateTime
+  def as_json(format=nil)</p>
+
+<pre><code>self.strftime("%Y-%m-%dT%H:%m:%S%z")
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<ol>
+<li>Add default date fomatter to RKObjectMapping
+<code>c
+ NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+ [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
+ [RKObjectMapping addDefaultDateFormatter:dateFormatter];
+</code></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>

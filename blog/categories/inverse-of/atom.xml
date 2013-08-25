@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: inverse_of | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/inverse-of/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[What Changed in Rails v2.3.6 - finally we got inverse_of]]></title>
+    <link href="http://allenwei.github.io/blog/2010/08/15/what-changed-in-rails-v2-3-6-finally-we-got-inverse_of/"/>
+    <updated>2010-08-15T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/08/15/what-changed-in-rails-v2-3-6-finally-we-got-inverse_of</id>
+    <content type="html"><![CDATA[<p>In <a href="http://github.com/rails/rails/commit/5374fb3cad2970c95aa9d294d006b5804b760754#diff-12">this commit</a> we found we big improvement.</p>
+
+<p>They add @:inverse_of@ for active_record association</p>
+
+<p>What is that used for?</p>
+
+<p>Here is the example from commit message</p>
+
+<p>``` ruby
+class Man &lt; ActiveRecord::Base
+  has_one :face, :inverse_of => :man
+end</p>
+
+<p>class Face &lt; ActiveRecord::Base
+  belongs_to :man, :inverse_of => :face
+end</p>
+
+<p>m = Man.first
+f = m.face
+```</p>
+
+<p>If we don&rsquo;t have @:inverse_of@, @f.man@ will be different object, not @m@ object and what&rsquo;s more active_record will fire another sql query if you can @f.man@.</p>
+
+<p>After we add @:inverse_of@ option, @ m == f.man @, and @f.man@ will not fire a sql query.</p>
+
+<p>But now @:inverse_of@ only works for @has_one@, @has_many@. It also supplies inverse support for @belongs_to@
+associations where the inverse is a has_one and it&rsquo;s not a polymorphic.</p>
+
+<p>I think <a href="http://datamapper.org">DataMapper</a> need change their website <a href="http://datamapper.org/why.">why DataMapper</a> Active Record has @Identity Map@ now</p>
+
+<p>Thanks <a href="http://github.com/h-lame">h-lame</a> for giving us this very useful feature which also have sufficient test.</p>
+]]></content>
+  </entry>
+  
+</feed>

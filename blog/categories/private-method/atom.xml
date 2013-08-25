@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: private_method | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/private-method/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Tips - Rewrite private method gracefully]]></title>
+    <link href="http://allenwei.github.io/blog/2010/02/15/tips-rewrite-private-method-gracefully/"/>
+    <updated>2010-02-15T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/02/15/tips-rewrite-private-method-gracefully</id>
+    <content type="html"><![CDATA[<p>``` ruby
+class Test
+  private
+  def words</p>
+
+<pre><code>puts "origin word"
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>Test.class_eval do
+  alias_method :origin_words, :words</p>
+
+<p>  def words</p>
+
+<pre><code>puts "haha"
+origin_words
+puts "haha end"
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>Test.new.send(:words)
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

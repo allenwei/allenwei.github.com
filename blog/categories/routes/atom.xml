@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: routes | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/routes/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Tips - Use Named Routes outside of Controller and View]]></title>
+    <link href="http://allenwei.github.io/blog/2011/04/27/tips-use-named-routes-outside-of-controller-and-view/"/>
+    <updated>2011-04-27T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2011/04/27/tips-use-named-routes-outside-of-controller-and-view</id>
+    <content type="html"><![CDATA[<p>``` ruby
+class UrlWriterSingleton
+  include Singleton
+  include ActionController::UrlWriter</p>
+
+<p>  def self.default_url_options</p>
+
+<pre><code>{:host =&gt; 'www.seravia.com'}
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>module NameRouteHelper
+  def self.included(base)</p>
+
+<pre><code>base.send(:include, InstanceMethods) 
+</code></pre>
+
+<p>  end</p>
+
+<p>  module InstanceMethods</p>
+
+<pre><code>def name_path_for(name, options = {}) 
+  UrlWriterSingleton.instance.send("#{name}_path", options)
+end
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>Usage:</p>
+
+<p>``` ruby
+Class TestNamedRouteHelper
+  include NameRouteHelper
+end</p>
+
+<p>TestNamedRouteHelper.new.name_path_for(&ldquo;root&rdquo;)</p>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+</feed>

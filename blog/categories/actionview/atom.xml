@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: actionview | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/actionview/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Tips - Benchmark your view]]></title>
+    <link href="http://allenwei.github.io/blog/2010/02/15/tips-benchmark-your-view/"/>
+    <updated>2010-02-15T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/02/15/tips-benchmark-your-view</id>
+    <content type="html"><![CDATA[<p>``` ruby
+&lt;% benchmark &ldquo;My View&rdquo; do %></p>
+
+<!-- View Segment Here-->
+
+
+<p>&lt;% end%>
+```
+You&rsquo;d better add some keyword in benchmark name, it is good to search in log.<br/>
+You can see result in your log.</p>
+]]></content>
+  </entry>
+  
+</feed>

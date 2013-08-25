@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: actioncontroller | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/actioncontroller/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Tips - Use number_to_currency in controller]]></title>
+    <link href="http://allenwei.github.io/blog/2010/02/15/tips-use-number_to_currency-in-controller/"/>
+    <updated>2010-02-15T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/02/15/tips-use-number_to_currency-in-controller</id>
+    <content type="html"><![CDATA[<p>Just include <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NumberHelper</span></code></pre></td></tr></table></div></figure></notextile></div>, like this:
+<code>ruby
+  include ActionView::Helpers::NumberHelper
+</code></p>
+
+<p>p=. Same way you can add other helper method to your controller. :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Tips - Use ActionController helper_method,hide_action methods]]></title>
+    <link href="http://allenwei.github.io/blog/2010/02/14/tips-use-activecontroller-helper_methodhide_action-method/"/>
+    <updated>2010-02-14T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/02/14/tips-use-activecontroller-helper_methodhide_action-method</id>
+    <content type="html"><![CDATA[<ul>
+<li>hide_action: hide a method in controller</li>
+<li>helper_method: use this method as helper method, you can call this method in view</li>
+</ul>
+
+
+<p>``` ruby</p>
+
+<p>class BookController &lt; ActionController::Base</p>
+
+<p>  def category_name</p>
+
+<pre><code>"RubyOnRails"
+</code></pre>
+
+<p>  end</p>
+
+<p>  hide_action :category_name #you can&rsquo;t visit action category_name.</p>
+
+<p>  helper_method :category_name #you can call &lsquo;category_name&rsquo; in view</p>
+
+<p>end</p>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+</feed>

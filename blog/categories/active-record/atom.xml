@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: active_record | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/active-record/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[What Changed in Rails v2.3.6 - finally we got inverse_of]]></title>
+    <link href="http://allenwei.github.io/blog/2010/08/15/what-changed-in-rails-v2-3-6-finally-we-got-inverse_of/"/>
+    <updated>2010-08-15T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/08/15/what-changed-in-rails-v2-3-6-finally-we-got-inverse_of</id>
+    <content type="html"><![CDATA[<p>In <a href="http://github.com/rails/rails/commit/5374fb3cad2970c95aa9d294d006b5804b760754#diff-12">this commit</a> we found we big improvement.</p>
+
+<p>They add @:inverse_of@ for active_record association</p>
+
+<p>What is that used for?</p>
+
+<p>Here is the example from commit message</p>
+
+<p>``` ruby
+class Man &lt; ActiveRecord::Base
+  has_one :face, :inverse_of => :man
+end</p>
+
+<p>class Face &lt; ActiveRecord::Base
+  belongs_to :man, :inverse_of => :face
+end</p>
+
+<p>m = Man.first
+f = m.face
+```</p>
+
+<p>If we don&rsquo;t have @:inverse_of@, @f.man@ will be different object, not @m@ object and what&rsquo;s more active_record will fire another sql query if you can @f.man@.</p>
+
+<p>After we add @:inverse_of@ option, @ m == f.man @, and @f.man@ will not fire a sql query.</p>
+
+<p>But now @:inverse_of@ only works for @has_one@, @has_many@. It also supplies inverse support for @belongs_to@
+associations where the inverse is a has_one and it&rsquo;s not a polymorphic.</p>
+
+<p>I think <a href="http://datamapper.org">DataMapper</a> need change their website <a href="http://datamapper.org/why.">why DataMapper</a> Active Record has @Identity Map@ now</p>
+
+<p>Thanks <a href="http://github.com/h-lame">h-lame</a> for giving us this very useful feature which also have sufficient test.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Tips - Merge ActiveRecord Condtions]]></title>
+    <link href="http://allenwei.github.io/blog/2010/04/01/tips-merge-activerecord-condtions/"/>
+    <updated>2010-04-01T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/04/01/tips-merge-activerecord-condtions</id>
+    <content type="html"><![CDATA[<p>Assuming We have @Member@ model.
+And one record with @name Hnery Miller@, with @state draft@</p>
+
+<p>I have two conditions:
+<code>ruby
+condition1 = ['name like ?','Hnery%']
+</code>
+<code>ruby
+condition2 = ['state = ?','draft']
+</code></p>
+
+<p>What I gonna do is merge these two conditions, using Rails @ActiveRecord@ buildin method <a href="http://apidock.com/rails/ActiveRecord/Base/merge_conditions/class">merge_conditions</a></p>
+
+<p><code>ruby
+Member.first(:conditions =&gt; Member.merge_conditions(condition1,condition2))
+</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Tips - Send method into Active Record]]></title>
+    <link href="http://allenwei.github.io/blog/2010/03/30/tips-send-method-into-active-record/"/>
+    <updated>2010-03-30T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/03/30/tips-send-method-into-active-record</id>
+    <content type="html"><![CDATA[<h4>If you want to enhance @ActiveRecord@, what you need do?</h4>
+
+<p>Write a piece of code in @lib@ like this
+``` ruby</p>
+
+<h1>Usage</h1>
+
+<h1>=========</h1>
+
+<h1>class SomeModel</h1>
+
+<h1>money :amount,:consideration_value</h1>
+
+<h1>end</h1>
+
+<p>#</p>
+
+<h1>options</h1>
+
+<h1>========</h1>
+
+<h1>precision => 2</h1>
+
+<h1>delimiter => &ldquo;,&rdquo;</h1>
+
+<p>module Moneyable
+  def self.included(base)</p>
+
+<pre><code>base.extend ClassMethods
+</code></pre>
+
+<p>  end</p>
+
+<p>  module ClassMethods</p>
+
+<pre><code>include ::CurrencyRounding
+def money(*names)
+  include CurrencyRounding
+  if names.last.kind_of?(Hash)
+    options = names.pop
+  else
+    options = {}
+  end
+  cattr_accessor :variables_need_format
+  names.each do  |name|
+    self.variables_need_format ||= []
+    self.variables_need_format &lt;&lt; name.to_sym
+    define_method "formatted_#{name.to_s}" do 
+      nice_rounding_with_format(send(name),options)
+    end 
+  end
+end
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>Then Hack @AcitveRecord@
+puts code below in enviroment.rb
+``` ruby</p>
+
+<h1>in &lsquo;Rails::Initializer.run do |config|&rsquo; block</h1>
+
+<h1>if there is &lsquo;no config.after_initialize&rsquo;</h1>
+
+<p> config.after_initialize do</p>
+
+<pre><code>ActiveRecord::Base.send(:include, Moneyable)
+</code></pre>
+
+<p> end
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

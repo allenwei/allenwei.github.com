@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ci | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/ci/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Install CI Hudson for Ruby on Ubuntu]]></title>
+    <link href="http://allenwei.github.io/blog/2010/02/15/install-ci-hudson-for-ruby-on-ubuntu/"/>
+    <updated>2010-02-15T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/02/15/install-ci-hudson-for-ruby-on-ubuntu</id>
+    <content type="html"><![CDATA[<p>Before switch to Hudson, we use CruiseControl.rb
+Compare to CruiseControl.rb, these features is what I favourite</p>
+
+<ul>
+<li>We can easily kill or start a new build</li>
+<li>We can test all branches or some branches in a git repository. It&rsquo;s</li>
+<li>It will send email to a mail list  when test broke and send another email to someone who break the test.</li>
+<li>It has code coverage plugin.</li>
+</ul>
+
+
+<h3>Then how to install on ubuntu</h3>
+
+<h4>Add Hudson source to ubuntu</h4>
+
+<p><code>bash
+wget -O - http://hudson-ci.org/debian/hudson-ci.org.key | sudo apt-key add -
+</code>
+Add These line to <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/apt/sources.list</span></code></pre></td></tr></table></div></figure></notextile></div>
+<code>
+deb http://hudson-ci.org/debian binary/
+</code></p>
+
+<h4>Install Hudson</h4>
+
+<p><code>bash
+sudo apt-get update
+sudo apt-get install hudson
+</code></p>
+
+<h4>Start is easy</h4>
+
+<p><code>bash
+sudo /etc/init.d/hudson start
+</code></p>
+
+<h4>Configuration</h4>
+
+<p>Now you can enter with <code>your_server_url:8080</code></p>
+
+<h4>Install Hudson Plugin</h4>
+
+<p>Go to <code>Manage Hudson &gt; Manage Plugins &gt; Available</code>
+These plugins you need to install</p>
+
+<ul>
+<li>Rake</li>
+<li>Ruby Plugin</li>
+<li>Ruby metrics plugin</li>
+<li>Git Plugin (optional)</li>
+</ul>
+
+
+<h4>Create a new Hudson Job</h4>
+
+<ul>
+<li>Click <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>New Job</span></code></pre></td></tr></table></div></figure></notextile></div> link</li>
+<li>Enter your <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Job name</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+<li>Select <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Build a free-style software project</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+<li>Setup Git repository
+<strong> Enter Your URL of repository
+</strong> Branch Specifier, if you only want to test master you can type in <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>*/master</span></code></pre></td></tr></table></div></figure></notextile></div>, leave blank hudson will test all your branches</li>
+</ul>
+
+
+<p>Ok, Save. We leave other configuration for now. we will back.</p>
+
+<p>Click <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Build Now</span></code></pre></td></tr></table></div></figure></notextile></div> link at left. Hudson will clone your repository to it&rsquo;s workspace.
+If everything is ok, you can see your code in <code>/var/lib/hudson/jobs/YOUR_JOB_NAME/workspace</code></p>
+
+<h4>Add ci required rails plugins</h4>
+
+<p>Before you add these plugins, you need:</p>
+
+<ul>
+<li>create a new branch <code>git checkout -b ci</code></li>
+<li>Install ci_reporter plugin <code>./script/plugin install git://github.com/nicksieger/ci_reporter.git</code></li>
+<li>Install rails_rcov_engines plugin <code>./script/plugin install git://github.com/dam5s/rails_rcov_engines.git</code></li>
+<li><code>git add vendor/plugins/ci_reporter vendor/plugins/rails_rcov_engines</code></li>
+<li><code>git commit -m "add ci related plugins"</code></li>
+</ul>
+
+
+<h4>Continue Configuration</h4>
+
+<p>Back to you job configuration, finish reset parts of configuration</p>
+
+<ul>
+<li>Click the button <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Advanced..</span></code></pre></td></tr></table></div></figure></notextile></div>, above &ldquo;Repository browser&rdquo;</li>
+<li>Enter <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ci</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+<li><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Build Triggers > Poll SCM</span></code></pre></td></tr></table></div></figure></notextile></div> */10 * * * * , Poll git commit every 10 mins</li>
+<li><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Build > Add build step > Execute shell</span></code></pre></td></tr></table></div></figure></notextile></div>, then enter
+``` bash
+rake gems:install
+export CI_REPORTS=results
+export RAILS_ENV=test
+export CI_REPORTS=results
+export RAILS_ENV=test
+
+<h1>Prepare for rcov</h1>
+
+[ -d &ldquo;coverage&rdquo; ] &amp;&amp; rm -rf coverage
+[ -d &ldquo;results&rdquo; ] &amp;&amp; rm -rf results
+mkdir coverage
+mkdir results
+
+<h1>invoke rake</h1>
+
+<p>rake db:create db:migrate ci:setup:testunit test:test:rcov SHOW_ONLY=models,helpers,controllers RAILS_ENV=test RCOV_PARAMS=&ldquo;&mdash;aggregate coverage/aggregate.data&rdquo;
+```</p></li>
+<li><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Post-build Actions > Publish JUnit test result report</span></code></pre></td></tr></table></div></figure></notextile></div> enter <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>results/*.xml</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+<li><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Post-build Actions > Publish Rcov report</span></code></pre></td></tr></table></div></figure></notextile></div>, enter <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>coverage/test</span></code></pre></td></tr></table></div></figure></notextile></div> in Rcov report directory</li>
+<li><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Post-build Actions > E-mail Notification</span></code></pre></td></tr></table></div></figure></notextile></div>, config emails you want to send when test broke</li>
+</ul>
+
+
+<p>Ok, you can click Build Now. After build you will see the test result code coverage.</p>
+
+<blockquote><p>Test make perfect!</p></blockquote>
+]]></content>
+  </entry>
+  
+</feed>

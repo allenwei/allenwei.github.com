@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Thor | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/thor/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[How to write a command-line tool in Ruby]]></title>
+    <link href="http://allenwei.github.io/blog/2011/01/02/how-to-write-a-command-line-tool-in-ruby/"/>
+    <updated>2011-01-02T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2011/01/02/how-to-write-a-command-line-tool-in-ruby</id>
+    <content type="html"><![CDATA[<p>This is a guest blog posted on <a href="rubylearning.com/blog/2011/01/03/how-do-i-make-a-command-line-tool-in-ruby/">rubylearning.com</a></p>
+
+<h2>Introduction</h2>
+
+<p>Ruby, as a dynamic language,  is always used for quick processing command-line tool for its simplicity and productivity.</p>
+
+<p>This article talks about three ways to write a command-line tool.</p>
+
+<p>Before we start, there are a few things you need to know:</p>
+
+<h1>Put line @#!/usr/bin/env ruby@ into the first line of your command-line file which will tell shell execute your file use Ruby</h1>
+
+<h1>Make sure your file is executable, run @chmod u+x FILE_PATH@</h1>
+
+<h1>Print help text if user use it in wrong way</h1>
+
+<p>Other people will not sure how to execute your command-line tool.</p>
+
+<h2>Conventions</h2>
+
+<p>I&rsquo;ll use three definitions:</p>
+
+<h1>Command-line file name</h1>
+
+<h1>Command</h1>
+
+<h1>Option</h1>
+
+<p>For example there is a command: &lsquo;server start -e development&rsquo;</p>
+
+<h1>Command-line file name is &lsquo;server&rsquo;</h1>
+
+<ul>
+<li>Command is the first argument &lsquo;start&rsquo;</li>
+<li>Option is the reset of argument pair &lsquo;-e development&rsquo;</li>
+</ul>
+
+
+<h2>Let&rsquo;s go</h2>
+
+<p>We start from a simple example: write a command-line tool to start and stop the server.</p>
+
+<h3>Without any lib</h3>
+
+<p>``` ruby
+case ARGV[0]
+when &ldquo;start&rdquo;
+  STDOUT.puts &ldquo;called start&rdquo;
+when &ldquo;start&rdquo;
+  STDOUT.puts &ldquo;called stop&rdquo;
+else
+  STDOUT.puts &lt;&lt;-EOF
+Please provide command name</p>
+
+<p>Usage:
+  server start
+  server stop
+EOF
+end
+```</p>
+
+<p>ARGV, all arguments will stored as a array in this variable.</p>
+
+<p>What if you need to pass some option?</p>
+
+<p>``` ruby
+def parse_options
+  options = {}
+  case ARGV[1]
+  when &ldquo;-e&rdquo;</p>
+
+<pre><code>options[:e] = ARGV[2]
+</code></pre>
+
+<p>  when &ldquo;-d&rdquo;</p>
+
+<pre><code>options[:d] = ARGV[2]
+</code></pre>
+
+<p>  end
+  options
+end</p>
+
+<p>case ARGV[0]
+when &ldquo;start&rdquo;
+  STDOUT.puts &ldquo;start on #{parse_options.inspect}&rdquo;
+when &ldquo;stop&rdquo;
+  STDOUT.puts &ldquo;stop on #{parse_options.inspect}&rdquo;
+else
+  STDOUT.puts &lt;&lt;-EOF
+Please provide command name</p>
+
+<p>Usage:
+  server start
+  server stop</p>
+
+<p>  options:</p>
+
+<pre><code>-e ENVIRONMENT. Default: development
+-d daemon, true or false. Default: true
+</code></pre>
+
+<p>EOF
+end
+```</p>
+
+<p>This code is simple but it has some disadvantages:</p>
+
+<ul>
+<li>Writing option parser and help text in different places will bring you troubles when they are not matched.</li>
+<li>Using array index to get options from ARGV, these magic numbers will create maintenance problem.</li>
+</ul>
+
+
+<h3>OptionParser</h3>
+
+<p><a href="http://ruby-doc.org/stdlib/libdoc/optparse/rdoc/classes/OptionParser.html">OptionParser</a> is build-in ruby lib help you parse arguments.</p>
+
+<p>we can refactor our code like this:</p>
+
+<p>``` ruby</p>
+
+<p>require &lsquo;optparse&rsquo;</p>
+
+<p>options = {}</p>
+
+<p>opt_parser = OptionParser.new do |opt|
+  opt.banner = &ldquo;Usage: opt_parser COMMAND [OPTIONS]&rdquo;
+  opt.separator  &ldquo;&rdquo;
+  opt.separator  &ldquo;Commands&rdquo;
+  opt.separator  &ldquo;     start: start server&rdquo;
+  opt.separator  &ldquo;     stop: stop server&rdquo;
+  opt.separator  &ldquo;&rdquo;
+  opt.separator  &ldquo;Options&rdquo;</p>
+
+<p>  opt.on(&ldquo;-e&rdquo;,&ldquo;&mdash;environment ENVIRONMENT&rdquo;,
+&ldquo;Which environment you want server run. Default: development&rdquo;) do |environment|</p>
+
+<pre><code>options[:environment] = environment
+</code></pre>
+
+<p>  end</p>
+
+<p>  opt.on(&ldquo;-d&rdquo;,&ldquo;&mdash;daemon&rdquo;,&ldquo;running on daemon mode? Default: true&rdquo;) do</p>
+
+<pre><code>options[:daemon] = true
+</code></pre>
+
+<p>  end</p>
+
+<p>  opt.on(&ldquo;-h&rdquo;,&ldquo;&mdash;help&rdquo;,&ldquo;help&rdquo;) do</p>
+
+<pre><code>puts opt_parser
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>opt_parser.parse!</p>
+
+<p>case ARGV[0]
+when &ldquo;start&rdquo;
+  puts &ldquo;call start on options #{options.inspect}&rdquo;
+when &ldquo;stop&rdquo;
+  puts &ldquo;call stop on options #{options.inspect}&rdquo;
+else
+  puts opt_parser
+end</p>
+
+<p>```</p>
+
+<p>Try to execute this file without argument, you&rsquo;ll find it prints very nice help text.</p>
+
+<p>@opt_parser.parse!@ is the method extract options from ARGV, extracted value will be deleted from ARGV.</p>
+
+<p>@OptionParser@ is better than that.</p>
+
+<p>You can define options value type, then @OptionParser@ will convert value to the type you defined like this:</p>
+
+<p>``` ruby
+opt.on(&ldquo;-e&rdquo;,&ldquo;&mdash;environment ENVIRONMENT&rdquo;,Numeric,</p>
+
+<pre><code>   "which environment you want server run") do |environment|
+</code></pre>
+
+<p>  options[:environment] = environment</p>
+
+<pre><code>   end
+</code></pre>
+
+<p>opt.on(&ldquo;&mdash;delay N&rdquo;, Float, &ldquo;Delay N seconds before executing&rdquo;) do |n|
+  options[:delay] = n
+end
+opt.on(&ldquo;-j x,y,z&rdquo;,&ldquo;&mdash;jurisdictions x,y,z&rdquo;, Array,</p>
+
+<pre><code>   "which jurisdiction will start") do |jurisdictions|
+</code></pre>
+
+<p>  options[:jurisdictions] = jurisdictions</p>
+
+<pre><code>   end
+</code></pre>
+
+<p>server_list = %w[a b c]
+opt.on(&ldquo;-s SERVERS&rdquo;,&ldquo;&mdash;servers SERVERS&rdquo;, server_list,</p>
+
+<pre><code>   "which server will start between #{server_list.join(',')}") do |servers|
+</code></pre>
+
+<p>  options[:servers] = servers</p>
+
+<pre><code>   end
+</code></pre>
+
+<p>```</p>
+
+<p>You can mark whether value of the option is mandatory.</p>
+
+<p>``` ruby</p>
+
+<h1>Mandatory argument.</h1>
+
+<p>opts.on(&ldquo;-r&rdquo;, &ldquo;&mdash;require LIBRARY&rdquo;,</p>
+
+<pre><code>    "Require the LIBRARY before executing your script") do |lib|
+</code></pre>
+
+<p>  options.library &lt;&lt; lib</p>
+
+<pre><code>    end
+</code></pre>
+
+<h1>Optional argument; multi-line description.</h1>
+
+<p>opts.on(&ldquo;-i&rdquo;, &ldquo;&mdash;inplace [EXTENSION]&rdquo;,</p>
+
+<pre><code>    "Edit ARGV files in place",
+    "  (make backup if EXTENSION supplied)") do |ext|
+</code></pre>
+
+<p>  options.inplace = true
+  options.extension = ext || &lsquo;&rsquo;
+  options.extension.sub!(/\A.?(?=.)/, &ldquo;.&rdquo;)  # Ensure extension begins with dot.</p>
+
+<pre><code>    end
+</code></pre>
+
+<p>```</p>
+
+<p>For more details your can see <a href="http://ruby.about.com/od/advancedruby/a/optionparser.htm">this article</a> and <a href="http://ruby-doc.org/stdlib/libdoc/optparse/rdoc/classes/OptionParser.html">ruby rdoc</a></p>
+
+<p>Benefit of @OptionParser@ is: we don&rsquo;t need to use array index to retrieve options and we write help text along with option definition.</p>
+
+<p>Disadvantage of @OptionParser@ is: since different commands need using the same option parser, you cannot define different option parsers for different commands. To solve this problem, you can resort to @Thor@.</p>
+
+<h3>Thor</h3>
+
+<p>As you know <a href="https://github.com/wycats/thor">Thor</a> is a replacement of Rake. Let&rsquo;s see how we use Thor to refactor our command-line tool.</p>
+
+<p>``` ruby
+require &lsquo;rubygems&rsquo;
+require &lsquo;thor&rsquo;</p>
+
+<p>class ThorExample &lt; Thor
+  desc &ldquo;start&rdquo;, &ldquo;start server&rdquo;
+  method_option :environment,:default => &ldquo;development&rdquo;, :aliases => &ldquo;-e&rdquo;,
+:desc => &ldquo;which environment you want server run.&rdquo;
+  method_option :daemon, :type => :boolean, :default => false, :aliases => &ldquo;-d&rdquo;,
+:desc => &ldquo;running on daemon mode?&rdquo;
+  def start</p>
+
+<pre><code>puts "start #{options.inspect}"
+</code></pre>
+
+<p>  end</p>
+
+<p>  desc &ldquo;stop&rdquo; ,&ldquo;stop server&rdquo;
+  method_option :delay,  :default => 0, :aliases => &ldquo;-w&rdquo;,
+:desc => &ldquo;wait server finish it&rsquo;s job&rdquo;
+  def stop</p>
+
+<pre><code>puts "stop"
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>ThorExample.start
+```</p>
+
+<ul>
+<li>@desc@ defines command name and long description</li>
+<li>@method_option@ define option parser for this command</li>
+<li>@ThorExample.start@ is method to start parse argument</li>
+</ul>
+
+
+<p>Execute it without argument, the output is:
+<code>ruby
+Tasks:
+  thor_example help [TASK]  # Describe available tasks or one specific task
+  thor_example start        # start server
+  thor_example stop         # stop server
+</code></p>
+
+<p>Execute it with argument @help start@, you&rsquo;ll get help text for command start:</p>
+
+<p>``` ruby
+Usage:
+  thor_example start</p>
+
+<p>Options:
+  -e, [&mdash;environment=ENVIRONMENT]  # which environment you want server run.</p>
+
+<pre><code>                               # Default: development
+</code></pre>
+
+<p>  -d, [&mdash;daemon]                   # running on daemon mode?</p>
+
+<p>start server
+```</p>
+
+<p>As you can see, it&rsquo;s very clean and easy to write.</p>
+
+<p>For more detailed usage, you can visit Thor <a href="https://github.com/wycats/thor">github page</a> and its <a href="http://rdoc.info/github/wycats/thor">rdoc</a></p>
+
+<h2>Summary</h2>
+
+<p>Of course there are more ways to write command-line tool. Choose what best fit your requirement rather than the most powerful or latest one.</p>
+
+<p>All the sample code is on github <a href="https://github.com/allenwei/ruby_command_line_sample">https://github.com/allenwei/ruby_command_line_sample</a></p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: file | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/file/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Tips - Ruby Get Current File Name]]></title>
+    <link href="http://allenwei.github.io/blog/2010/05/11/tips-ruby-get-current-file-name/"/>
+    <updated>2010-05-11T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/05/11/tips-ruby-get-current-file-name</id>
+    <content type="html"><![CDATA[<p>How can I know what&rsquo;s the file name of current ruby file?</p>
+
+<p>Use @<strong>FILE</strong>@</p>
+
+<p>``` ruby</p>
+
+<h1>file /home/allen/test.rb</h1>
+
+<p>puts <strong>FILE</strong> # => /home/allen/test.rb</p>
+
+<h1>get file name</h1>
+
+<p>File.basename(<strong>FILE</strong>) # => &ldquo;test.rb&rdquo;</p>
+
+<h1>exclude suffix</h1>
+
+<p>File.basename(<strong>FILE</strong>,&ldquo;.rb&rdquo;) # => &ldquo;test&rdquo;</p>
+
+<h1>dir name</h1>
+
+<p>File.dirname(<strong>FILE</strong>) # => &ldquo;/home/allen/&rdquo;
+```</p>
+
+<p>Or</p>
+
+<p>``` ruby</p>
+
+<h1>file /home/allen/test.rb</h1>
+
+<p>puts <strong>FILE</strong> # => /home/allen/test.rb</p>
+
+<h1>get file name</h1>
+
+<p>Pathname.new(<strong>FILE</strong>).basename # => &ldquo;test.rb&rdquo;</p>
+
+<h1>exclude suffix</h1>
+
+<p>Pathname.new(<strong>FILE</strong>).basename(&ldquo;.rb&rdquo;) # => &ldquo;test&rdquo;</p>
+
+<h1>dir name</h1>
+
+<p>Pathname.new(<strong>FILE</strong>).dirname # => &ldquo;/home/allen/&rdquo;
+```</p>
+
+<p>For more API checkout <a href="http://ruby-doc.org/core/classes/Pathname.html">Pathname</a></p>
+]]></content>
+  </entry>
+  
+</feed>

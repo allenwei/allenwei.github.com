@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: fragment_cache | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/fragment-cache/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Tips - Rails expire fragment cache outside]]></title>
+    <link href="http://allenwei.github.io/blog/2010/02/15/tips-rails-expire-fragment-cache-outside/"/>
+    <updated>2010-02-15T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/02/15/tips-rails-expire-fragment-cache-outside</id>
+    <content type="html"><![CDATA[<p>Add these code in where you want to use [expire_fragment]: (<a href="http://api.rubyonrails.org/classes/ActionController/Caching/Fragments.html#M000458">http://api.rubyonrails.org/classes/ActionController/Caching/Fragments.html#M000458</a>)
+<code>ruby
+include ActionController::Caching::Fragments
+</code></p>
+
+<p>``` ruby
+ def cache_store</p>
+
+<pre><code>  ActionController::Base.cache_store
+end
+
+def self.benchmark( *params )
+  yield
+end
+
+def cache_configured?
+  true
+end
+</code></pre>
+
+<p>```</p>
+
+<p>Then you can call <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>expire_fragment(key,options)</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+</feed>

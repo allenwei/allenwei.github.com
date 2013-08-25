@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: integration test | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/integration-test/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Cucumber + Capybara - What we need for rails integration test]]></title>
+    <link href="http://allenwei.github.io/blog/2010/03/24/cucumber-capybara-what-we-need-for-rails-integration-test/"/>
+    <updated>2010-03-24T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/03/24/cucumber-capybara-what-we-need-for-rails-integration-test</id>
+    <content type="html"><![CDATA[<h2>What&rsquo;s Capybara</h2>
+
+<p>bq.  Capybara is a webrat alternative which aims to support all browser simulators.</p>
+
+<p>  As you know, webrat can not run javascript on the webpage. In order to test javascript and AJAX based website we need install <a href="http://github.com/ph7/selenium-client">Selenium-client</a> and learn extra API and also some configuratons.</p>
+
+<p>  <a href="http://github.com/jnicklas/capybara">Capybara</a> give your a full stack solution.
+  You can use similar API drive webrat and selenium. And don&rsquo;t need worry about configuraton.</p>
+
+<p>  What&rsquo;s more, <a href="http://github.com/jnicklas/capybara">Capybara</a> integrated <a href="http://github.com/jarib/celerity">Celerity</a> which is a JRuby wrapper around HtmlUnit &ndash; a headless Java browser with JavaScript support. As your expect it using the same API.</p>
+
+<p>  <em>And the killer feature of Capybara is you can easily change driver it use for testing. Not only in config file but also in runtime.</em></p>
+
+<h2>Why we need Cucumber</h2>
+
+<p>  Before I introduce what is Cucumber, you need know what is <a href="http://behaviour-driven.org/.">BDD</a></p>
+
+<p>bq. BDD is an evolution thinking behind TestDrivenDevelopment  and AcceptanceTestDrivenPlanning</p>
+
+<p>  <em>You don&rsquo;t need worry about what the hell BDD is. After you start using Cucumber you will know. I promise.</em></p>
+
+<p>  <a href="http://github.com/aslakhellesoy/cucumber">Cucumber</a> is allow you execute plain-text which written by BDD like format as automated tests.</p>
+
+<p>  There are plenty of materials on the internet which you can learn Cucumber</p>
+
+<p>  First place your need go is Ryan Bates' RailsCasts <a href="http://railscasts.com/episodes/155-beginning-with-Cucumber">Beginning with Cucumber</a>
+  Then <a href="http://wiki.github.com/aslakhellesoy/cucumber/">official Wiki of Cucumber</a> will very helpful!!, and there also list some <a href="http://wiki.github.com/aslakhellesoy/cucumber/tutorials-and-related-blog-posts">blog posts</a> written by community</p>
+
+<p>  I won&rsquo;t involve more about it. In my later blog post I will give you some tricks about using Cucumber.</p>
+
+<h2>Using Cucumber and Capybara</h2>
+
+<h3>Install</h3>
+
+<p>Follow the instruction on Capybara:</p>
+
+<p>Install as a gem
+@sudo gem install capybara@</p>
+
+<p>On OSX you may have to install libffi, you can install it via MacPorts with:
+@sudo port install libffi@</p>
+
+<p>And you also need install Cucumber
+@sudo gem install cucumber@</p>
+
+<h3>Generate basic Cucumber folder structure and configuratons</h3>
+
+<p>Capybara is built to work nicely with Cucumber. You can easily generate Capybara style cucumber structure and configuraton.
+@script/generate cucumber &mdash;capybara@</p>
+
+<p>And maybe you also need install another gem named <a href="http://github.com/copiousfreetime/launchy">launchy</a> which is helper class for launching cross-platform applications in a fire and forget manner.
+@sudo gem install launchy@</p>
+
+<h3>Configuration</h3>
+
+<h4>Available Configuration</h4>
+
+<p>Actually after you run the generator, you don&rsquo;t need much more configuraton. Here I&rsquo;ll list some of configuraton you can set.</p>
+
+<p>You can specify it in @features/support/env.rb@ file
+``` ruby
+Capybara.run_server = true #Whether start server when testing
+Capybara.default_selector = :xpath #default selector , you can change to :css
+Capybara.default_wait_time = 2 #When we testing AJAX, we can set a default wait time
+Capybara.ignore_hidden_elements = false #Ignore hidden elements when testing, make helpful when you hide or show elements using javascript
+Capybara.javascript_driver = :culerity #default driver when you using @javascript tag</p>
+
+<p>```</p>
+
+<h4>Load rails test features</h4>
+
+<p>You can put codes below in @features/support/env.rb@ file
+<code>ruby
+Before do
+  Fixtures.reset_cache
+  fixtures_folder = File.join(RAILS_ROOT, 'test', 'fixtures')
+  fixtures = Dir[File.join(fixtures_folder, '*.yml')].map {|f| File.basename(f, '.yml') }
+  Fixtures.create_fixtures(fixtures_folder, fixtures)
+end
+</code></p>
+
+<p>And change
+<code>ruby
+Cucumber::Rails::World.use_transactional_fixtures = false
+DatabaseCleaner.strategy = :truncation
+</code></p>
+
+<p>OK. For now we already finish configuration. we can start writing cucumber test</p>
+
+<h3>How to run test under different testing driver</h3>
+
+<p>As you know cucumber support <a href="http://wiki.github.com/aslakhellesoy/cucumber/tags">tags</a>
+Capybara using tag to specify different driver, it supports  @@javascript, @selenium, @celerity, @culerity and @rack_test@ tags
+You can use it like:</p>
+
+<p><code>ruby
+  @javascript
+  Scenario: do something AJAXy
+  When I click the AJAX link
+  ...
+</code></p>
+
+<p>About how to write cucumber, you can check out <a href="http://wiki.github.com/aslakhellesoy/cucumber/">Cucumber Wiki</a></p>
+
+<h3>About Capybara API</h3>
+
+<p>What I want to show you is how&rsquo;s Capybara API look like.</p>
+
+<p>This is all support Webrat like APIs in Capybara
+``` ruby
+  DSL_METHODS = [</p>
+
+<pre><code>  :all, :attach_file, :body, :check, :choose, :click, :click_button, :click_link, :current_url, :drag, :evaluate_script,
+  :field_labeled, :fill_in, :find, :find_button, :find_by_id, :find_field, :find_link, :has_content?, :has_css?,
+  :has_no_content?, :has_no_css?, :has_no_xpath?, :has_xpath?, :locate, :save_and_open_page, :select, :source, :uncheck,
+  :visit, :wait_until, :within, :within_fieldset, :within_table, :has_link?, :has_no_link?, :has_button?, :has_no_button?,
+  :has_field?, :has_no_field?, :has_checked_field?, :has_unchecked_field?, :has_no_table?, :has_table?, :unselect,
+  :has_select?, :has_no_select?
+]
+</code></pre>
+
+<p>```</p>
+
+<p>Here are some examples which are not mentioned in Capybara Wiki.</p>
+
+<p>``` ruby
+  # we can get page object from cucumber steps, page is an instance of @Capybara::Session@
+  page.has_css? &ldquo;ul.error_messages li&rdquo;, :count => 5, :text => &ldquo;error&rdquo;
+  page.has_xpath? &ldquo;//ul[@class=&lsquo;error_messages&rsquo;]/li&rdquo;, :count => 5, :text => &ldquo;error&rdquo;</p>
+
+<p>  #Equivalent
+  page.find(:css,&ldquo;ul.error_messages li&rdquo;, :count => 5, :text => &ldquo;error&rdquo;
+  page.find(:xpath,&ldquo;//ul[@class=&lsquo;error_messages&rsquo;]/li&rdquo;, :count => 5, :text => &ldquo;error&rdquo;</p>
+
+<p>  #Iterate all elements you found
+  all(:xpath,&ldquo;//ul[@class=&lsquo;error_messages&rsquo;]/input&rdquo;).each do |node|</p>
+
+<pre><code>puts node.value
+puts node.[:attribute_name]
+puts node.click
+puts node.set("aa") #set value
+puts node.text
+</code></pre>
+
+<p>  end
+```</p>
+
+<h3>XPath</h3>
+
+<p>If you want to use XPath in Capybara, you need caution string escape.
+Capybara give us a good example
+``` ruby
+def s(string)
+  if string.include?(&ldquo;&lsquo;&rdquo;)</p>
+
+<pre><code>string = string.split("'", -1).map do |substr|
+"'#{substr}'"
+end.join(%q{,"'",})
+"concat(#{string})"
+</code></pre>
+
+<p>  else</p>
+
+<pre><code>"'#{string}'"
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<h2>Summarize</h2>
+
+<p>Cucumber + Capybara will make your integration test easilier.
+Finally we find a full stack integration test.
+Have fun with it!</p>
+
+<p>Thanks <a href="http://github.com/aslakhellesoy">aslakhellesoy</a> and <a href="http://github.com/jnicklas">jnicklas</a></p>
+
+<p>@PS:In this blog post I did memtion Celerity because I haven&rsquo;t tried it.@</p>
+]]></content>
+  </entry>
+  
+</feed>

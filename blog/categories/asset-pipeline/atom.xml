@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: asset_pipeline | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/asset-pipeline/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Use Rails image_path outside the view]]></title>
+    <link href="http://allenwei.github.io/blog/2012/05/22/use-rails-image_path-outside-the-view/"/>
+    <updated>2012-05-22T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2012/05/22/use-rails-image_path-outside-the-view</id>
+    <content type="html"><![CDATA[<p>``` ruby
+  require &lsquo;action_view/helpers/asset_tag_helper&rsquo;</p>
+
+<p>  def image_path(source)</p>
+
+<pre><code>    @asset_paths ||= ActionView::Helpers::AssetTagHelper::AssetPaths.new(Bindo::Application.instance.config.action_controller)
+    @asset_paths.compute_public_path(source, "images")
+  end
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+</feed>

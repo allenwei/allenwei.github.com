@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: yajl | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/yajl/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Faster JSON Parser using yajl-ruby]]></title>
+    <link href="http://allenwei.github.io/blog/2010/11/17/faster-json-parser-using-yajl-ruby/"/>
+    <updated>2010-11-17T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/11/17/faster-json-parser-using-yajl-ruby</id>
+    <content type="html"><![CDATA[<p>There are there JSON library in ruby <a href="http://flori.github.com/json/,">json</a> <a href="https://github.com/flori/json">json_pure</a> and <a href="https://github.com/brianmario/yajl-ruby">yajl-ruby</a></p>
+
+<h2>what&rsquo;s the different between these tree</h2>
+
+<p><a href="http://flori.github.com/json/">json</a> is C binding of original C implement</p>
+
+<p><a href="https://github.com/flori/json">json_pure</a> is pure ruby implement, this is for non-MRI ruby like JRuby/Maglev</p>
+
+<p><a href="https://github.com/brianmario/yajl-ruby">yajl-ruby</a> is C binding for <a href="http://lloyd.github.com/yajl/">yajl</a></p>
+
+<p>yajl stands for yet another json library</p>
+
+<h2>How is the speed</h2>
+
+<p><code>
+yail &gt; json &gt; json_pure    
+</code></p>
+
+<p>here is the <a href="https://github.com/brianmario/yajl-ruby/tree/master/benchmark/">benchmark</a> from yajl source.</p>
+
+<p>According to my test yajl is ~3x faster than json</p>
+
+<h2>what&rsquo;s the feature of yajl</h2>
+
+<p>bq. JSON parsing and encoding directly to and from an IO stream (file, socket, etc) or String. Compressed stream parsing and encoding supported for Bzip2, Gzip and Deflate.
+Parse and encode multiple JSON objects to and from streams or strings continuously.
+JSON gem compatibility API &ndash; allows yajl-ruby to be used as a drop-in replacement for the JSON gem
+Basic HTTP client (only GET requests supported for now) which parses JSON directly off the response body as it’s being received
+~3.5x faster than JSON.generate
+~1.9x faster than JSON.parse
+~4.5x faster than YAML.load
+~377.5x faster than YAML.dump
+~1.5x faster than Marshal.load
+~2x faster than Marshal.dump</p>
+
+<h2>How to use</h2>
+
+<p>There already bunch of example on github pages, but doesn&rsquo;t have example about parse a file with more than one json object. The difference is use block.</p>
+
+<p><code>ruby
+require 'yajl'
+json = File.new('test.json', 'r') # file with more than one json
+parser = Yajl::Parser.new
+parser.parse(json) do |hash|
+  puts hash.inspect
+end
+</code></p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: tdd | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/tdd/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Testing Tips - Prepare Test in Setup]]></title>
+    <link href="http://allenwei.github.io/blog/2011/03/20/testing-tips-prepare-test-in-setup/"/>
+    <updated>2011-03-20T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2011/03/20/testing-tips-prepare-test-in-setup</id>
+    <content type="html"><![CDATA[<p>Let&rsquo;s look at a bad example first:</p>
+
+<p>``` ruby
+  context &ldquo;generate index table&rdquo; do</p>
+
+<pre><code>should "success" do
+  input_file_path  = "input.json" # have 1,000 lines
+  output_file_path = "output.json"
+    expact_file_path = "expect.json"
+    DataTransform::Mongo::IndexTable.run(input_file_path, output_file_path)
+    expect_lines = open(expect_file_path).readlines
+    real_lines = open(real_file_path).readlines
+  real_lines.each_with_index do |line, index|
+  assert_equal JSON.parse(expact_lines[index],line)
+  end
+end
+</code></pre>
+
+<p>  end
+```</p>
+
+<h4>What&rsquo;s the problem in previous test code?</h4>
+
+<h1>I can not fix this test if it fail</h1>
+
+<h1>I don&rsquo;t know what is this test testing</h1>
+
+<h4>How to refactor this test?</h4>
+
+<h1>Prepare data in setup</h1>
+
+<h1>Naming test better</h1>
+
+<p>``` ruby
+  context &ldquo;generate index table from standard input&rdquo; do</p>
+
+<pre><code>setup do 
+  @input_file_path  = "input.json"
+  @output_file_path = "output.json"
+  data = [
+    {:a =&gt; 1, :b =&gt; 1},
+    {:a =&gt; 2, :b =&gt; 3},
+    {:a =&gt; 3, :b =&gt; 4}
+  ]
+
+  File.open(@input_file_path) do |f|
+    data.each do |line| 
+      f.puts(JSON.encode(line))
+    end
+  end
+end
+should "tranform 'a' to 'keyword', 'b' to 'owner'" do
+  DataTransform::Mongo::IndexTable.run(@input_file_path, @output_file_path)
+  out_file = File.new(@output_file_path)
+  expect_data = [
+    {:keyword =&gt; 1, :owner =&gt; 1},
+    {:keyword =&gt; 2, :owner =&gt; 3},
+    {:keyword =&gt; 3, :owner =&gt; 4}
+  ]
+  assert_equal expect_data.size, outfile.lines.size
+
+  real_data = []
+  out_file.each_line do |line| 
+    real_data &lt;&lt; JSON.decode(line)
+  end
+  assert_equal expect_data,real_data
+  end
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+</feed>

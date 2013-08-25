@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: iPhone | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/iphone/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[iOS - Three20 - Use TTImageView instead of UIImageView showing remote image]]></title>
+    <link href="http://allenwei.github.io/blog/2011/10/06/three20-use-ttimageview-showing-remote-image/"/>
+    <updated>2011-10-06T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2011/10/06/three20-use-ttimageview-showing-remote-image</id>
+    <content type="html"><![CDATA[<p>Thee20 is very good framework.</p>
+
+<p>The features of TTImageView
+1. Load image from remote
+2. Support default image
+3. Cache image, so you don&rsquo;t need load it again.
+4. Support reload image</p>
+
+<p>Find more to read source code of <a href="https://github.com/facebook/three20/blob/master/src/Three20UI/Headers/TTImageView.h">TTImageView</a></p>
+
+<p>``` c</p>
+
+<h1>import &lt;Three20/Three20.h></h1>
+
+<p>TTImageView *productImage = [[TTImageView alloc] initWithFrame: CGRectMake(30, 30, 70, 70)];
+[productImage setUrlPath:@&ldquo;<a href="http://a-image-url">http://a-image-url</a>&rdquo;];
+[productImage setDefaultImage:[UIImage imageNamed:@&ldquo;default_product_small.png&rdquo;]];
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

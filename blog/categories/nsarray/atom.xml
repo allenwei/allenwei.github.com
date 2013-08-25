@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: NSArray | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/nsarray/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[iOS - Be careful NSArray indexOfObject method]]></title>
+    <link href="http://allenwei.github.io/blog/2012/03/22/be-careful-nsarray-indexofobject-method/"/>
+    <updated>2012-03-22T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2012/03/22/be-careful-nsarray-indexofobject-method</id>
+    <content type="html"><![CDATA[<p>if you want to determine if an object in an array, please be careful.
+see following code:</p>
+
+<p>```
+NSArray *array = [NSArray array];
+NSInteger index = [array indexOfObject: @&ldquo;not exist&rdquo;]
+if (index >= 0) {</p>
+
+<pre><code>//always be true
+</code></pre>
+
+<p>}
+// you must use
+if (index != NSNotFound) {</p>
+
+<p>}</p>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+</feed>

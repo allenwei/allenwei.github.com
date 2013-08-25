@@ -1,0 +1,1391 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Digruby</title>
+	<meta name="author" content="Allen Wei">
+
+	
+	<meta name="description" content="Jun 4th, 2011 RubyOnRails, RubyOnRails, devise Devise Do Not Redirect to Login Page When Session Timeout By default, devise will redirect to login &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Digruby" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://allenwei.github.io/blog/page/3/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("digruby@gmail.com") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+</div>
+<hgroup>
+  <h1>Digruby</h1>
+  
+    <h2><a href="/">Allen Wei's Tech Notes</a></h2>
+  
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		<a class="twitter" href="http://twitter.com/allenwei" title="Twitter">Twitter</a>
+		
+		
+		<a class="github" href="https://github.com/allenwei" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		<a class="delicious" href="http://delicious.com/allenwei" title="Delicious">Delicious</a>
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner">
+<div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-06-04T00:00:00+08:00" data-updated="true" itemprop="datePublished">Jun 4<span>th</span>, 2011</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/devise/'>devise</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2011/06/04/devise-do-not-redirect-to-login-page-when-session-timeout/" itemprop="url">Devise Do Not Redirect to Login Page When Session Timeout</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>By default, devise will redirect to login path if session timeout.</p>
+
+<p>So user will redirect to login path when visit page do not need login after session timeout.</p>
+
+<p>To solve this problem you can follow these steps:</p>
+
+<ul>
+<li>Set custom failure app, modify code at the end of @config/initializers/devise.rb@</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">warden</span> <span class="k">do</span> <span class="o">|</span><span class="n">manager</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">manager</span><span class="o">.</span><span class="n">failure_app</span>   <span class="o">=</span> <span class="no">DeviseFailureApp</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>create your custom failure app @DeviseFailureApp@</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">DeviseFailureApp</span> <span class="o">&lt;</span> <span class="ss">Devise</span><span class="p">:</span><span class="ss">:FailureApp</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">redirect</span>
+</span><span class='line'>    <span class="n">message</span> <span class="o">=</span> <span class="n">warden</span><span class="o">.</span><span class="n">message</span> <span class="o">||</span> <span class="n">warden_options</span><span class="o">[</span><span class="ss">:message</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">message</span> <span class="o">==</span> <span class="ss">:timeout</span>
+</span><span class='line'>      <span class="n">redirect_to</span> <span class="n">attempted_path</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="k">super</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-27T00:00:00+08:00" data-updated="true" itemprop="datePublished">Apr 27<span>th</span>, 2011</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/routes/'>routes</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2011/04/27/tips-use-named-routes-outside-of-controller-and-view/" itemprop="url">Tips - Use Named Routes Outside of Controller and View</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">UrlWriterSingleton</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">Singleton</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="ss">ActionController</span><span class="p">:</span><span class="ss">:UrlWriter</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">default_url_options</span>
+</span><span class='line'>    <span class="p">{</span><span class="ss">:host</span> <span class="o">=&gt;</span> <span class="s1">&#39;www.seravia.com&#39;</span><span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">module</span> <span class="nn">NameRouteHelper</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">base</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:include</span><span class="p">,</span> <span class="no">InstanceMethods</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">InstanceMethods</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">name_path_for</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{})</span>
+</span><span class='line'>      <span class="no">UrlWriterSingleton</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">_path&quot;</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Usage:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Class</span> <span class="no">TestNamedRouteHelper</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">NameRouteHelper</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">TestNamedRouteHelper</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">name_path_for</span><span class="p">(</span><span class="s2">&quot;root&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-07T00:00:00+08:00" data-updated="true" itemprop="datePublished">Apr 7<span>th</span>, 2011</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/rspec/'>rspec</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/testing/'>testing</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2011/04/07/rspec-tips-implicit-subject-its/" itemprop="url">Rspec Tips - Implicit Subject &#8220;Its&#8221;</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Rspec has a convenient way to write simple test</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="o">]</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">its</span><span class="p">(</span><span class="ss">:size</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="o">==</span> <span class="mi">4</span> <span class="p">}</span>
+</span><span class='line'>  <span class="n">its</span><span class="p">(</span><span class="s2">&quot;uniq.size&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="o">==</span> <span class="mi">3</span> <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-20T00:00:00+08:00" data-updated="true" itemprop="datePublished">Mar 20<span>th</span>, 2011</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/tdd/'>tdd</a>, <a class='category' href='/blog/categories/testing-tips/'>testing tips</a>, <a class='category' href='/blog/categories/unittest/'>unittest</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2011/03/20/testing-tips-prepare-test-in-setup/" itemprop="url">Testing Tips - Prepare Test in Setup</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Let&rsquo;s look at a bad example first:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">context</span> <span class="s2">&quot;generate index table&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">should</span> <span class="s2">&quot;success&quot;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">input_file_path</span>  <span class="o">=</span> <span class="s2">&quot;input.json&quot;</span> <span class="c1"># have 1,000 lines</span>
+</span><span class='line'>      <span class="n">output_file_path</span> <span class="o">=</span> <span class="s2">&quot;output.json&quot;</span>
+</span><span class='line'>        <span class="n">expact_file_path</span> <span class="o">=</span> <span class="s2">&quot;expect.json&quot;</span>
+</span><span class='line'>        <span class="ss">DataTransform</span><span class="p">:</span><span class="ss">:Mongo</span><span class="o">::</span><span class="no">IndexTable</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">input_file_path</span><span class="p">,</span> <span class="n">output_file_path</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">expect_lines</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">expect_file_path</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span>
+</span><span class='line'>        <span class="n">real_lines</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">real_file_path</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span>
+</span><span class='line'>      <span class="n">real_lines</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="p">,</span> <span class="n">index</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">assert_equal</span> <span class="no">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">expact_lines</span><span class="o">[</span><span class="n">index</span><span class="o">]</span><span class="p">,</span><span class="n">line</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>What&rsquo;s the problem in previous test code?</h4>
+
+<h1>I can not fix this test if it fail</h1>
+
+<h1>I don&rsquo;t know what is this test testing</h1>
+
+<h4>How to refactor this test?</h4>
+
+<h1>Prepare data in setup</h1>
+
+<h1>Naming test better</h1>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">context</span> <span class="s2">&quot;generate index table from standard input&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">setup</span> <span class="k">do</span>
+</span><span class='line'>      <span class="vi">@input_file_path</span>  <span class="o">=</span> <span class="s2">&quot;input.json&quot;</span>
+</span><span class='line'>      <span class="vi">@output_file_path</span> <span class="o">=</span> <span class="s2">&quot;output.json&quot;</span>
+</span><span class='line'>      <span class="n">data</span> <span class="o">=</span> <span class="o">[</span>
+</span><span class='line'>        <span class="p">{</span><span class="ss">:a</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="ss">:b</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">},</span>
+</span><span class='line'>        <span class="p">{</span><span class="ss">:a</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span> <span class="ss">:b</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">},</span>
+</span><span class='line'>        <span class="p">{</span><span class="ss">:a</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">,</span> <span class="ss">:b</span> <span class="o">=&gt;</span> <span class="mi">4</span><span class="p">}</span>
+</span><span class='line'>      <span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="vi">@input_file_path</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span>
+</span><span class='line'>        <span class="n">data</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
+</span><span class='line'>          <span class="n">f</span><span class="o">.</span><span class="n">puts</span><span class="p">(</span><span class="no">JSON</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">line</span><span class="p">))</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">should</span> <span class="s2">&quot;tranform &#39;a&#39; to &#39;keyword&#39;, &#39;b&#39; to &#39;owner&#39;&quot;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="ss">DataTransform</span><span class="p">:</span><span class="ss">:Mongo</span><span class="o">::</span><span class="no">IndexTable</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="vi">@input_file_path</span><span class="p">,</span> <span class="vi">@output_file_path</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">out_file</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="vi">@output_file_path</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">expect_data</span> <span class="o">=</span> <span class="o">[</span>
+</span><span class='line'>        <span class="p">{</span><span class="ss">:keyword</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="ss">:owner</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">},</span>
+</span><span class='line'>        <span class="p">{</span><span class="ss">:keyword</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span> <span class="ss">:owner</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">},</span>
+</span><span class='line'>        <span class="p">{</span><span class="ss">:keyword</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">,</span> <span class="ss">:owner</span> <span class="o">=&gt;</span> <span class="mi">4</span><span class="p">}</span>
+</span><span class='line'>      <span class="o">]</span>
+</span><span class='line'>      <span class="n">assert_equal</span> <span class="n">expect_data</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">outfile</span><span class="o">.</span><span class="n">lines</span><span class="o">.</span><span class="n">size</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">real_data</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>      <span class="n">out_file</span><span class="o">.</span><span class="n">each_line</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
+</span><span class='line'>        <span class="n">real_data</span> <span class="o">&lt;&lt;</span> <span class="no">JSON</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>      <span class="n">assert_equal</span> <span class="n">expect_data</span><span class="p">,</span><span class="n">real_data</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-01-02T00:00:00+08:00" data-updated="true" itemprop="datePublished">Jan 2<span>nd</span>, 2011</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/optionparser/'>OptionParser</a>, <a class='category' href='/blog/categories/thor/'>Thor</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/command-line/'>command-line</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2011/01/02/how-to-write-a-command-line-tool-in-ruby/" itemprop="url">How to Write a Command-line Tool in Ruby</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>This is a guest blog posted on <a href="rubylearning.com/blog/2011/01/03/how-do-i-make-a-command-line-tool-in-ruby/">rubylearning.com</a></p>
+
+<h2>Introduction</h2>
+
+<p>Ruby, as a dynamic language,  is always used for quick processing command-line tool for its simplicity and productivity.</p>
+
+<p>This article talks about three ways to write a command-line tool.</p>
+
+<p>Before we start, there are a few things you need to know:</p>
+
+<h1>Put line @#!/usr/bin/env ruby@ into the first line of your command-line file which will tell shell execute your file use Ruby</h1>
+
+<h1>Make sure your file is executable, run @chmod u+x FILE_PATH@</h1>
+
+<h1>Print help text if user use it in wrong way</h1>
+
+<p>Other people will not sure how to execute your command-line tool.</p>
+
+<h2>Conventions</h2>
+
+<p>I&rsquo;ll use three definitions:</p>
+
+<h1>Command-line file name</h1>
+
+<h1>Command</h1>
+
+<h1>Option</h1>
+
+<p>For example there is a command: &lsquo;server start -e development&rsquo;</p>
+
+<h1>Command-line file name is &lsquo;server&rsquo;</h1>
+
+<ul>
+<li>Command is the first argument &lsquo;start&rsquo;</li>
+<li>Option is the reset of argument pair &lsquo;-e development&rsquo;</li>
+</ul>
+
+
+<h2>Let&rsquo;s go</h2>
+
+<p>We start from a simple example: write a command-line tool to start and stop the server.</p>
+
+<h3>Without any lib</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">case</span> <span class="no">ARGV</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
+</span><span class='line'><span class="k">when</span> <span class="s2">&quot;start&quot;</span>
+</span><span class='line'>  <span class="no">STDOUT</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;called start&quot;</span>
+</span><span class='line'><span class="k">when</span> <span class="s2">&quot;start&quot;</span>
+</span><span class='line'>  <span class="no">STDOUT</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;called stop&quot;</span>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'>  <span class="no">STDOUT</span><span class="o">.</span><span class="n">puts</span> <span class="o">&lt;&lt;-</span><span class="no">EOF</span>
+</span><span class='line'><span class="sh">Please provide command name</span>
+</span><span class='line'>
+</span><span class='line'><span class="sh">Usage: </span>
+</span><span class='line'><span class="sh">  server start</span>
+</span><span class='line'><span class="sh">  server stop</span>
+</span><span class='line'><span class="no">EOF</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ARGV, all arguments will stored as a array in this variable.</p>
+
+<p>What if you need to pass some option?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">parse_options</span>
+</span><span class='line'>  <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'>  <span class="k">case</span> <span class="no">ARGV</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">when</span> <span class="s2">&quot;-e&quot;</span>
+</span><span class='line'>    <span class="n">options</span><span class="o">[</span><span class="ss">:e</span><span class="o">]</span> <span class="o">=</span> <span class="no">ARGV</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">when</span> <span class="s2">&quot;-d&quot;</span>
+</span><span class='line'>    <span class="n">options</span><span class="o">[</span><span class="ss">:d</span><span class="o">]</span> <span class="o">=</span> <span class="no">ARGV</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">options</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">case</span> <span class="no">ARGV</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
+</span><span class='line'><span class="k">when</span> <span class="s2">&quot;start&quot;</span>
+</span><span class='line'>  <span class="no">STDOUT</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;start on </span><span class="si">#{</span><span class="n">parse_options</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">when</span> <span class="s2">&quot;stop&quot;</span>
+</span><span class='line'>  <span class="no">STDOUT</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;stop on </span><span class="si">#{</span><span class="n">parse_options</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'>  <span class="no">STDOUT</span><span class="o">.</span><span class="n">puts</span> <span class="o">&lt;&lt;-</span><span class="no">EOF</span>
+</span><span class='line'><span class="sh">Please provide command name</span>
+</span><span class='line'>
+</span><span class='line'><span class="sh">Usage: </span>
+</span><span class='line'><span class="sh">  server start</span>
+</span><span class='line'><span class="sh">  server stop</span>
+</span><span class='line'><span class="sh">  </span>
+</span><span class='line'><span class="sh">  options: </span>
+</span><span class='line'><span class="sh">    -e ENVIRONMENT. Default: development</span>
+</span><span class='line'><span class="sh">    -d daemon, true or false. Default: true</span>
+</span><span class='line'><span class="no">EOF</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This code is simple but it has some disadvantages:</p>
+
+<ul>
+<li>Writing option parser and help text in different places will bring you troubles when they are not matched.</li>
+<li>Using array index to get options from ARGV, these magic numbers will create maintenance problem.</li>
+</ul>
+
+
+<h3>OptionParser</h3>
+
+<p><a href="http://ruby-doc.org/stdlib/libdoc/optparse/rdoc/classes/OptionParser.html">OptionParser</a> is build-in ruby lib help you parse arguments.</p>
+
+<p>we can refactor our code like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;optparse&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">opt_parser</span> <span class="o">=</span> <span class="no">OptionParser</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">opt</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">opt</span><span class="o">.</span><span class="n">banner</span> <span class="o">=</span> <span class="s2">&quot;Usage: opt_parser COMMAND [OPTIONS]&quot;</span>
+</span><span class='line'>  <span class="n">opt</span><span class="o">.</span><span class="n">separator</span>  <span class="s2">&quot;&quot;</span>
+</span><span class='line'>  <span class="n">opt</span><span class="o">.</span><span class="n">separator</span>  <span class="s2">&quot;Commands&quot;</span>
+</span><span class='line'>  <span class="n">opt</span><span class="o">.</span><span class="n">separator</span>  <span class="s2">&quot;     start: start server&quot;</span>
+</span><span class='line'>  <span class="n">opt</span><span class="o">.</span><span class="n">separator</span>  <span class="s2">&quot;     stop: stop server&quot;</span>
+</span><span class='line'>  <span class="n">opt</span><span class="o">.</span><span class="n">separator</span>  <span class="s2">&quot;&quot;</span>
+</span><span class='line'>  <span class="n">opt</span><span class="o">.</span><span class="n">separator</span>  <span class="s2">&quot;Options&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">opt</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;-e&quot;</span><span class="p">,</span><span class="s2">&quot;--environment ENVIRONMENT&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="s2">&quot;Which environment you want server run. Default: development&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">environment</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">options</span><span class="o">[</span><span class="ss">:environment</span><span class="o">]</span> <span class="o">=</span> <span class="n">environment</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">opt</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;-d&quot;</span><span class="p">,</span><span class="s2">&quot;--daemon&quot;</span><span class="p">,</span><span class="s2">&quot;running on daemon mode? Default: true&quot;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">options</span><span class="o">[</span><span class="ss">:daemon</span><span class="o">]</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">opt</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;-h&quot;</span><span class="p">,</span><span class="s2">&quot;--help&quot;</span><span class="p">,</span><span class="s2">&quot;help&quot;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="n">opt_parser</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">opt_parser</span><span class="o">.</span><span class="n">parse!</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">case</span> <span class="no">ARGV</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
+</span><span class='line'><span class="k">when</span> <span class="s2">&quot;start&quot;</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;call start on options </span><span class="si">#{</span><span class="n">options</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">when</span> <span class="s2">&quot;stop&quot;</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;call stop on options </span><span class="si">#{</span><span class="n">options</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">opt_parser</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Try to execute this file without argument, you&rsquo;ll find it prints very nice help text.</p>
+
+<p>@opt_parser.parse!@ is the method extract options from ARGV, extracted value will be deleted from ARGV.</p>
+
+<p>@OptionParser@ is better than that.</p>
+
+<p>You can define options value type, then @OptionParser@ will convert value to the type you defined like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">opt</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;-e&quot;</span><span class="p">,</span><span class="s2">&quot;--environment ENVIRONMENT&quot;</span><span class="p">,</span><span class="no">Numeric</span><span class="p">,</span>
+</span><span class='line'>       <span class="s2">&quot;which environment you want server run&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">environment</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">options</span><span class="o">[</span><span class="ss">:environment</span><span class="o">]</span> <span class="o">=</span> <span class="n">environment</span>
+</span><span class='line'>       <span class="k">end</span>
+</span><span class='line'><span class="n">opt</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;--delay N&quot;</span><span class="p">,</span> <span class="nb">Float</span><span class="p">,</span> <span class="s2">&quot;Delay N seconds before executing&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">n</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">options</span><span class="o">[</span><span class="ss">:delay</span><span class="o">]</span> <span class="o">=</span> <span class="n">n</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="n">opt</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;-j x,y,z&quot;</span><span class="p">,</span><span class="s2">&quot;--jurisdictions x,y,z&quot;</span><span class="p">,</span> <span class="nb">Array</span><span class="p">,</span>
+</span><span class='line'>       <span class="s2">&quot;which jurisdiction will start&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">jurisdictions</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">options</span><span class="o">[</span><span class="ss">:jurisdictions</span><span class="o">]</span> <span class="o">=</span> <span class="n">jurisdictions</span>
+</span><span class='line'>       <span class="k">end</span>
+</span><span class='line'><span class="n">server_list</span> <span class="o">=</span> <span class="sx">%w[a b c]</span>
+</span><span class='line'><span class="n">opt</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;-s SERVERS&quot;</span><span class="p">,</span><span class="s2">&quot;--servers SERVERS&quot;</span><span class="p">,</span> <span class="n">server_list</span><span class="p">,</span>
+</span><span class='line'>       <span class="s2">&quot;which server will start between </span><span class="si">#{</span><span class="n">server_list</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">servers</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">options</span><span class="o">[</span><span class="ss">:servers</span><span class="o">]</span> <span class="o">=</span> <span class="n">servers</span>
+</span><span class='line'>       <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can mark whether value of the option is mandatory.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Mandatory argument.</span>
+</span><span class='line'><span class="n">opts</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;-r&quot;</span><span class="p">,</span> <span class="s2">&quot;--require LIBRARY&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;Require the LIBRARY before executing your script&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">lib</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">options</span><span class="o">.</span><span class="n">library</span> <span class="o">&lt;&lt;</span> <span class="n">lib</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Optional argument; multi-line description. </span>
+</span><span class='line'><span class="n">opts</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;-i&quot;</span><span class="p">,</span> <span class="s2">&quot;--inplace [EXTENSION]&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;Edit ARGV files in place&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;  (make backup if EXTENSION supplied)&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">ext</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">options</span><span class="o">.</span><span class="n">inplace</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="n">options</span><span class="o">.</span><span class="n">extension</span> <span class="o">=</span> <span class="n">ext</span> <span class="o">||</span> <span class="s1">&#39;&#39;</span>
+</span><span class='line'>  <span class="n">options</span><span class="o">.</span><span class="n">extension</span><span class="o">.</span><span class="n">sub!</span><span class="p">(</span><span class="sr">/\A\.?(?=.)/</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span>  <span class="c1"># Ensure extension begins with dot.</span>
+</span><span class='line'>        <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For more details your can see <a href="http://ruby.about.com/od/advancedruby/a/optionparser.htm">this article</a> and <a href="http://ruby-doc.org/stdlib/libdoc/optparse/rdoc/classes/OptionParser.html">ruby rdoc</a></p>
+
+<p>Benefit of @OptionParser@ is: we don&rsquo;t need to use array index to retrieve options and we write help text along with option definition.</p>
+
+<p>Disadvantage of @OptionParser@ is: since different commands need using the same option parser, you cannot define different option parsers for different commands. To solve this problem, you can resort to @Thor@.</p>
+
+<h3>Thor</h3>
+
+<p>As you know <a href="https://github.com/wycats/thor">Thor</a> is a replacement of Rake. Let&rsquo;s see how we use Thor to refactor our command-line tool.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;rubygems&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;thor&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">ThorExample</span> <span class="o">&lt;</span> <span class="no">Thor</span>
+</span><span class='line'>  <span class="n">desc</span> <span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="s2">&quot;start server&quot;</span>
+</span><span class='line'>  <span class="n">method_option</span> <span class="ss">:environment</span><span class="p">,</span><span class="ss">:default</span> <span class="o">=&gt;</span> <span class="s2">&quot;development&quot;</span><span class="p">,</span> <span class="ss">:aliases</span> <span class="o">=&gt;</span> <span class="s2">&quot;-e&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="ss">:desc</span> <span class="o">=&gt;</span> <span class="s2">&quot;which environment you want server run.&quot;</span>
+</span><span class='line'>  <span class="n">method_option</span> <span class="ss">:daemon</span><span class="p">,</span> <span class="ss">:type</span> <span class="o">=&gt;</span> <span class="ss">:boolean</span><span class="p">,</span> <span class="ss">:default</span> <span class="o">=&gt;</span> <span class="kp">false</span><span class="p">,</span> <span class="ss">:aliases</span> <span class="o">=&gt;</span> <span class="s2">&quot;-d&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="ss">:desc</span> <span class="o">=&gt;</span> <span class="s2">&quot;running on daemon mode?&quot;</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">start</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;start </span><span class="si">#{</span><span class="n">options</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">desc</span> <span class="s2">&quot;stop&quot;</span> <span class="p">,</span><span class="s2">&quot;stop server&quot;</span>
+</span><span class='line'>  <span class="n">method_option</span> <span class="ss">:delay</span><span class="p">,</span>  <span class="ss">:default</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="ss">:aliases</span> <span class="o">=&gt;</span> <span class="s2">&quot;-w&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="ss">:desc</span> <span class="o">=&gt;</span> <span class="s2">&quot;wait server finish it&#39;s job&quot;</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">stop</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;stop&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">ThorExample</span><span class="o">.</span><span class="n">start</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>@desc@ defines command name and long description</li>
+<li>@method_option@ define option parser for this command</li>
+<li>@ThorExample.start@ is method to start parse argument</li>
+</ul>
+
+
+<p>Execute it without argument, the output is:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">Tasks</span><span class="p">:</span>
+</span><span class='line'>  <span class="n">thor_example</span> <span class="n">help</span> <span class="o">[</span><span class="no">TASK</span><span class="o">]</span>  <span class="c1"># Describe available tasks or one specific task</span>
+</span><span class='line'>  <span class="n">thor_example</span> <span class="n">start</span>        <span class="c1"># start server</span>
+</span><span class='line'>  <span class="n">thor_example</span> <span class="n">stop</span>         <span class="c1"># stop server</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Execute it with argument @help start@, you&rsquo;ll get help text for command start:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">Usage</span><span class="p">:</span>
+</span><span class='line'>  <span class="n">thor_example</span> <span class="n">start</span>
+</span><span class='line'>
+</span><span class='line'><span class="ss">Options</span><span class="p">:</span>
+</span><span class='line'>  <span class="o">-</span><span class="n">e</span><span class="p">,</span> <span class="o">[--</span><span class="n">environment</span><span class="o">=</span><span class="no">ENVIRONMENT</span><span class="o">]</span>  <span class="c1"># which environment you want server run.</span>
+</span><span class='line'>                                   <span class="c1"># Default: development</span>
+</span><span class='line'>  <span class="o">-</span><span class="n">d</span><span class="p">,</span> <span class="o">[--</span><span class="n">daemon</span><span class="o">]</span>                   <span class="c1"># running on daemon mode?</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">start</span> <span class="n">server</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As you can see, it&rsquo;s very clean and easy to write.</p>
+
+<p>For more detailed usage, you can visit Thor <a href="https://github.com/wycats/thor">github page</a> and its <a href="http://rdoc.info/github/wycats/thor">rdoc</a></p>
+
+<h2>Summary</h2>
+
+<p>Of course there are more ways to write command-line tool. Choose what best fit your requirement rather than the most powerful or latest one.</p>
+
+<p>All the sample code is on github <a href="https://github.com/allenwei/ruby_command_line_sample">https://github.com/allenwei/ruby_command_line_sample</a></p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-12-18T00:00:00+08:00" data-updated="true" itemprop="datePublished">Dec 18<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/rbconfig/'>rbconfig</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/12/18/tips-how-to-get-ruby-bin-path-using-rbconfigconfig/" itemprop="url">Tips - How to Get Ruby Bin Path Using RbConfig::CONFIG</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">ruby</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="o">*</span><span class="ss">RbConfig</span><span class="p">:</span><span class="ss">:CONFIG</span><span class="o">.</span><span class="n">values_at</span><span class="p">(</span><span class="s1">&#39;bindir&#39;</span><span class="p">,</span> <span class="s1">&#39;RUBY_INSTALL_NAME&#39;</span><span class="p">))</span>
+</span><span class='line'><span class="c1">#=&gt; /Users/allen/.rvm/rubies/ree-1.8.7-2010.02/bin/ruby </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can see, there are lot&rsquo;s of useful info in @Constant@ @RbConfig::CONFIG@</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-12-15T00:00:00+08:00" data-updated="true" itemprop="datePublished">Dec 15<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/constant/'>constant</a>, <a class='category' href='/blog/categories/freeze/'>freeze</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/12/15/tips-freeze-your-constant/" itemprop="url">Tips - Freeze Your Constant</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Today we met a strong problem. One of our constant is changed out of my expectation.</p>
+
+<p>In my mind, constant is the variable we can not change, but actually we are half right.</p>
+
+<p>See code bellow:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">A_CONSTANT</span> <span class="o">=</span> <span class="s2">&quot;value&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># this is correct we can not set new value to a constant</span>
+</span><span class='line'><span class="no">A_CONSTANT</span> <span class="o">=</span> <span class="s2">&quot;another value&quot;</span> <span class="c1">#warning: already initialized constant A_CONSTANT</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#But </span>
+</span><span class='line'>
+</span><span class='line'><span class="no">A_CONSTANT</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;hack&quot;</span><span class="p">)</span> <span class="c1">#=&gt;&quot;hackanother value&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">A_HASH</span> <span class="o">=</span> <span class="p">{</span><span class="ss">:key</span> <span class="o">=&gt;</span> <span class="s2">&quot;value&quot;</span><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">A_HASH</span><span class="o">[</span><span class="ss">:another_key</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;another_key&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">A_HASH</span> <span class="c1">#=&gt; {:key =&gt; &quot;value&quot;, :another_key =&gt; &quot;another_key&quot;}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You may say, I won&rsquo;t change constant like that. But what if you assign a new variable to a constant, like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">A_HASH</span> <span class="o">=</span> <span class="p">{</span><span class="ss">:key</span> <span class="o">=&gt;</span> <span class="s2">&quot;value&quot;</span><span class="p">}</span>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="no">A_HASH</span>
+</span><span class='line'><span class="c1">#... several lines of code</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># you may forgot a is a constant</span>
+</span><span class='line'><span class="n">a</span><span class="o">[</span><span class="ss">:another_key</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;another_key&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I&rsquo;m sure not everyone knows we can change constant &ldquo;internally&rdquo;.</p>
+
+<p>So for sure, we can freeze our constant</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">A_HASH</span> <span class="o">=</span> <span class="p">{</span><span class="ss">:key</span> <span class="o">=&gt;</span> <span class="s2">&quot;value&quot;</span><span class="p">}</span><span class="o">.</span><span class="n">freeze</span>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="no">A_HASH</span>
+</span><span class='line'><span class="c1">#... several lines of code</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># you may forgot a is a constant</span>
+</span><span class='line'><span class="n">a</span><span class="o">[</span><span class="ss">:another_key</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;another_value&quot;</span> <span class="c1"># TypeError: can&#39;t modify frozen Hash</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-12-15T00:00:00+08:00" data-updated="true" itemprop="datePublished">Dec 15<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/capybara/'>capybara</a>, <a class='category' href='/blog/categories/cucumber/'>cucumber</a>, <a class='category' href='/blog/categories/firebug/'>firebug</a>, <a class='category' href='/blog/categories/selenium/'>selenium</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/12/15/tips-add-firebug-extension-to-capybara/" itemprop="url">Tips - Add Firebug Extension to Capybara</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>First, make sure your Capybara version is >= 0.4.0</p>
+
+<p>Then, download firebug plugin and save it to @features/support/firebug-1.6.0-fx.xpi@</p>
+
+<p>And add following line into @features/support/env.rb@</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Capybara</span><span class="o">.</span><span class="n">register_driver</span> <span class="ss">:selenium_with_firebug</span> <span class="k">do</span> <span class="o">|</span><span class="n">app</span><span class="o">|</span>
+</span><span class='line'>  <span class="ss">Capybara</span><span class="p">:</span><span class="ss">:Driver</span><span class="o">::</span><span class="no">Selenium</span>
+</span><span class='line'>  <span class="n">profile</span> <span class="o">=</span> <span class="ss">Selenium</span><span class="p">:</span><span class="ss">:WebDriver</span><span class="o">::</span><span class="ss">Firefox</span><span class="p">:</span><span class="ss">:Profile</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="n">profile</span><span class="o">.</span><span class="n">add_extension</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s2">&quot;features/support/firebug-1.6.0-fx.xpi&quot;</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="ss">Capybara</span><span class="p">:</span><span class="ss">:Driver</span><span class="o">::</span><span class="no">Selenium</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="p">{</span> <span class="ss">:browser</span> <span class="o">=&gt;</span> <span class="ss">:firefox</span><span class="p">,</span> <span class="ss">:profile</span> <span class="o">=&gt;</span> <span class="n">profile</span> <span class="p">})</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Before</span><span class="p">(</span><span class="s2">&quot;@selenium_with_firebug&quot;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>  <span class="no">Capybara</span><span class="o">.</span><span class="n">current_driver</span> <span class="o">=</span> <span class="ss">:selenium_with_firebug</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You will found that firefox will create a new firebug page tab. I have no idea how to close it, but seems it doesn&rsquo;t affect our test result.</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-12-01T00:00:00+08:00" data-updated="true" itemprop="datePublished">Dec 1<span>st</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/benchmark/'>benchmark</a>, <a class='category' href='/blog/categories/define-method/'>define_method</a>, <a class='category' href='/blog/categories/eval/'>eval</a>, <a class='category' href='/blog/categories/metaprograming/'>metaprograming</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/12/01/tips-move-eval-from-runtime-to-parse-time/" itemprop="url">Tips - Move Eval From Runtime to Parse Time</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>As we @eval@ some code on runtime, but do you know eval is slow?</p>
+
+<p>A best practice is move eval from uuntime to parse time</p>
+
+<p>Here is the benchmark:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>            user     system      total        real
+</span><span class='line'>runtime     0.180000   0.020000   0.200000 (  0.201734)
+</span><span class='line'>parse time  0.270000   0.030000   0.300000 (  0.323348)
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here is the code</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;benchmark&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Benchmark</span><span class="o">.</span><span class="n">bm</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">x</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="s2">&quot;runtime&quot;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">class</span> <span class="nc">PersonA</span>
+</span><span class='line'>      <span class="mi">10_000</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>        <span class="n">define_method</span> <span class="s2">&quot;method_</span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">do</span>
+</span><span class='line'>          <span class="nb">eval</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="n">a</span> <span class="o">=</span> <span class="no">PersonA</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="mi">10_000</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">a</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;method_</span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="n">x</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="s2">&quot;parse time&quot;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">class</span> <span class="nc">PersonB</span>
+</span><span class='line'>      <span class="mi">10_000</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>        <span class="nb">eval</span> <span class="s2">&quot;define_method &#39;method_</span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">&#39; do </span>
+</span><span class='line'><span class="s2">        </span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2"></span>
+</span><span class='line'><span class="s2">    end&quot;</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">b</span> <span class="o">=</span> <span class="no">PersonB</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="mi">10_000</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">b</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;method_</span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-11-17T00:00:00+08:00" data-updated="true" itemprop="datePublished">Nov 17<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/json/'>json</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/yajl/'>yajl</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/11/17/faster-json-parser-using-yajl-ruby/" itemprop="url">Faster JSON Parser Using Yajl-ruby</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>There are there JSON library in ruby <a href="http://flori.github.com/json/,">json</a> <a href="https://github.com/flori/json">json_pure</a> and <a href="https://github.com/brianmario/yajl-ruby">yajl-ruby</a></p>
+
+<h2>what&rsquo;s the different between these tree</h2>
+
+<p><a href="http://flori.github.com/json/">json</a> is C binding of original C implement</p>
+
+<p><a href="https://github.com/flori/json">json_pure</a> is pure ruby implement, this is for non-MRI ruby like JRuby/Maglev</p>
+
+<p><a href="https://github.com/brianmario/yajl-ruby">yajl-ruby</a> is C binding for <a href="http://lloyd.github.com/yajl/">yajl</a></p>
+
+<p>yajl stands for yet another json library</p>
+
+<h2>How is the speed</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>yail &gt; json &gt; json_pure    </span></code></pre></td></tr></table></div></figure>
+
+
+<p>here is the <a href="https://github.com/brianmario/yajl-ruby/tree/master/benchmark/">benchmark</a> from yajl source.</p>
+
+<p>According to my test yajl is ~3x faster than json</p>
+
+<h2>what&rsquo;s the feature of yajl</h2>
+
+<p>bq. JSON parsing and encoding directly to and from an IO stream (file, socket, etc) or String. Compressed stream parsing and encoding supported for Bzip2, Gzip and Deflate.
+Parse and encode multiple JSON objects to and from streams or strings continuously.
+JSON gem compatibility API &ndash; allows yajl-ruby to be used as a drop-in replacement for the JSON gem
+Basic HTTP client (only GET requests supported for now) which parses JSON directly off the response body as it’s being received
+~3.5x faster than JSON.generate
+~1.9x faster than JSON.parse
+~4.5x faster than YAML.load
+~377.5x faster than YAML.dump
+~1.5x faster than Marshal.load
+~2x faster than Marshal.dump</p>
+
+<h2>How to use</h2>
+
+<p>There already bunch of example on github pages, but doesn&rsquo;t have example about parse a file with more than one json object. The difference is use block.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;yajl&#39;</span>
+</span><span class='line'><span class="n">json</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;test.json&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="c1"># file with more than one json</span>
+</span><span class='line'><span class="n">parser</span> <span class="o">=</span> <span class="ss">Yajl</span><span class="p">:</span><span class="ss">:Parser</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">json</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="nb">hash</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="nb">hash</span><span class="o">.</span><span class="n">inspect</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+		
+		
+	</div>
+
+</article>
+
+</div>
+<nav id="pagenavi">
+    
+        <a href="/blog/page/2/" class="prev">Prev</a>
+    
+    
+        <a href="/blog/page/4/" class="next">Next</a>
+    
+    <div class="center"><a href="/blog/archives">Blog Archives</a></div>
+</nav></div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2013 - Allen Wei -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			
+
+<script type="text/javascript">
+      var disqus_shortname = 'digrubycom';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

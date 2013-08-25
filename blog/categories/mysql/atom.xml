@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: mysql | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/mysql/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Tips - Distinct in ActiveRecord find]]></title>
+    <link href="http://allenwei.github.io/blog/2010/02/15/tips-distinct-in-activerecord-find/"/>
+    <updated>2010-02-15T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/02/15/tips-distinct-in-activerecord-find</id>
+    <content type="html"><![CDATA[<p><code>ruby
+Item.find( :all, :select =&gt; 'DISTINCT fieldname' )
+</code></p>
+]]></content>
+  </entry>
+  
+</feed>

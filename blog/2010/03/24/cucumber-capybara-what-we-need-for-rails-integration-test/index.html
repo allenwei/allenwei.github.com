@@ -1,0 +1,388 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Cucumber + Capybara - What we need for rails integration test - Digruby</title>
+	<meta name="author" content="Allen Wei">
+
+	
+	<meta name="description" content="Cucumber + Capybara - What We Need for Rails Integration Test What&rsquo;s Capybara bq. Capybara is a webrat alternative which aims to support all &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Digruby" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://allenwei.github.io/blog/2010/03/24/cucumber-capybara-what-we-need-for-rails-integration-test/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("digruby@gmail.com") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+</div>
+<hgroup>
+  <h1>Digruby</h1>
+  
+    <h2><a href="/">Allen Wei's Tech Notes</a></h2>
+  
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		<a class="twitter" href="http://twitter.com/allenwei" title="Twitter">Twitter</a>
+		
+		
+		<a class="github" href="https://github.com/allenwei" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		<a class="delicious" href="http://delicious.com/allenwei" title="Delicious">Delicious</a>
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Cucumber + Capybara - What We Need for Rails Integration Test</h1>
+	<div class="entry-content" itemprop="articleBody"><h2>What&rsquo;s Capybara</h2>
+
+<p>bq.  Capybara is a webrat alternative which aims to support all browser simulators.</p>
+
+<p>  As you know, webrat can not run javascript on the webpage. In order to test javascript and AJAX based website we need install <a href="http://github.com/ph7/selenium-client">Selenium-client</a> and learn extra API and also some configuratons.</p>
+
+<p>  <a href="http://github.com/jnicklas/capybara">Capybara</a> give your a full stack solution.
+  You can use similar API drive webrat and selenium. And don&rsquo;t need worry about configuraton.</p>
+
+<p>  What&rsquo;s more, <a href="http://github.com/jnicklas/capybara">Capybara</a> integrated <a href="http://github.com/jarib/celerity">Celerity</a> which is a JRuby wrapper around HtmlUnit &ndash; a headless Java browser with JavaScript support. As your expect it using the same API.</p>
+
+<p>  <em>And the killer feature of Capybara is you can easily change driver it use for testing. Not only in config file but also in runtime.</em></p>
+
+<h2>Why we need Cucumber</h2>
+
+<p>  Before I introduce what is Cucumber, you need know what is <a href="http://behaviour-driven.org/.">BDD</a></p>
+
+<p>bq. BDD is an evolution thinking behind TestDrivenDevelopment  and AcceptanceTestDrivenPlanning</p>
+
+<p>  <em>You don&rsquo;t need worry about what the hell BDD is. After you start using Cucumber you will know. I promise.</em></p>
+
+<p>  <a href="http://github.com/aslakhellesoy/cucumber">Cucumber</a> is allow you execute plain-text which written by BDD like format as automated tests.</p>
+
+<p>  There are plenty of materials on the internet which you can learn Cucumber</p>
+
+<p>  First place your need go is Ryan Bates&#8217; RailsCasts <a href="http://railscasts.com/episodes/155-beginning-with-Cucumber">Beginning with Cucumber</a>
+  Then <a href="http://wiki.github.com/aslakhellesoy/cucumber/">official Wiki of Cucumber</a> will very helpful!!, and there also list some <a href="http://wiki.github.com/aslakhellesoy/cucumber/tutorials-and-related-blog-posts">blog posts</a> written by community</p>
+
+<p>  I won&rsquo;t involve more about it. In my later blog post I will give you some tricks about using Cucumber.</p>
+
+<h2>Using Cucumber and Capybara</h2>
+
+<h3>Install</h3>
+
+<p>Follow the instruction on Capybara:</p>
+
+<p>Install as a gem
+@sudo gem install capybara@</p>
+
+<p>On OSX you may have to install libffi, you can install it via MacPorts with:
+@sudo port install libffi@</p>
+
+<p>And you also need install Cucumber
+@sudo gem install cucumber@</p>
+
+<h3>Generate basic Cucumber folder structure and configuratons</h3>
+
+<p>Capybara is built to work nicely with Cucumber. You can easily generate Capybara style cucumber structure and configuraton.
+@script/generate cucumber &mdash;capybara@</p>
+
+<p>And maybe you also need install another gem named <a href="http://github.com/copiousfreetime/launchy">launchy</a> which is helper class for launching cross-platform applications in a fire and forget manner.
+@sudo gem install launchy@</p>
+
+<h3>Configuration</h3>
+
+<h4>Available Configuration</h4>
+
+<p>Actually after you run the generator, you don&rsquo;t need much more configuraton. Here I&rsquo;ll list some of configuraton you can set.</p>
+
+<p>You can specify it in @features/support/env.rb@ file</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Capybara</span><span class="o">.</span><span class="n">run_server</span> <span class="o">=</span> <span class="kp">true</span> <span class="c1">#Whether start server when testing</span>
+</span><span class='line'><span class="no">Capybara</span><span class="o">.</span><span class="n">default_selector</span> <span class="o">=</span> <span class="ss">:xpath</span> <span class="c1">#default selector , you can change to :css</span>
+</span><span class='line'><span class="no">Capybara</span><span class="o">.</span><span class="n">default_wait_time</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1">#When we testing AJAX, we can set a default wait time</span>
+</span><span class='line'><span class="no">Capybara</span><span class="o">.</span><span class="n">ignore_hidden_elements</span> <span class="o">=</span> <span class="kp">false</span> <span class="c1">#Ignore hidden elements when testing, make helpful when you hide or show elements using javascript</span>
+</span><span class='line'><span class="no">Capybara</span><span class="o">.</span><span class="n">javascript_driver</span> <span class="o">=</span> <span class="ss">:culerity</span> <span class="c1">#default driver when you using @javascript tag</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Load rails test features</h4>
+
+<p>You can put codes below in @features/support/env.rb@ file</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Before</span> <span class="k">do</span>
+</span><span class='line'>  <span class="no">Fixtures</span><span class="o">.</span><span class="n">reset_cache</span>
+</span><span class='line'>  <span class="n">fixtures_folder</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="no">RAILS_ROOT</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="s1">&#39;fixtures&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">fixtures</span> <span class="o">=</span> <span class="no">Dir</span><span class="o">[</span><span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fixtures_folder</span><span class="p">,</span> <span class="s1">&#39;*.yml&#39;</span><span class="p">)</span><span class="o">].</span><span class="n">map</span> <span class="p">{</span><span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="no">File</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;.yml&#39;</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>  <span class="no">Fixtures</span><span class="o">.</span><span class="n">create_fixtures</span><span class="p">(</span><span class="n">fixtures_folder</span><span class="p">,</span> <span class="n">fixtures</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And change</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">Cucumber</span><span class="p">:</span><span class="ss">:Rails</span><span class="o">::</span><span class="no">World</span><span class="o">.</span><span class="n">use_transactional_fixtures</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class='line'><span class="no">DatabaseCleaner</span><span class="o">.</span><span class="n">strategy</span> <span class="o">=</span> <span class="ss">:truncation</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>OK. For now we already finish configuration. we can start writing cucumber test</p>
+
+<h3>How to run test under different testing driver</h3>
+
+<p>As you know cucumber support <a href="http://wiki.github.com/aslakhellesoy/cucumber/tags">tags</a>
+Capybara using tag to specify different driver, it supports  @@javascript, @selenium, @celerity, @culerity and @rack_test@ tags
+You can use it like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="vi">@javascript</span>
+</span><span class='line'>  <span class="ss">Scenario</span><span class="p">:</span> <span class="k">do</span> <span class="n">something</span> <span class="no">AJAXy</span>
+</span><span class='line'>  <span class="no">When</span> <span class="n">I</span> <span class="n">click</span> <span class="n">the</span> <span class="no">AJAX</span> <span class="n">link</span>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>About how to write cucumber, you can check out <a href="http://wiki.github.com/aslakhellesoy/cucumber/">Cucumber Wiki</a></p>
+
+<h3>About Capybara API</h3>
+
+<p>What I want to show you is how&rsquo;s Capybara API look like.</p>
+
+<p>This is all support Webrat like APIs in Capybara</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="no">DSL_METHODS</span> <span class="o">=</span> <span class="o">[</span>
+</span><span class='line'>      <span class="ss">:all</span><span class="p">,</span> <span class="ss">:attach_file</span><span class="p">,</span> <span class="ss">:body</span><span class="p">,</span> <span class="ss">:check</span><span class="p">,</span> <span class="ss">:choose</span><span class="p">,</span> <span class="ss">:click</span><span class="p">,</span> <span class="ss">:click_button</span><span class="p">,</span> <span class="ss">:click_link</span><span class="p">,</span> <span class="ss">:current_url</span><span class="p">,</span> <span class="ss">:drag</span><span class="p">,</span> <span class="ss">:evaluate_script</span><span class="p">,</span>
+</span><span class='line'>      <span class="ss">:field_labeled</span><span class="p">,</span> <span class="ss">:fill_in</span><span class="p">,</span> <span class="ss">:find</span><span class="p">,</span> <span class="ss">:find_button</span><span class="p">,</span> <span class="ss">:find_by_id</span><span class="p">,</span> <span class="ss">:find_field</span><span class="p">,</span> <span class="ss">:find_link</span><span class="p">,</span> <span class="ss">:has_content?</span><span class="p">,</span> <span class="ss">:has_css?</span><span class="p">,</span>
+</span><span class='line'>      <span class="ss">:has_no_content?</span><span class="p">,</span> <span class="ss">:has_no_css?</span><span class="p">,</span> <span class="ss">:has_no_xpath?</span><span class="p">,</span> <span class="ss">:has_xpath?</span><span class="p">,</span> <span class="ss">:locate</span><span class="p">,</span> <span class="ss">:save_and_open_page</span><span class="p">,</span> <span class="ss">:select</span><span class="p">,</span> <span class="ss">:source</span><span class="p">,</span> <span class="ss">:uncheck</span><span class="p">,</span>
+</span><span class='line'>      <span class="ss">:visit</span><span class="p">,</span> <span class="ss">:wait_until</span><span class="p">,</span> <span class="ss">:within</span><span class="p">,</span> <span class="ss">:within_fieldset</span><span class="p">,</span> <span class="ss">:within_table</span><span class="p">,</span> <span class="ss">:has_link?</span><span class="p">,</span> <span class="ss">:has_no_link?</span><span class="p">,</span> <span class="ss">:has_button?</span><span class="p">,</span> <span class="ss">:has_no_button?</span><span class="p">,</span>
+</span><span class='line'>      <span class="ss">:has_field?</span><span class="p">,</span> <span class="ss">:has_no_field?</span><span class="p">,</span> <span class="ss">:has_checked_field?</span><span class="p">,</span> <span class="ss">:has_unchecked_field?</span><span class="p">,</span> <span class="ss">:has_no_table?</span><span class="p">,</span> <span class="ss">:has_table?</span><span class="p">,</span> <span class="ss">:unselect</span><span class="p">,</span>
+</span><span class='line'>      <span class="ss">:has_select?</span><span class="p">,</span> <span class="ss">:has_no_select?</span>
+</span><span class='line'>    <span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here are some examples which are not mentioned in Capybara Wiki.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="c1"># we can get page object from cucumber steps, page is an instance of @Capybara::Session@</span>
+</span><span class='line'>  <span class="n">page</span><span class="o">.</span><span class="n">has_css?</span> <span class="s2">&quot;ul.error_messages li&quot;</span><span class="p">,</span> <span class="ss">:count</span> <span class="o">=&gt;</span> <span class="mi">5</span><span class="p">,</span> <span class="ss">:text</span> <span class="o">=&gt;</span> <span class="s2">&quot;error&quot;</span>
+</span><span class='line'>  <span class="n">page</span><span class="o">.</span><span class="n">has_xpath?</span> <span class="s2">&quot;//ul[@class=&#39;error_messages&#39;]/li&quot;</span><span class="p">,</span> <span class="ss">:count</span> <span class="o">=&gt;</span> <span class="mi">5</span><span class="p">,</span> <span class="ss">:text</span> <span class="o">=&gt;</span> <span class="s2">&quot;error&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">#Equivalent</span>
+</span><span class='line'>  <span class="n">page</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="ss">:css</span><span class="p">,</span><span class="s2">&quot;ul.error_messages li&quot;</span><span class="p">,</span> <span class="ss">:count</span> <span class="o">=&gt;</span> <span class="mi">5</span><span class="p">,</span> <span class="ss">:text</span> <span class="o">=&gt;</span> <span class="s2">&quot;error&quot;</span>
+</span><span class='line'>  <span class="n">page</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="ss">:xpath</span><span class="p">,</span><span class="s2">&quot;//ul[@class=&#39;error_messages&#39;]/li&quot;</span><span class="p">,</span> <span class="ss">:count</span> <span class="o">=&gt;</span> <span class="mi">5</span><span class="p">,</span> <span class="ss">:text</span> <span class="o">=&gt;</span> <span class="s2">&quot;error&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">#Iterate all elements you found</span>
+</span><span class='line'>  <span class="n">all</span><span class="p">(</span><span class="ss">:xpath</span><span class="p">,</span><span class="s2">&quot;//ul[@class=&#39;error_messages&#39;]/input&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">node</span><span class="o">|</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="n">node</span><span class="o">.</span><span class="n">value</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="n">node</span><span class="o">.</span><span class="n">[</span><span class="ss">:attribute_name</span><span class="o">]</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="n">node</span><span class="o">.</span><span class="n">click</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="n">node</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;aa&quot;</span><span class="p">)</span> <span class="c1">#set value</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="n">node</span><span class="o">.</span><span class="n">text</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>XPath</h3>
+
+<p>If you want to use XPath in Capybara, you need caution string escape.
+Capybara give us a good example</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">s</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">string</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">string</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="k">do</span> <span class="o">|</span><span class="n">substr</span><span class="o">|</span>
+</span><span class='line'>    <span class="s2">&quot;&#39;</span><span class="si">#{</span><span class="n">substr</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+</span><span class='line'>    <span class="k">end</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sx">%q{,&quot;&#39;&quot;,}</span><span class="p">)</span>
+</span><span class='line'>    <span class="s2">&quot;concat(</span><span class="si">#{</span><span class="n">string</span><span class="si">}</span><span class="s2">)&quot;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="s2">&quot;&#39;</span><span class="si">#{</span><span class="n">string</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Summarize</h2>
+
+<p>Cucumber + Capybara will make your integration test easilier.
+Finally we find a full stack integration test.
+Have fun with it!</p>
+
+<p>Thanks <a href="http://github.com/aslakhellesoy">aslakhellesoy</a> and <a href="http://github.com/jnicklas">jnicklas</a></p>
+
+<p>@PS:In this blog post I did memtion Celerity because I haven&rsquo;t tried it.@</p>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2013 - Allen Wei -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			
+
+<script type="text/javascript">
+      var disqus_shortname = 'digrubycom';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://allenwei.github.io/blog/2010/03/24/cucumber-capybara-what-we-need-for-rails-integration-test/';
+        var disqus_url = 'http://allenwei.github.io/blog/2010/03/24/cucumber-capybara-what-we-need-for-rails-integration-test/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

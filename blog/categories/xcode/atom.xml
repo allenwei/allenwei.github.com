@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: xcode | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/xcode/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Fix Code Sense and Syntax Highlighting for Xcode]]></title>
+    <link href="http://allenwei.github.io/blog/2012/03/21/fix-code-sense-and-syntax-highlighting-for-xcode/"/>
+    <updated>2012-03-21T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2012/03/21/fix-code-sense-and-syntax-highlighting-for-xcode</id>
+    <content type="html"><![CDATA[<p>Sometimes syntax highlighting does not work on Xcode 4.</p>
+
+<p>We can do it with following steps:</p>
+
+<h1>Go to Organizer project panel</h1>
+
+<h1>Choose your project</h1>
+
+<h1>Click &ldquo;Delete&rdquo; button after the Derived Data on the right panel.</h1>
+
+<p>Xcode will start to rebuild code sense of your project.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Fix gcc issue after install xcode 4.2]]></title>
+    <link href="http://allenwei.github.io/blog/2011/10/28/fix-gcc-issue-after-install-xcode-4-2/"/>
+    <updated>2011-10-28T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2011/10/28/fix-gcc-issue-after-install-xcode-4-2</id>
+    <content type="html"><![CDATA[<p>I can not install gem after installed xcode 4.2. It throws bus error.</p>
+
+<p>the problem is xcode replace gcc with llvm-gcc</p>
+
+<p>How to fix it:
+1. Install standalone gcc
+<a href="http://cloud.github.com/downloads/kennethreitz/osx-gcc-installer/GCC-10.7-v2.pkg" target="_blank"> <a href="http://cloud.github.com/downloads/kennethreitz/osx-gcc-installer/GCC-10.7-v2.pkg">http://cloud.github.com/downloads/kennethreitz/osx-gcc-installer/GCC-10.7-v2.pkg</a></a></p>
+
+<ol>
+<li>add gcc environment in your bash
+<code>
+export CC=/usr/bin/gcc-4.2
+</code></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>

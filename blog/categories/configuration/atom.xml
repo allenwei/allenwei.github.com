@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: configuration | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/configuration/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Rails Configuration Load Order]]></title>
+    <link href="http://allenwei.github.io/blog/2010/03/30/rails-configuration-load-order/"/>
+    <updated>2010-03-30T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/03/30/rails-configuration-load-order</id>
+    <content type="html"><![CDATA[<p>As <a href="http://www.sekuda.com/rails_initialization_and_configuration_order">this blog post</a> said.</p>
+
+<p>Rails configuration load order is:</p>
+
+<h1>config/preinitializer.rb</h1>
+
+<h1>config/environment.rb</h1>
+
+<h1>config/environments/#{RAILS_ENV}.rb</h1>
+
+<h1>plugin initialization</h1>
+
+<h1>gem initialization</h1>
+
+<h1>config/initializer/*.rb</h1>
+
+<h1>all after_initialize blocks, in the order they were defined in (so same order as above)</h1>
+
+<h1>any junk left below the Rails::Initializer.run call/block in environment.rb</h1>
+]]></content>
+  </entry>
+  
+</feed>

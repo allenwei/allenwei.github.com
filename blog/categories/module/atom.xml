@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: module | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/module/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Tips - How to test a module]]></title>
+    <link href="http://allenwei.github.io/blog/2010/03/19/tips-how-to-test-a-module/"/>
+    <updated>2010-03-19T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/03/19/tips-how-to-test-a-module</id>
+    <content type="html"><![CDATA[<p><code>ruby
+   @my_module = Object.new
+   @my_module.extend(YourModule)
+   #Then test methods in a Module
+</code></p>
+]]></content>
+  </entry>
+  
+</feed>

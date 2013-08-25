@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: devise | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/devise/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Devise Do Not Redirect to Login Page When Session Timeout]]></title>
+    <link href="http://allenwei.github.io/blog/2011/06/04/devise-do-not-redirect-to-login-page-when-session-timeout/"/>
+    <updated>2011-06-04T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2011/06/04/devise-do-not-redirect-to-login-page-when-session-timeout</id>
+    <content type="html"><![CDATA[<p>By default, devise will redirect to login path if session timeout.</p>
+
+<p>So user will redirect to login path when visit page do not need login after session timeout.</p>
+
+<p>To solve this problem you can follow these steps:</p>
+
+<ul>
+<li><p>Set custom failure app, modify code at the end of @config/initializers/devise.rb@
+<code>ruby
+config.warden do |manager|
+  manager.failure_app   = DeviseFailureApp
+end
+</code></p></li>
+<li><p>create your custom failure app @DeviseFailureApp@</p></li>
+</ul>
+
+
+<p>``` ruby
+class DeviseFailureApp &lt; Devise::FailureApp
+  def redirect</p>
+
+<pre><code>message = warden.message || warden_options[:message]
+if message == :timeout 
+  redirect_to attempted_path
+else 
+  super
+end 
+</code></pre>
+
+<p>  end
+end
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

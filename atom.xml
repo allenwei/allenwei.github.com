@@ -4,7 +4,7 @@
   <title><![CDATA[Digruby]]></title>
   <link href="http://allenwei.github.io/atom.xml" rel="self"/>
   <link href="http://allenwei.github.io/"/>
-  <updated>2013-08-25T09:53:22+08:00</updated>
+  <updated>2013-08-25T15:35:14+08:00</updated>
   <id>http://allenwei.github.io/</id>
   <author>
     <name><![CDATA[Allen Wei]]></name>
@@ -34,6 +34,723 @@
 
 <p>But as a Ruby Developer, I think I need try write blog using Ruby way or
 Geek way.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Show real ip behind load balance]]></title>
+    <link href="http://allenwei.github.io/blog/2012/11/23/show-real-ip-behind-load-balance/"/>
+    <updated>2012-11-23T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2012/11/23/show-real-ip-behind-load-balance</id>
+    <content type="html"><![CDATA[<p>add following config into nginx configuration</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>set_real_ip_from  IP_FOR_LOAD_BALANCE
+</span><span class='line'>real_ip_header X-Forwarded-For </span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Send email out when your task done on linux]]></title>
+    <link href="http://allenwei.github.io/blog/2012/11/10/send-email-out-when-your-task-done-on-linux/"/>
+    <updated>2012-11-10T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2012/11/10/send-email-out-when-your-task-done-on-linux</id>
+    <content type="html"><![CDATA[<ol>
+<li>install postfix</li>
+<li>write email content in mail.txt</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>to: SEND_TO
+</span><span class='line'>from: SEND_FROM
+</span><span class='line'>subject: SUBJECT
+</span><span class='line'>
+</span><span class='line'>BODY</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>test it out</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sendmail -t &lt; mail.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>then put above command at end of your command, like</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>YOUR COMMAND && sendmail -t &lt; mail.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>if you want to the task continue after you logout remember use nohup</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>nohup YOUR COMMAND && sendmail -t &lt; mail.txt &</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Two simple tips improve your code]]></title>
+    <link href="http://allenwei.github.io/blog/2012/11/08/two-simple-tips-improve-your-code/"/>
+    <updated>2012-11-08T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2012/11/08/two-simple-tips-improve-your-code</id>
+    <content type="html"><![CDATA[<ol>
+<li>Do not use hash as your data structure use object instead</li>
+<li>Do not spread your logic</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Migration from Amazon s3 to Rackspace clouldfiles]]></title>
+    <link href="http://allenwei.github.io/blog/2012/11/08/migration-from-amazon-s3-to-rackspace-clouldfiles/"/>
+    <updated>2012-11-08T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2012/11/08/migration-from-amazon-s3-to-rackspace-clouldfiles</id>
+    <content type="html"><![CDATA[<p>First, you need download all your s3 files onto the disk
+we can use a tool named s3cmd</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>apt-get install s3cmd</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then you need configure it.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>s3cmd --configure</span></code></pre></td></tr></table></div></figure>
+
+
+<p>filling you s3 credentials</p>
+
+<p>sync all files</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>s3cmd -r -v sync s3://BUCK_NAME/ LOCAL_FOLDER</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After done with sync, you should have all your files on the disk</p>
+
+<p>Next you need mount cloudfiles to your system using <a href="https://github.com/redbo/cloudfuse">cloudfures</a></p>
+
+<p>In backspace document there is a good document telling how to do it
+<a href="http://www.rackspace.com/knowledge_center/article/mounting-rackspace-cloud-files-to-linux-using-cloudfuse">http://www.rackspace.com/knowledge_center/article/mounting-rackspace-cloud-files-to-linux-using-cloudfuse</a></p>
+
+<p>After mount cloudfiles to the system, the onlything left is copy all yours s3 files to this mount point.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cp -R S3_FOLDER CLOUDFILES_MOUNT_POINT</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Use Rails image_path outside the view]]></title>
+    <link href="http://allenwei.github.io/blog/2012/05/22/use-rails-image_path-outside-the-view/"/>
+    <updated>2012-05-22T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2012/05/22/use-rails-image_path-outside-the-view</id>
+    <content type="html"><![CDATA[<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="nb">require</span> <span class="s1">&#39;action_view/helpers/asset_tag_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">image_path</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+</span><span class='line'>        <span class="vi">@asset_paths</span> <span class="o">||=</span> <span class="ss">ActionView</span><span class="p">:</span><span class="ss">:Helpers</span><span class="o">::</span><span class="ss">AssetTagHelper</span><span class="p">:</span><span class="ss">:AssetPaths</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">Bindo</span><span class="p">:</span><span class="ss">:Application</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">action_controller</span><span class="p">)</span>
+</span><span class='line'>      <span class="vi">@asset_paths</span><span class="o">.</span><span class="n">compute_public_path</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Fix Action Mailer Encoding issue after upgrade to ruby 1.9]]></title>
+    <link href="http://allenwei.github.io/blog/2012/05/19/fix-action-mailer-encoding-issue-after-upgrade-to-ruby-1-9/"/>
+    <updated>2012-05-19T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2012/05/19/fix-action-mailer-encoding-issue-after-upgrade-to-ruby-1-9</id>
+    <content type="html"><![CDATA[<p>Put following code in our @application.rb@</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Encoding</span><span class="o">.</span><span class="n">default_external</span> <span class="o">=</span> <span class="s2">&quot;UTF-8&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS - Right way to handle keyboard appear/disappear in iOS 5]]></title>
+    <link href="http://allenwei.github.io/blog/2012/05/10/ios-right-way-to-handle-keyboard-appeardisappear-in-ios-5/"/>
+    <updated>2012-05-10T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2012/05/10/ios-right-way-to-handle-keyboard-appeardisappear-in-ios-5</id>
+    <content type="html"><![CDATA[<p>Because after iOS 5, keyboard will have dynamic height,event more split and doc feature will position keyboard in directly location, so the good way to handle keyboard is:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@interface KeyboardScrollView : UIScrollView
+</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#import &quot;KeyboardScrollView.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">@</span><span class="n">implementation</span> <span class="n">KeyboardScrollView</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">drawRect</span><span class="o">:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="n">rect</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[[</span><span class="n">NSNotificationCenter</span> <span class="n">defaultCenter</span><span class="p">]</span> <span class="n">addObserver</span><span class="o">:</span><span class="n">self</span>
+</span><span class='line'>                                             <span class="nl">selector:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">keyboardFrameChanged</span><span class="o">:</span><span class="p">)</span>
+</span><span class='line'>                                                 <span class="nl">name:</span><span class="n">UIKeyboardDidChangeFrameNotification</span> <span class="n">object</span><span class="o">:</span><span class="n">nil</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">drawRect</span><span class="o">:</span><span class="n">rect</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">keyboardFrameChanged</span><span class="o">:</span><span class="p">(</span><span class="n">NSNotification</span><span class="o">*</span><span class="p">)</span><span class="n">aNotification</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSDictionary</span><span class="o">*</span> <span class="n">info</span> <span class="o">=</span> <span class="p">[</span><span class="n">aNotification</span> <span class="n">userInfo</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">CGPoint</span> <span class="n">from</span> <span class="o">=</span> <span class="p">[[</span><span class="n">info</span> <span class="n">objectForKey</span><span class="o">:</span><span class="n">UIKeyboardFrameBeginUserInfoKey</span><span class="p">]</span> <span class="n">CGRectValue</span><span class="p">].</span><span class="n">origin</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">CGPoint</span> <span class="n">to</span> <span class="o">=</span> <span class="p">[[</span><span class="n">info</span> <span class="n">objectForKey</span><span class="o">:</span><span class="n">UIKeyboardFrameEndUserInfoKey</span><span class="p">]</span> <span class="n">CGRectValue</span><span class="p">].</span><span class="n">origin</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">float</span> <span class="n">height</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">UIInterfaceOrientationIsLandscape</span><span class="p">([</span><span class="n">UIApplication</span> <span class="n">sharedApplication</span><span class="p">].</span><span class="n">statusBarOrientation</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">height</span> <span class="o">=</span> <span class="n">to</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">from</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">height</span> <span class="o">=</span> <span class="n">to</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">from</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="n">setContentSize</span><span class="o">:</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">+</span> <span class="n">height</span><span class="p">)];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">touchesBegan</span><span class="o">:</span><span class="p">(</span><span class="n">NSSet</span> <span class="o">*</span><span class="p">)</span><span class="n">touches</span> <span class="n">withEvent</span><span class="o">:</span><span class="p">(</span><span class="n">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="n">event</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="n">UITouch</span> <span class="o">*</span><span class="n">touch</span> <span class="n">in</span> <span class="n">touches</span><span class="p">){</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="n">touch</span><span class="p">.</span><span class="n">view</span> <span class="o">==</span> <span class="n">self</span><span class="p">){</span>
+</span><span class='line'>          <span class="p">[</span><span class="n">self</span> <span class="n">findAndResignFirstResponder</span><span class="p">];</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">touchesBegan</span><span class="o">:</span><span class="n">touches</span> <span class="n">withEvent</span><span class="o">:</span><span class="n">event</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="o">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">findAndResignFirstResponder</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">for</span> <span class="p">(</span><span class="n">UIView</span> <span class="o">*</span><span class="n">aView</span> <span class="n">in</span> <span class="p">[</span><span class="n">self</span> <span class="n">subviews</span><span class="p">]){</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">([</span><span class="n">aView</span> <span class="n">isFirstResponder</span><span class="p">]</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>          <span class="p">[</span><span class="n">aView</span> <span class="n">resignFirstResponder</span><span class="p">];</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">dealloc</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[[</span><span class="n">NSNotificationCenter</span> <span class="n">defaultCenter</span><span class="p">]</span> <span class="n">removeObserver</span><span class="o">:</span><span class="n">self</span> <span class="n">name</span><span class="o">:</span><span class="n">UIKeyboardDidChangeFrameNotification</span> <span class="n">object</span><span class="o">:</span><span class="n">nil</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS - Modern Logger Solution for iOS NSLogger]]></title>
+    <link href="http://allenwei.github.io/blog/2012/04/13/ios-modern-logger-solution-for-ios-nslogger/"/>
+    <updated>2012-04-13T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2012/04/13/ios-modern-logger-solution-for-ios-nslogger</id>
+    <content type="html"><![CDATA[<p><a href="https://github.com/fpillet/NSLogger">NSLogger</a>  is a replacement of NSLog which provide an GUI app to see and filter your log. you can log text, binary even image.</p>
+
+<p><a href="https://github.com/fpillet/NSLogger/raw/master/Screenshots/mainwindow.png" target="_blank"><image src="https://github.com/fpillet/NSLogger/raw/master/Screenshots/mainwindow.png" width="500px"></a></p>
+
+
+<p>But there is no log level control.
+You can use <a href="https://github.com/aharren/LibComponentLogging-NSLogger">LibComponentLogging-NSLog</a> LibComponentLogging extension</p>
+
+<p>or use your custom level control macro:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#import &quot;LoggerClient.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#define BPLOGLEVEL_DEBUG    0</span>
+</span><span class='line'><span class="cp">#define BPLOGLEVEL_INFO     1</span>
+</span><span class='line'><span class="cp">#define BPLOGLEVEL_WARNING  2</span>
+</span><span class='line'><span class="cp">#define BPLOGLEVEL_ERROR    3</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#ifndef BPLOGLEVEL</span>
+</span><span class='line'><span class="cp">#define BPLOGLEVEL BPLOGLEVEL_DEBUG</span>
+</span><span class='line'><span class="cp">#endif</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// you can refined tag in your file, using following code</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'><span class="c1">// #undef BPLogTag</span>
+</span><span class='line'><span class="c1">// #define BPLogTag @&quot;OrderMessageReceiver&quot;</span>
+</span><span class='line'><span class="cp">#define BPLogTag @&quot;App&quot;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#ifdef DEBUG</span>
+</span><span class='line'>    <span class="err">#</span><span class="n">define</span> <span class="n">BPLog</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="p">...)</span> \
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">level</span> <span class="o">&gt;=</span> <span class="n">BPLOGLEVEL</span><span class="p">)</span> <span class="p">{</span> \
+</span><span class='line'>            <span class="n">LogMessageF</span><span class="p">(</span><span class="n">__FILE__</span><span class="p">,</span><span class="n">__LINE__</span><span class="p">,</span><span class="n">__FUNCTION__</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">level</span><span class="p">,</span><span class="n">__VA_ARGS__</span><span class="p">);</span> \
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'><span class="cp">#else</span>
+</span><span class='line'>    <span class="err">#</span><span class="n">define</span> <span class="n">BPLog</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="p">...)</span>  <span class="p">((</span><span class="kt">void</span><span class="p">)</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'><span class="cp">#endif </span><span class="c1">// #ifdef DEBUG</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#define BPLogError(...) BPLog(BPLOGLEVEL_ERROR, BPLogTag, __VA_ARGS__)</span>
+</span><span class='line'><span class="cp">#define BPLogWarning(...) BPLog(BPLOGLEVEL_WARNING, BPLogTag, __VA_ARGS__)</span>
+</span><span class='line'><span class="cp">#define BPLogInfo(...) BPLog(BPLOGLEVEL_INFO, BPLogTag, __VA_ARGS__)</span>
+</span><span class='line'><span class="cp">#define BPLogDebug(...) BPLog(BPLOGLEVEL_DEBUG, BPLogTag, __VA_ARGS__)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS - Be careful NSArray indexOfObject method]]></title>
+    <link href="http://allenwei.github.io/blog/2012/03/22/be-careful-nsarray-indexofobject-method/"/>
+    <updated>2012-03-22T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2012/03/22/be-careful-nsarray-indexofobject-method</id>
+    <content type="html"><![CDATA[<p>if you want to determine if an object in an array, please be careful.
+see following code:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSArray *array = [NSArray array];
+</span><span class='line'>NSInteger index = [array indexOfObject: @"not exist"]
+</span><span class='line'>if (index &gt;= 0) {
+</span><span class='line'>  //always be true
+</span><span class='line'>}
+</span><span class='line'>// you must use
+</span><span class='line'>if (index != NSNotFound) {
+</span><span class='line'>  
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Fix Code Sense and Syntax Highlighting for Xcode]]></title>
+    <link href="http://allenwei.github.io/blog/2012/03/21/fix-code-sense-and-syntax-highlighting-for-xcode/"/>
+    <updated>2012-03-21T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2012/03/21/fix-code-sense-and-syntax-highlighting-for-xcode</id>
+    <content type="html"><![CDATA[<p>Sometimes syntax highlighting does not work on Xcode 4.</p>
+
+<p>We can do it with following steps:</p>
+
+<h1>Go to Organizer project panel</h1>
+
+<h1>Choose your project</h1>
+
+<h1>Click &ldquo;Delete&rdquo; button after the Derived Data on the right panel.</h1>
+
+<p>Xcode will start to rebuild code sense of your project.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Use Rails NumberHelper in Sinatra application]]></title>
+    <link href="http://allenwei.github.io/blog/2012/03/19/use-rails-numberhelper-in-sinatra-application/"/>
+    <updated>2012-03-19T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2012/03/19/use-rails-numberhelper-in-sinatra-application</id>
+    <content type="html"><![CDATA[<p>first, see if actionpack in your gemfile.lock.
+if you are using action mailer, you should have actionpack</p>
+
+<p>put follow code in your Sinatra application</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;action_view/helpers/number_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kp">include</span> <span class="ss">ActionView</span><span class="p">:</span><span class="ss">:Helpers</span><span class="o">::</span><span class="no">NumberHelper</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS - Determine  Whether Current View is a Modal ]]></title>
+    <link href="http://allenwei.github.io/blog/2012/03/13/ios-determine-current-view-is-a-modal/"/>
+    <updated>2012-03-13T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2012/03/13/ios-determine-current-view-is-a-modal</id>
+    <content type="html"><![CDATA[<p>@UIViewController+ModalAdditions.h@</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="err">@</span><span class="n">interface</span> <span class="n">UIViewController</span> <span class="p">(</span><span class="n">ModalAdditions</span><span class="p">)</span>
+</span><span class='line'><span class="o">-</span><span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">isModal</span><span class="p">;</span>
+</span><span class='line'><span class="err">@</span><span class="n">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>@UIViewController+ModalAdditions.m@</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#import &quot;UIViewController+ModalAdditions.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">@</span><span class="n">implementation</span> <span class="n">UIViewController</span> <span class="p">(</span><span class="n">ModalAdditions</span><span class="p">)</span>
+</span><span class='line'><span class="o">-</span><span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">isModal</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">BOOL</span> <span class="n">isModal</span> <span class="o">=</span> <span class="p">((</span><span class="n">self</span><span class="p">.</span><span class="n">parentViewController</span> <span class="o">&amp;&amp;</span> <span class="n">self</span><span class="p">.</span><span class="n">parentViewController</span><span class="p">.</span><span class="n">modalViewController</span> <span class="o">==</span> <span class="n">self</span><span class="p">)</span> <span class="o">||</span>
+</span><span class='line'>                    <span class="c1">//or if I have a navigation controller, check if its parent modal view controller is self navigation controller</span>
+</span><span class='line'>                    <span class="p">(</span> <span class="n">self</span><span class="p">.</span><span class="n">navigationController</span> <span class="o">&amp;&amp;</span> <span class="n">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">.</span><span class="n">parentViewController</span> <span class="o">&amp;&amp;</span> <span class="n">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">.</span><span class="n">parentViewController</span><span class="p">.</span><span class="n">modalViewController</span> <span class="o">==</span> <span class="n">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">)</span> <span class="o">||</span>
+</span><span class='line'>                    <span class="c1">//or if the parent of my UITabBarController is also a UITabBarController class, then there is no way to do that, except by using a modal presentation</span>
+</span><span class='line'>                    <span class="p">[[[</span><span class="n">self</span> <span class="n">tabBarController</span><span class="p">]</span> <span class="n">parentViewController</span><span class="p">]</span> <span class="n">isKindOfClass</span><span class="o">:</span><span class="p">[</span><span class="n">UITabBarController</span> <span class="n">class</span><span class="p">]]);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//iOS 5+</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">isModal</span> <span class="o">&amp;&amp;</span> <span class="p">[</span><span class="n">self</span> <span class="n">respondsToSelector</span><span class="o">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">presentingViewController</span><span class="p">)])</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">isModal</span> <span class="o">=</span> <span class="p">((</span><span class="n">self</span><span class="p">.</span><span class="n">presentingViewController</span> <span class="o">&amp;&amp;</span> <span class="n">self</span><span class="p">.</span><span class="n">presentingViewController</span><span class="p">.</span><span class="n">modalViewController</span> <span class="o">==</span> <span class="n">self</span><span class="p">)</span> <span class="o">||</span>
+</span><span class='line'>                   <span class="c1">//or if I have a navigation controller, check if its parent modal view controller is self navigation controller</span>
+</span><span class='line'>                   <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">navigationController</span> <span class="o">&amp;&amp;</span> <span class="n">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">.</span><span class="n">presentingViewController</span> <span class="o">&amp;&amp;</span> <span class="n">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">.</span><span class="n">presentingViewController</span><span class="p">.</span><span class="n">modalViewController</span> <span class="o">==</span> <span class="n">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">)</span> <span class="o">||</span>
+</span><span class='line'>                   <span class="c1">//or if the parent of my UITabBarController is also a UITabBarController class, then there is no way to do that, except by using a modal presentation</span>
+</span><span class='line'>                   <span class="p">[[[</span><span class="n">self</span> <span class="n">tabBarController</span><span class="p">]</span> <span class="n">presentingViewController</span><span class="p">]</span> <span class="n">isKindOfClass</span><span class="o">:</span><span class="p">[</span><span class="n">UITabBarController</span> <span class="n">class</span><span class="p">]]);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="n">isModal</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="err">@</span><span class="n">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Fix Rcov After Upgrade Rspec to 2.8]]></title>
+    <link href="http://allenwei.github.io/blog/2012/01/14/fix-rcov-after-upgrade-rspec-to-2-8/"/>
+    <updated>2012-01-14T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2012/01/14/fix-rcov-after-upgrade-rspec-to-2-8</id>
+    <content type="html"><![CDATA[<p>Rcov doesn&rsquo;t work after I upgrade rspec to 2.8,</p>
+
+<p>here is a quick fix</p>
+
+<p>add following code into your @spec_helper@</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require 'rspec/autorun'</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Use Paperclip in rack app like sinatra and how to write test ]]></title>
+    <link href="http://allenwei.github.io/blog/2011/11/08/use-paperclip-in-rack-app-like-sinatra-and-how-to-write-test/"/>
+    <updated>2011-11-08T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2011/11/08/use-paperclip-in-rack-app-like-sinatra-and-how-to-write-test</id>
+    <content type="html"><![CDATA[<p>You&rsquo;ll find rack parse uploaded file in different format to Rails</p>
+
+<p>Here is the format in rack app.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="s2">&quot;image&quot;</span><span class="o">=&gt;</span><span class="p">{</span><span class="ss">:type</span><span class="o">=&gt;</span><span class="s2">&quot;image/jpeg&quot;</span><span class="p">,</span> <span class="ss">:filename</span><span class="o">=&gt;</span><span class="s2">&quot;listing[image]&quot;</span><span class="p">,</span> <span class="ss">:tempfile</span><span class="o">=&gt;</span><span class="c1">#&lt;File:/tmp/RackMultipart20111107-16008-erra0z-0&gt;, :head=&gt;&quot;Content-Disposition: form-data; name=\&quot;listing[image]\&quot;; filename=\&quot;listing[image]\&quot;\r\nContent-Type: image/jpeg\r\n&quot;, :name=&gt;&quot;listing[image]&quot;}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can simply covert it to right format.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">post</span> <span class="s2">&quot;some_api&quot;</span> <span class="k">do</span>
+</span><span class='line'><span class="n">yourModel</span> <span class="o">=</span> <span class="no">YourModel</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:image</span> <span class="o">=&gt;</span> <span class="n">to_paperclip</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="s1">&#39;image&#39;</span><span class="o">]</span><span class="p">))</span>
+</span><span class='line'><span class="n">yourModel</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">to_paperclip</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">paperclip</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'>  <span class="n">paperclip</span><span class="o">[</span><span class="s1">&#39;tempfile&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="n">image</span><span class="o">[</span><span class="ss">:tempfile</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">paperclip</span><span class="o">[</span><span class="s1">&#39;filename&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="n">image</span><span class="o">[</span><span class="ss">:filename</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">paperclip</span><span class="o">[</span><span class="s1">&#39;content_type&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="n">image</span><span class="o">[</span><span class="ss">:type</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">paperclip</span><span class="o">[</span><span class="s1">&#39;size&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="n">image</span><span class="o">[</span><span class="ss">:tempfile</span><span class="o">].</span><span class="n">size</span>
+</span><span class='line'>  <span class="n">paperclip</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>How to test</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'> <span class="n">filename</span> <span class="o">=</span> <span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">join</span> <span class="s2">&quot;spec/fixtures/rails.png&quot;</span>
+</span><span class='line'> <span class="n">file</span> <span class="o">=</span> <span class="ss">Rack</span><span class="p">:</span><span class="ss">:Test</span><span class="o">::</span><span class="no">UploadedFile</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;image/png&quot;</span><span class="p">)</span>
+</span><span class='line'> <span class="n">post</span> <span class="s2">&quot;/api/v1/some_api&quot;</span><span class="p">,</span> <span class="p">{</span><span class="ss">:image</span> <span class="o">=&gt;</span> <span class="n">file</span><span class="p">}</span>
+</span><span class='line'> <span class="c1"># should have image uploaded</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS - Cocoa Non-Blocking sleep wait background task]]></title>
+    <link href="http://allenwei.github.io/blog/2011/10/30/cocoa-non-blocking-sleep-wait-background-task/"/>
+    <updated>2011-10-30T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2011/10/30/cocoa-non-blocking-sleep-wait-background-task</id>
+    <content type="html"><![CDATA[<p>If you have some async task running in background, and you need wait this background task until it finished, code below will help u:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'> <span class="n">NSDate</span> <span class="o">*</span><span class="n">loopUntil</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDate</span> <span class="n">dateWithTimeIntervalSinceNow</span><span class="o">:</span><span class="mf">0.1</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="p">[</span><span class="n">self</span> <span class="n">isFinished</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="p">[[</span><span class="n">NSRunLoop</span> <span class="n">currentRunLoop</span><span class="p">]</span> <span class="n">runMode</span><span class="o">:</span> <span class="n">NSDefaultRunLoopMode</span> <span class="n">beforeDate</span><span class="o">:</span><span class="n">loopUntil</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">loopUntil</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDate</span> <span class="n">dateWithTimeIntervalSinceNow</span><span class="o">:</span><span class="mf">0.1</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS - Restkit Parse ActiveRecord Timestamp]]></title>
+    <link href="http://allenwei.github.io/blog/2011/10/28/restkit-parse-activerecord-timestamp/"/>
+    <updated>2011-10-28T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2011/10/28/restkit-parse-activerecord-timestamp</id>
+    <content type="html"><![CDATA[<p>If you are using Rails as your backend, Reskit will have trouble to parse ActiveRecord timestamp.</p>
+
+<p>Default ActiveRecord timestamp JSON out is @2008-12-29T00:27:42-08:00@</p>
+
+<p>You can not convert it to @NSDate@ directly use @NSDateFomatter@
+you must convert it to @2008-12-29T00:27:42-0800@</p>
+
+<p>But you have not chance to convert when you use Restkit Mapping.</p>
+
+<p>Here is my solution
+1. Monkey patch Time and DateTime class</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Time</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">as_json</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-%dT%H:%m:%S%z&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">DateTime</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">as_json</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-%dT%H:%m:%S%z&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>Add default date fomatter to RKObjectMapping</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">NSDateFormatter</span><span class="o">*</span> <span class="n">dateFormatter</span> <span class="o">=</span> <span class="p">[[[</span><span class="n">NSDateFormatter</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">]</span> <span class="n">autorelease</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">dateFormatter</span> <span class="n">setDateFormat</span><span class="o">:</span><span class="err">@</span><span class="s">&quot;yyyy-MM-dd&#39;T&#39;HH:mm:ssZ&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">RKObjectMapping</span> <span class="n">addDefaultDateFormatter</span><span class="o">:</span><span class="n">dateFormatter</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Fix gcc issue after install xcode 4.2]]></title>
+    <link href="http://allenwei.github.io/blog/2011/10/28/fix-gcc-issue-after-install-xcode-4-2/"/>
+    <updated>2011-10-28T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2011/10/28/fix-gcc-issue-after-install-xcode-4-2</id>
+    <content type="html"><![CDATA[<p>I can not install gem after installed xcode 4.2. It throws bus error.</p>
+
+<p>the problem is xcode replace gcc with llvm-gcc</p>
+
+<p>How to fix it:
+1. Install standalone gcc
+<a href="http://cloud.github.com/downloads/kennethreitz/osx-gcc-installer/GCC-10.7-v2.pkg" target="_blank"> <a href="http://cloud.github.com/downloads/kennethreitz/osx-gcc-installer/GCC-10.7-v2.pkg">http://cloud.github.com/downloads/kennethreitz/osx-gcc-installer/GCC-10.7-v2.pkg</a></a></p>
+
+<ol>
+<li>add gcc environment in your bash</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>export CC=/usr/bin/gcc-4.2</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS - Three20 - Use TTImageView instead of UIImageView showing remote image]]></title>
+    <link href="http://allenwei.github.io/blog/2011/10/06/three20-use-ttimageview-showing-remote-image/"/>
+    <updated>2011-10-06T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2011/10/06/three20-use-ttimageview-showing-remote-image</id>
+    <content type="html"><![CDATA[<p>Thee20 is very good framework.</p>
+
+<p>The features of TTImageView
+1. Load image from remote
+2. Support default image
+3. Cache image, so you don&rsquo;t need load it again.
+4. Support reload image</p>
+
+<p>Find more to read source code of <a href="https://github.com/facebook/three20/blob/master/src/Three20UI/Headers/TTImageView.h">TTImageView</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#import &lt;Three20/Three20.h&gt;</span>
+</span><span class='line'><span class="n">TTImageView</span> <span class="o">*</span><span class="n">productImage</span> <span class="o">=</span> <span class="p">[[</span><span class="n">TTImageView</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">initWithFrame</span><span class="o">:</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">70</span><span class="p">)];</span>
+</span><span class='line'><span class="p">[</span><span class="n">productImage</span> <span class="n">setUrlPath</span><span class="o">:</span><span class="err">@</span><span class="s">&quot;http://a-image-url&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">productImage</span> <span class="n">setDefaultImage</span><span class="o">:</span><span class="p">[</span><span class="n">UIImage</span> <span class="n">imageNamed</span><span class="o">:</span><span class="err">@</span><span class="s">&quot;default_product_small.png&quot;</span><span class="p">]];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 ]]></content>
   </entry>
   

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: parse | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/parse/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Tips - parse log file tips]]></title>
+    <link href="http://allenwei.github.io/blog/2010/02/15/tips-parse-log-file/"/>
+    <updated>2010-02-15T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/02/15/tips-parse-log-file</id>
+    <content type="html"><![CDATA[<h1>separate variables by &ldquo;|&rdquo;</h1>
+
+<h1>Analyze</h1>
+
+<p><code>ruby
+field_names = [:level, :time, :pid, :location, :token, :query, :proxy, :action, :cost, :msg]
+log_data = Hash[*field_names.zip(parts).flatten]
+</code></p>
+
+<p>Then you can easily get all your variables
+[cc lany=&ldquo;ruby&rdquo;]
+puts log_data[:level]
+puts log_data[:time]
+```</p>
+
+<h1>Combined log files analyze</h1>
+
+<p>``` ruby</p>
+
+<h1>code in analyzer.rb</h1>
+
+<p>ARGF.each_line do |line|
+  puts line
+end
+<code>
+Then
+</code>
+ruby analyzer.rb log1.log log2.log
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

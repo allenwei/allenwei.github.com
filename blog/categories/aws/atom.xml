@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: aws | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/aws/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Migration from Amazon s3 to Rackspace clouldfiles]]></title>
+    <link href="http://allenwei.github.io/blog/2012/11/08/migration-from-amazon-s3-to-rackspace-clouldfiles/"/>
+    <updated>2012-11-08T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2012/11/08/migration-from-amazon-s3-to-rackspace-clouldfiles</id>
+    <content type="html"><![CDATA[<p>First, you need download all your s3 files onto the disk
+we can use a tool named s3cmd</p>
+
+<p><code>
+apt-get install s3cmd
+</code></p>
+
+<p>Then you need configure it.
+<code>
+s3cmd --configure
+</code></p>
+
+<p>filling you s3 credentials</p>
+
+<p>sync all files</p>
+
+<p><code>
+s3cmd -r -v sync s3://BUCK_NAME/ LOCAL_FOLDER
+</code></p>
+
+<p>After done with sync, you should have all your files on the disk</p>
+
+<p>Next you need mount cloudfiles to your system using <a href="https://github.com/redbo/cloudfuse">cloudfures</a></p>
+
+<p>In backspace document there is a good document telling how to do it
+<a href="http://www.rackspace.com/knowledge_center/article/mounting-rackspace-cloud-files-to-linux-using-cloudfuse">http://www.rackspace.com/knowledge_center/article/mounting-rackspace-cloud-files-to-linux-using-cloudfuse</a></p>
+
+<p>After mount cloudfiles to the system, the onlything left is copy all yours s3 files to this mount point.</p>
+
+<p><code>
+cp -R S3_FOLDER CLOUDFILES_MOUNT_POINT
+</code></p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: gemset | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/gemset/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[RVM new feature auto-switch gemset - project level gemset]]></title>
+    <link href="http://allenwei.github.io/blog/2010/08/15/rvm-new-feature-auto-switch-gemset-project-level-gemset/"/>
+    <updated>2010-08-15T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/08/15/rvm-new-feature-auto-switch-gemset-project-level-gemset</id>
+    <content type="html"><![CDATA[<p>Today I noticed RVM have project level gemset</p>
+
+<p>It&rsquo;s easy to use. Just put a @.rvmrc@ into the folder you want to switch ruby or gemset</p>
+
+<p>Like to we have a rails3 project we can put a @.rvmrc@ into project folder.  insert following content in.</p>
+
+<p>```</p>
+
+<p>rvm 1.8.7@rails3</p>
+
+<p>```</p>
+
+<p>It&rsquo;s just like we run <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rvm use 1.9.7@rails3</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>The detail usage you can get from <a href="http://rvm.beginrescueend.com/workflow/rvmrc/">RVM Website</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Manage Your Gem Using RVM Gemset ]]></title>
+    <link href="http://allenwei.github.io/blog/2010/06/05/manage-your-gem-using-rvm-gemset/"/>
+    <updated>2010-06-05T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/06/05/manage-your-gem-using-rvm-gemset</id>
+    <content type="html"><![CDATA[<p>I think you already heard of <a href="http://rvm.beginrescueend.com/,">RVM</a> a great tool for ruby version management.</p>
+
+<p>What I like most is <a href="http://rvm.beginrescueend.com/gemsets/basics/,">Gemset</a> It allow you manage you gems in separate namespace.</p>
+
+<p>First, Install RVM. The official website have great <a href="http://rvm.beginrescueend.com/rvm/install/">document</a></p>
+
+<p>Then Install ruby, I&rsquo;ll install ruby 1.8.7
+<code>
+rvm install 1.8.7
+</code></p>
+
+<p>After you installed ruby, you will have @default@ gemset and @global@ gemset
+List all you gemset
+<code>
+rvm gemset list
+</code></p>
+
+<p>Create new gemset
+<code>
+rvm gemset create new_gemset
+</code></p>
+
+<p>Use your newly created gemset
+<code>
+rvm gemset use new_gemset
+</code></p>
+
+<p>You can also set your newly created gemset as default
+<code>
+rvm use 1.8.7@new_gemset --default
+</code></p>
+
+<p>Here you may ask, do I need install all basic gem like @ruby-debug@ for every gemset?</p>
+
+<p><a href="http://rvm.beginrescueend.com/">RVM</a> has already solved your problem.</p>
+
+<p>First, switch to your global gemset.
+<code>
+rvm use 1.8.7@global
+</code></p>
+
+<p>Then Install gems which you think it is default gem</p>
+
+<p>Then, you can switch back to your gemset.</p>
+
+<p>You may think, I may installed some gems twice, here you can uninstall the gem you have already installed in @global@ gemset.</p>
+]]></content>
+  </entry>
+  
+</feed>

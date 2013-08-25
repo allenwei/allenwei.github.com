@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: keyboard | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/keyboard/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[iOS - Right way to handle keyboard appear/disappear in iOS 5]]></title>
+    <link href="http://allenwei.github.io/blog/2012/05/10/ios-right-way-to-handle-keyboard-appeardisappear-in-ios-5/"/>
+    <updated>2012-05-10T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2012/05/10/ios-right-way-to-handle-keyboard-appeardisappear-in-ios-5</id>
+    <content type="html"><![CDATA[<p>Because after iOS 5, keyboard will have dynamic height,event more split and doc feature will position keyboard in directly location, so the good way to handle keyboard is:</p>
+
+<p><code>
+@interface KeyboardScrollView : UIScrollView
+@end
+</code></p>
+
+<p>``` c</p>
+
+<h1>import &ldquo;KeyboardScrollView.h&rdquo;</h1>
+
+<p>@implementation KeyboardScrollView</p>
+
+<p>&ndash;(void)drawRect:(CGRect)rect {</p>
+
+<pre><code>[[NSNotificationCenter defaultCenter] addObserver:self
+                                         selector:@selector(keyboardFrameChanged:)
+                                             name:UIKeyboardDidChangeFrameNotification object:nil];
+
+[super drawRect:rect];
+</code></pre>
+
+<p>}</p>
+
+<ul>
+<li><p>(void)keyboardFrameChanged:(NSNotification*)aNotification
+{</p>
+
+<p>  NSDictionary* info = [aNotification userInfo];
+  CGPoint from = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].origin;
+  CGPoint to = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].origin;</p>
+
+<p>  float height = 0.0f;
+  if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+      height = to.x &ndash; from.x;
+  } else {
+      height = to.y &ndash; from.y;
+  }</p>
+
+<p>  [self setContentSize:CGSizeMake(self.frame.size.width, self.frame.size.height + height)];
+}</p></li>
+<li><p>(void)touchesBegan:(NSSet <em>)touches withEvent:(UIEvent </em>)event {
+  for (UITouch *touch in touches){
+      if (touch.view == self){
+          [self findAndResignFirstResponder];
+      }
+  }
+  [super touchesBegan:touches withEvent:event];
+}</p></li>
+</ul>
+
+
+<p>&ndash;(void)findAndResignFirstResponder{</p>
+
+<pre><code>for (UIView *aView in [self subviews]){
+    if ([aView isFirstResponder] ) {
+        [aView resignFirstResponder];
+    }
+}
+</code></pre>
+
+<p>}</p>
+
+<p>&ndash;(void)dealloc {</p>
+
+<pre><code>[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidChangeFrameNotification object:nil];
+</code></pre>
+
+<p>}
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,905 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Digruby</title>
+	<meta name="author" content="Allen Wei">
+
+	
+	<meta name="description" content="Oct 25th, 2010 RubyOnRails, RubyOnRails, Tips, irb Tips - Simulate Rails Console in Ruby Project create a file: @console.rb@ 1
+2
+3
+4
+5
+6
+7
+#!/usr/ &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Digruby" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://allenwei.github.io/blog/page/4/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("digruby@gmail.com") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+</div>
+<hgroup>
+  <h1>Digruby</h1>
+  
+    <h2><a href="/">Allen Wei's Tech Notes</a></h2>
+  
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		<a class="twitter" href="http://twitter.com/allenwei" title="Twitter">Twitter</a>
+		
+		
+		<a class="github" href="https://github.com/allenwei" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		<a class="delicious" href="http://delicious.com/allenwei" title="Delicious">Delicious</a>
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner">
+<div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-10-25T00:00:00+08:00" data-updated="true" itemprop="datePublished">Oct 25<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/irb/'>irb</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/10/25/simulate-rails-console-in-ruby-project/" itemprop="url">Tips - Simulate Rails Console in Ruby Project</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>create a file:</p>
+
+<p>@console.rb@</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#!/usr/bin/env ruby</span>
+</span><span class='line'><span class="n">app_path</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s2">&quot;../&quot;</span><span class="p">,</span> <span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">boot_path</span> <span class="o">=</span>  <span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">app_path</span><span class="p">,</span><span class="s2">&quot;boot&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">command</span> <span class="o">=</span> <span class="s2">&quot;irb -r irb/completion -r </span><span class="si">#{</span><span class="n">boot_path</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="nb">exec</span> <span class="n">command</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-08-15T00:00:00+08:00" data-updated="true" itemprop="datePublished">Aug 15<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/2-dot-3-6/'>2.3.6</a>, <a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/active-controller/'>active_controller</a>, <a class='category' href='/blog/categories/flash/'>flash</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/08/15/what-changed-in-rails-v2-3-6-redirect_to-with-flash/" itemprop="url">What Changed in Rails v2.3.6 - Redirect_to With Flash</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>In <a href="http://github.com/rails/rails/commit/e6cadd422b72ba9818cc2f3b22243a6aa754c9f8">this commit</a> rails team improved @redirect_to@ method, we can passing flash option directly.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># ... in an action </span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#old style</span>
+</span><span class='line'><span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;Pay attention to the road&quot;</span>
+</span><span class='line'><span class="n">redirect_to</span> <span class="n">post_url</span><span class="p">(</span><span class="vi">@post</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#new way</span>
+</span><span class='line'><span class="n">redirect_to</span> <span class="n">post_url</span><span class="p">(</span><span class="vi">@post</span><span class="p">),</span> <span class="ss">:notice</span> <span class="o">=&gt;</span> <span class="s2">&quot;Pay attention to the road&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>They also add some convenient  methods for flash object. Now you can get/set flash object in view by @alert,alert=(message),notice,notice=(message)@</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-08-15T00:00:00+08:00" data-updated="true" itemprop="datePublished">Aug 15<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/2-dot-3-6/'>2.3.6</a>, <a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/active-record/'>active_record</a>, <a class='category' href='/blog/categories/inverse-of/'>inverse_of</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/08/15/what-changed-in-rails-v2-3-6-finally-we-got-inverse_of/" itemprop="url">What Changed in Rails v2.3.6 - Finally We Got Inverse_of</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>In <a href="http://github.com/rails/rails/commit/5374fb3cad2970c95aa9d294d006b5804b760754#diff-12">this commit</a> we found we big improvement.</p>
+
+<p>They add @:inverse_of@ for active_record association</p>
+
+<p>What is that used for?</p>
+
+<p>Here is the example from commit message</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Man</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'>  <span class="n">has_one</span> <span class="ss">:face</span><span class="p">,</span> <span class="ss">:inverse_of</span> <span class="o">=&gt;</span> <span class="ss">:man</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Face</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:man</span><span class="p">,</span> <span class="ss">:inverse_of</span> <span class="o">=&gt;</span> <span class="ss">:face</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">m</span> <span class="o">=</span> <span class="no">Man</span><span class="o">.</span><span class="n">first</span>
+</span><span class='line'><span class="n">f</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">face</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If we don&rsquo;t have @:inverse_of@, @f.man@ will be different object, not @m@ object and what&rsquo;s more active_record will fire another sql query if you can @f.man@.</p>
+
+<p>After we add @:inverse_of@ option, @ m == f.man @, and @f.man@ will not fire a sql query.</p>
+
+<p>But now @:inverse_of@ only works for @has_one@, @has_many@. It also supplies inverse support for @belongs_to@
+associations where the inverse is a has_one and it&rsquo;s not a polymorphic.</p>
+
+<p>I think <a href="http://datamapper.org">DataMapper</a> need change their website <a href="http://datamapper.org/why.">why DataMapper</a> Active Record has @Identity Map@ now</p>
+
+<p>Thanks <a href="http://github.com/h-lame">h-lame</a> for giving us this very useful feature which also have sufficient test.</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-08-15T00:00:00+08:00" data-updated="true" itemprop="datePublished">Aug 15<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/gemset/'>gemset</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/rvm/'>rvm</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/08/15/rvm-new-feature-auto-switch-gemset-project-level-gemset/" itemprop="url">RVM New Feature Auto-switch Gemset - Project Level Gemset</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Today I noticed RVM have project level gemset</p>
+
+<p>It&rsquo;s easy to use. Just put a @.rvmrc@ into the folder you want to switch ruby or gemset</p>
+
+<p>Like to we have a rails3 project we can put a @.rvmrc@ into project folder.  insert following content in.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>rvm 1.8.7@rails3
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It&rsquo;s just like we run</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rvm use 1.9.7@rails3</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The detail usage you can get from <a href="http://rvm.beginrescueend.com/workflow/rvmrc/">RVM Website</a></p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-07-31T00:00:00+08:00" data-updated="true" itemprop="datePublished">Jul 31<span>st</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/2-dot-3-6/'>2.3.6</a>, <a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/07/31/what-changed-in-rails-v2-3-6-add-column-with-positioning/" itemprop="url">What Changed in Rails v2.3.6 - Add Column With Positioning</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>In <a href="http://github.com/rails/rails/commit/ccb197b2e6c2e773f908d3b00f5debe57c22311a">this commit</a> Rails add a new feature that we can specify what&rsquo;s the postillion to add a column.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># In migration </span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># add column to in first position</span>
+</span><span class='line'><span class="n">add_column</span> <span class="ss">:testings</span><span class="p">,</span> <span class="ss">:new_col</span><span class="p">,</span> <span class="ss">:integer</span><span class="p">,</span> <span class="ss">:first</span> <span class="o">=&gt;</span> <span class="kp">true</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># add column after another column</span>
+</span><span class='line'><span class="n">add_column</span> <span class="ss">:testings</span><span class="p">,</span> <span class="ss">:new_col</span><span class="p">,</span> <span class="ss">:integer</span><span class="p">,</span> <span class="ss">:after</span> <span class="o">=&gt;</span> <span class="s2">&quot;column_a&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># change a column with position </span>
+</span><span class='line'><span class="n">change_column</span> <span class="ss">:testings</span><span class="p">,</span> <span class="ss">:second</span><span class="p">,</span> <span class="ss">:integer</span><span class="p">,</span> <span class="ss">:first</span> <span class="o">=&gt;</span> <span class="kp">true</span>
+</span><span class='line'><span class="n">change_column</span> <span class="ss">:testings</span><span class="p">,</span> <span class="ss">:second</span><span class="p">,</span> <span class="ss">:integer</span><span class="p">,</span> <span class="ss">:after</span> <span class="o">=&gt;</span> <span class="s2">&quot;column_c&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>About how column position affect performance, you can see <a href="http://explainextended.com/2009/05/21/choosing-column-order/">this blog post</a></p>
+
+<p>Thanks <a href="http://github.com/bmarini">bmarini</a> commit this feature, also thanks <a href="http://github.com/jeremy">jeremy</a>  reviewed this commit.</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-07-21T00:00:00+08:00" data-updated="true" itemprop="datePublished">Jul 21<span>st</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/cucumber/'>cucumber</a>, <a class='category' href='/blog/categories/mongoid/'>mongoid</a>, <a class='category' href='/blog/categories/rspec/'>rspec</a>, <a class='category' href='/blog/categories/test/'>test</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/07/21/clean-mongodb-in-unittest-rspec-cucumber-using-mongoid/" itemprop="url">Clean Mongodb in UnitTest, Rspec, Cucumber Using Mongoid</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h2>Rails UnitTest</h2>
+
+<p>==<hr/>==
+in file</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>test/test_helper.rb</span></code></pre></td></tr></table></div></figure>
+
+
+<p> in @class ActiveSupport::TestCase@ add</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">teardown</span> <span class="ss">:clean_mongodb</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">clean_mongodb</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;cleaning mongodb....&quot;</span>
+</span><span class='line'>    <span class="no">Mongoid</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">collections</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">collection</span><span class="o">|</span>
+</span><span class='line'>      <span class="k">unless</span> <span class="n">collection</span><span class="o">.</span><span class="n">name</span> <span class="o">=~</span> <span class="sr">/^system\./</span>
+</span><span class='line'>        <span class="n">collection</span><span class="o">.</span><span class="n">remove</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;finished cleaning mongodb.&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Rspec</h2>
+
+<p>==<hr/>==
+in file</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>spec/spec_helper.rb</span></code></pre></td></tr></table></div></figure>
+
+
+<p>, in @Spec::Runner.configure@ add</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">after</span><span class="p">(</span><span class="ss">:each</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;cleaning mongodb....&quot;</span>
+</span><span class='line'>    <span class="no">Mongoid</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">collections</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">collection</span><span class="o">|</span>
+</span><span class='line'>      <span class="k">unless</span> <span class="n">collection</span><span class="o">.</span><span class="n">name</span> <span class="o">=~</span> <span class="sr">/^system\./</span>
+</span><span class='line'>        <span class="n">collection</span><span class="o">.</span><span class="n">remove</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;finished cleaning mongodb.&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Cucumber</h2>
+
+<p>==<hr/>==
+add new file</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>features/support/mongodb_clean.rb</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">After</span> <span class="k">do</span> <span class="o">|</span><span class="n">scenario</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;cleaning mongodb....&quot;</span>
+</span><span class='line'>  <span class="no">Mongoid</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">collections</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">collection</span><span class="o">|</span>
+</span><span class='line'>    <span class="k">unless</span> <span class="n">collection</span><span class="o">.</span><span class="n">name</span> <span class="o">=~</span> <span class="sr">/^system\./</span>
+</span><span class='line'>      <span class="n">collection</span><span class="o">.</span><span class="n">remove</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;finished cleaning mongodb.&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-07-03T00:00:00+08:00" data-updated="true" itemprop="datePublished">Jul 3<span>rd</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/bundler/'>bundler</a>, <a class='category' href='/blog/categories/deployment/'>deployment</a>, <a class='category' href='/blog/categories/gem/'>gem</a>, <a class='category' href='/blog/categories/passenger/'>passenger</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/07/03/manage-gems-separately-in-different-projects-use-bundler/" itemprop="url">Manage Gems Separately in Different Projects Use Bundler</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Before we use bundler, we unpack all dependencies into vendor folder. But we found it hard to use, especially one of your gem require @rubygems@ in code, yes it happens.</p>
+
+<p>The killer feature bunlder has in my view is: you can install gems in any folder, that&rsquo;s means you can install gems into your project folder directly. So each of your projects will has it&rsquo;s own gemset.I think this is a better solution than use rvm to create separate gemset for each project(see my <a href="http://www.allenwei.cn/manage-your-gem-using-rvm-gemset/">previous entry</a>.)</p>
+
+<p>If you have already installed bundler, or you have already using bundler, you can skip the first part, go  <a href="#passenger">bundler for passenger</a> directly</p>
+
+<h2>Upgrade Your Gem</h2>
+
+<p>First, check whether your gem version >= 1.3.6, if not upgrade your gem</p>
+
+<ul>
+<li>For mac user, just</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem update --system</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>For linux user:
+
+<h2>Install rubygems-update gem</h2></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem install rubygems-update</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Upgrade rubygem, run</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>./bin/update_rubygems</span></code></pre></td></tr></table></div></figure>
+
+
+<p>, if it says: &ldquo;can&rsquo;t find command&rdquo;, you can go to your gem @EXECUTABLE DIRECTORY@ which you can get by run command</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem environment</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Install bundle</h2>
+
+<p>Install bundler using</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem install bundle</span></code></pre></td></tr></table></div></figure>
+
+
+<p>, as this blog wrote, bundler verison is @0.9.26@</p>
+
+<p>h3(#passenger). Manage your gems use bundle</p>
+
+<p>There are good documents on <a href="http://gembundler.com/,">bundler website</a> you can check the basic usage there. I&rsquo;ll not mention here.</p>
+
+<p>ok, let&rsquo;s do it.</p>
+
+<p><code>bundle install .bundle</code></p>
+
+<p>Yes, that&rsquo;s it. Now your gems will only live in your project folder. It&rsquo;s very sweet when you need deploy multi projects on one machine.</p>
+
+<h3>Bundler with passenger</h3>
+
+<p>After you deploy your bundler enhanced project with passenger, passenger will yelling: @please gem install bundler@.
+the solution is add gem dependencies in @Gemfile@. Yes it&rsquo;s strange, but I google about it, I haven&rsquo;t better solution, if you know you can tell me.</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-06-10T00:00:00+08:00" data-updated="true" itemprop="datePublished">Jun 10<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/hash/'>hash</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/06/10/tips-set-default-value-for-a-hash/" itemprop="url">Tips - Set Default Value for a Hash</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Can hash have a default value, when it doesn&rsquo;t have a key?</p>
+
+<p>Answer is yes!</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">h</span> <span class="o">=</span> <span class="no">Hash</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;default&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">h</span><span class="o">[</span><span class="s2">&quot;wrong_value&quot;</span><span class="o">]</span> <span class="c1"># =&gt; &quot;default&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-06-10T00:00:00+08:00" data-updated="true" itemprop="datePublished">Jun 10<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/06/10/tips-how-many-argument-a-method-has/" itemprop="url">Tips - How Many Argument a Method Has</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Find a method in @arity@</p>
+
+<p>Here is doc from ruby doc</p>
+
+<p>bq. Returns an indication of the number of arguments accepted by a method. Returns a nonnegative integer for methods that take a fixed number of arguments. For Ruby methods that take a variable number of arguments, returns -n-1, where n is the number of required arguments. For methods written in C, returns -1 if the call takes a variable number of arguments.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">class</span> <span class="nc">C</span>
+</span><span class='line'>     <span class="k">def</span> <span class="nf">one</span><span class="p">;</span>    <span class="k">end</span>
+</span><span class='line'>     <span class="k">def</span> <span class="nf">two</span><span class="p">(</span><span class="n">a</span><span class="p">);</span> <span class="k">end</span>
+</span><span class='line'>     <span class="k">def</span> <span class="nf">three</span><span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="p">);</span>  <span class="k">end</span>
+</span><span class='line'>     <span class="k">def</span> <span class="nf">four</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">);</span> <span class="k">end</span>
+</span><span class='line'>     <span class="k">def</span> <span class="nf">five</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="o">*</span><span class="n">c</span><span class="p">);</span>    <span class="k">end</span>
+</span><span class='line'>     <span class="k">def</span> <span class="nf">six</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="o">*</span><span class="n">c</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">d</span><span class="p">);</span> <span class="k">end</span>
+</span><span class='line'>   <span class="k">end</span>
+</span><span class='line'>   <span class="n">c</span> <span class="o">=</span> <span class="n">C</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>   <span class="n">c</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="ss">:one</span><span class="p">)</span><span class="o">.</span><span class="n">arity</span>     <span class="c1">#=&gt; 0</span>
+</span><span class='line'>   <span class="n">c</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="ss">:two</span><span class="p">)</span><span class="o">.</span><span class="n">arity</span>     <span class="c1">#=&gt; 1</span>
+</span><span class='line'>   <span class="n">c</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="ss">:three</span><span class="p">)</span><span class="o">.</span><span class="n">arity</span>   <span class="c1">#=&gt; -1</span>
+</span><span class='line'>   <span class="n">c</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="ss">:four</span><span class="p">)</span><span class="o">.</span><span class="n">arity</span>    <span class="c1">#=&gt; 2</span>
+</span><span class='line'>   <span class="n">c</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="ss">:five</span><span class="p">)</span><span class="o">.</span><span class="n">arity</span>    <span class="c1">#=&gt; -3</span>
+</span><span class='line'>   <span class="n">c</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="ss">:six</span><span class="p">)</span><span class="o">.</span><span class="n">arity</span>     <span class="c1">#=&gt; -3</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="s2">&quot;cat&quot;</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="ss">:size</span><span class="p">)</span><span class="o">.</span><span class="n">arity</span>      <span class="c1">#=&gt; 0</span>
+</span><span class='line'>   <span class="s2">&quot;cat&quot;</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="ss">:replace</span><span class="p">)</span><span class="o">.</span><span class="n">arity</span>   <span class="c1">#=&gt; 1</span>
+</span><span class='line'>   <span class="s2">&quot;cat&quot;</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="ss">:squeeze</span><span class="p">)</span><span class="o">.</span><span class="n">arity</span>   <span class="c1">#=&gt; -1</span>
+</span><span class='line'>   <span class="s2">&quot;cat&quot;</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="ss">:count</span><span class="p">)</span><span class="o">.</span><span class="n">arity</span>     <span class="c1">#=&gt; -1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-06-05T00:00:00+08:00" data-updated="true" itemprop="datePublished">Jun 5<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/gemset/'>gemset</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/rvm/'>rvm</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/06/05/manage-your-gem-using-rvm-gemset/" itemprop="url">Manage Your Gem Using RVM Gemset</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>I think you already heard of <a href="http://rvm.beginrescueend.com/,">RVM</a> a great tool for ruby version management.</p>
+
+<p>What I like most is <a href="http://rvm.beginrescueend.com/gemsets/basics/,">Gemset</a> It allow you manage you gems in separate namespace.</p>
+
+<p>First, Install RVM. The official website have great <a href="http://rvm.beginrescueend.com/rvm/install/">document</a></p>
+
+<p>Then Install ruby, I&rsquo;ll install ruby 1.8.7</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rvm install 1.8.7</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After you installed ruby, you will have @default@ gemset and @global@ gemset
+List all you gemset</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rvm gemset list</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Create new gemset</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rvm gemset create new_gemset</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Use your newly created gemset</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rvm gemset use new_gemset</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can also set your newly created gemset as default</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rvm use 1.8.7@new_gemset --default</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here you may ask, do I need install all basic gem like @ruby-debug@ for every gemset?</p>
+
+<p><a href="http://rvm.beginrescueend.com/">RVM</a> has already solved your problem.</p>
+
+<p>First, switch to your global gemset.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rvm use 1.8.7@global</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then Install gems which you think it is default gem</p>
+
+<p>Then, you can switch back to your gemset.</p>
+
+<p>You may think, I may installed some gems twice, here you can uninstall the gem you have already installed in @global@ gemset.</p>
+
+		
+		
+	</div>
+
+</article>
+
+</div>
+<nav id="pagenavi">
+    
+        <a href="/blog/page/3/" class="prev">Prev</a>
+    
+    
+        <a href="/blog/page/5/" class="next">Next</a>
+    
+    <div class="center"><a href="/blog/archives">Blog Archives</a></div>
+</nav></div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2013 - Allen Wei -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			
+
+<script type="text/javascript">
+      var disqus_shortname = 'digrubycom';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

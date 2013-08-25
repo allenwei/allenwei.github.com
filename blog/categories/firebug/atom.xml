@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: firebug | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/firebug/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Tips - Add firebug extension to capybara ]]></title>
+    <link href="http://allenwei.github.io/blog/2010/12/15/tips-add-firebug-extension-to-capybara/"/>
+    <updated>2010-12-15T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/12/15/tips-add-firebug-extension-to-capybara</id>
+    <content type="html"><![CDATA[<p>First, make sure your Capybara version is >= 0.4.0</p>
+
+<p>Then, download firebug plugin and save it to @features/support/firebug-1.6.0-fx.xpi@</p>
+
+<p>And add following line into @features/support/env.rb@</p>
+
+<p>``` ruby
+Capybara.register_driver :selenium_with_firebug do |app|
+  Capybara::Driver::Selenium
+  profile = Selenium::WebDriver::Firefox::Profile.new
+  profile.add_extension(File.expand_path(&ldquo;features/support/firebug-1.6.0-fx.xpi&rdquo;))</p>
+
+<p>  Capybara::Driver::Selenium.new(app, { :browser => :firefox, :profile => profile })
+end</p>
+
+<p>Before(&ldquo;@selenium_with_firebug&rdquo;) do
+  Capybara.current_driver = :selenium_with_firebug
+end</p>
+
+<p>```</p>
+
+<p>You will found that firefox will create a new firebug page tab. I have no idea how to close it, but seems it doesn&rsquo;t affect our test result.</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: analyzer | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/analyzer/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[analyze rails log using request-log-analyzer ]]></title>
+    <link href="http://allenwei.github.io/blog/2010/02/15/analyze-rails-log-using-request-log-analyzer/"/>
+    <updated>2010-02-15T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/02/15/analyze-rails-log-using-request-log-analyzer</id>
+    <content type="html"><![CDATA[<p>Install <a href="http://github.com/wvanbergen/request-log-analyzer/">request-log-analyzer</a></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem install request-log-analyzer</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>How to use
+<code>
+request-log-analyzer log/production.log #print result to console
+request-log-analyzer log/production.log -o HTML -email someone@company.com #generate html report and send email
+</code></p>
+
+<p>More:
+<a href="http://github.com/wvanbergen/request-log-analyzer/">http://github.com/wvanbergen/request-log-analyzer/</a></p>
+]]></content>
+  </entry>
+  
+</feed>

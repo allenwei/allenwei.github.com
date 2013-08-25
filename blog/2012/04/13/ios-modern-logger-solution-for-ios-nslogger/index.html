@@ -1,0 +1,242 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>iOS - Modern Logger Solution for iOS NSLogger - Digruby</title>
+	<meta name="author" content="Allen Wei">
+
+	
+	<meta name="description" content="iOS - Modern Logger Solution for iOS NSLogger NSLogger is a replacement of NSLog which provide an GUI app to see and filter your log. you can log &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Digruby" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://allenwei.github.io/blog/2012/04/13/ios-modern-logger-solution-for-ios-nslogger/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("digruby@gmail.com") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+</div>
+<hgroup>
+  <h1>Digruby</h1>
+  
+    <h2><a href="/">Allen Wei's Tech Notes</a></h2>
+  
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		<a class="twitter" href="http://twitter.com/allenwei" title="Twitter">Twitter</a>
+		
+		
+		<a class="github" href="https://github.com/allenwei" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		<a class="delicious" href="http://delicious.com/allenwei" title="Delicious">Delicious</a>
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">iOS - Modern Logger Solution for iOS NSLogger</h1>
+	<div class="entry-content" itemprop="articleBody"><p><a href="https://github.com/fpillet/NSLogger">NSLogger</a>  is a replacement of NSLog which provide an GUI app to see and filter your log. you can log text, binary even image.</p>
+
+<p><a href="https://github.com/fpillet/NSLogger/raw/master/Screenshots/mainwindow.png" target="_blank"><image src="https://github.com/fpillet/NSLogger/raw/master/Screenshots/mainwindow.png" width="500px"></a></p>
+
+
+<p>But there is no log level control.
+You can use <a href="https://github.com/aharren/LibComponentLogging-NSLogger">LibComponentLogging-NSLog</a> LibComponentLogging extension</p>
+
+<p>or use your custom level control macro:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#import &quot;LoggerClient.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#define BPLOGLEVEL_DEBUG    0</span>
+</span><span class='line'><span class="cp">#define BPLOGLEVEL_INFO     1</span>
+</span><span class='line'><span class="cp">#define BPLOGLEVEL_WARNING  2</span>
+</span><span class='line'><span class="cp">#define BPLOGLEVEL_ERROR    3</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#ifndef BPLOGLEVEL</span>
+</span><span class='line'><span class="cp">#define BPLOGLEVEL BPLOGLEVEL_DEBUG</span>
+</span><span class='line'><span class="cp">#endif</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// you can refined tag in your file, using following code</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'><span class="c1">// #undef BPLogTag</span>
+</span><span class='line'><span class="c1">// #define BPLogTag @&quot;OrderMessageReceiver&quot;</span>
+</span><span class='line'><span class="cp">#define BPLogTag @&quot;App&quot;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#ifdef DEBUG</span>
+</span><span class='line'>    <span class="err">#</span><span class="n">define</span> <span class="n">BPLog</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="p">...)</span> \
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">level</span> <span class="o">&gt;=</span> <span class="n">BPLOGLEVEL</span><span class="p">)</span> <span class="p">{</span> \
+</span><span class='line'>            <span class="n">LogMessageF</span><span class="p">(</span><span class="n">__FILE__</span><span class="p">,</span><span class="n">__LINE__</span><span class="p">,</span><span class="n">__FUNCTION__</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">level</span><span class="p">,</span><span class="n">__VA_ARGS__</span><span class="p">);</span> \
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'><span class="cp">#else</span>
+</span><span class='line'>    <span class="err">#</span><span class="n">define</span> <span class="n">BPLog</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="p">...)</span>  <span class="p">((</span><span class="kt">void</span><span class="p">)</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'><span class="cp">#endif </span><span class="c1">// #ifdef DEBUG</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#define BPLogError(...) BPLog(BPLOGLEVEL_ERROR, BPLogTag, __VA_ARGS__)</span>
+</span><span class='line'><span class="cp">#define BPLogWarning(...) BPLog(BPLOGLEVEL_WARNING, BPLogTag, __VA_ARGS__)</span>
+</span><span class='line'><span class="cp">#define BPLogInfo(...) BPLog(BPLOGLEVEL_INFO, BPLogTag, __VA_ARGS__)</span>
+</span><span class='line'><span class="cp">#define BPLogDebug(...) BPLog(BPLOGLEVEL_DEBUG, BPLogTag, __VA_ARGS__)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2013 - Allen Wei -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			
+
+<script type="text/javascript">
+      var disqus_shortname = 'digrubycom';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://allenwei.github.io/blog/2012/04/13/ios-modern-logger-solution-for-ios-nslogger/';
+        var disqus_url = 'http://allenwei.github.io/blog/2012/04/13/ios-modern-logger-solution-for-ios-nslogger/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

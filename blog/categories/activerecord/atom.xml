@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: activerecord | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/activerecord/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[iOS - Restkit Parse ActiveRecord Timestamp]]></title>
+    <link href="http://allenwei.github.io/blog/2011/10/28/restkit-parse-activerecord-timestamp/"/>
+    <updated>2011-10-28T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2011/10/28/restkit-parse-activerecord-timestamp</id>
+    <content type="html"><![CDATA[<p>If you are using Rails as your backend, Reskit will have trouble to parse ActiveRecord timestamp.</p>
+
+<p>Default ActiveRecord timestamp JSON out is @2008-12-29T00:27:42-08:00@</p>
+
+<p>You can not convert it to @NSDate@ directly use @NSDateFomatter@
+you must convert it to @2008-12-29T00:27:42-0800@</p>
+
+<p>But you have not chance to convert when you use Restkit Mapping.</p>
+
+<p>Here is my solution
+1. Monkey patch Time and DateTime class</p>
+
+<p>``` ruby
+class Time
+  def as_json(option=nil)</p>
+
+<pre><code>self.strftime("%Y-%m-%dT%H:%m:%S%z")
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>``` ruby
+class DateTime
+  def as_json(format=nil)</p>
+
+<pre><code>self.strftime("%Y-%m-%dT%H:%m:%S%z")
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<ol>
+<li>Add default date fomatter to RKObjectMapping
+<code>c
+ NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+ [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
+ [RKObjectMapping addDefaultDateFormatter:dateFormatter];
+</code></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Tips - Using symbol in ActiveRecord find]]></title>
+    <link href="http://allenwei.github.io/blog/2010/02/15/tips-using-symbol-in-activerecord-find/"/>
+    <updated>2010-02-15T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/02/15/tips-using-symbol-in-activerecord-find</id>
+    <content type="html"><![CDATA[<p>before
+<code>ruby
+Account.find(:all, :conditions =&gt; ['name LIKE ? AND updated_at &lt; ?', "aname", 3.days.ago])
+</code></p>
+
+<p>After
+<code>ruby
+Account.find(:all, :conditions =&gt; ['name LIKE :name AND updated_at &lt; :date', {:name =&gt; "aname", :date =&gt; 3.days.ago}])
+</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Tips - Distinct in ActiveRecord find]]></title>
+    <link href="http://allenwei.github.io/blog/2010/02/15/tips-distinct-in-activerecord-find/"/>
+    <updated>2010-02-15T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/02/15/tips-distinct-in-activerecord-find</id>
+    <content type="html"><![CDATA[<p><code>ruby
+Item.find( :all, :select =&gt; 'DISTINCT fieldname' )
+</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Don't override ActiveRecord initialize method]]></title>
+    <link href="http://allenwei.github.io/blog/2010/02/15/dont-override-activerecord-initialize-method/"/>
+    <updated>2010-02-15T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/02/15/dont-override-activerecord-initialize-method</id>
+    <content type="html"><![CDATA[<p>Today I wrote an ActiveRecord initialize method like this
+``` ruby
+  def initialize</p>
+
+<pre><code>@aa = "aa"
+</code></pre>
+
+<p>  end
+```
+Then this error occurred.</p>
+
+<p>bq. NoMethodError: You have a nil object when you didn&rsquo;t expect it!
+The error occurred while evaluating nil.has_key?</p>
+
+<p>Very confuse.</p>
+
+<p>After I saw source of ActiveRecord, I realized I override ActiveRecord default initialize method by mistake.</p>
+
+<p>If you really want to do this. There two ways:</p>
+
+<p>``` ruby
+  def initialize(params = nil)</p>
+
+<pre><code>super 
+# do something else
+</code></pre>
+
+<p>  end
+```</p>
+
+<p>More graceful</p>
+
+<p>``` ruby
+  def after_initialize</p>
+
+<pre><code>@aa = "aa"
+</code></pre>
+
+<p>  end
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: irb | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/irb/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Tips - Simulate Rails Console in Ruby Project]]></title>
+    <link href="http://allenwei.github.io/blog/2010/10/25/simulate-rails-console-in-ruby-project/"/>
+    <updated>2010-10-25T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/10/25/simulate-rails-console-in-ruby-project</id>
+    <content type="html"><![CDATA[<p>create a file:</p>
+
+<p>@console.rb@</p>
+
+<p>``` ruby</p>
+
+<h1>!/usr/bin/env ruby</h1>
+
+<p>app_path = File.expand_path(&ldquo;../&rdquo;, File.dirname(<strong>FILE</strong>))</p>
+
+<p>boot_path =  File.join(app_path,&ldquo;boot&rdquo;)</p>
+
+<p>command = &ldquo;irb -r irb/completion -r #{boot_path}&rdquo;
+exec command
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

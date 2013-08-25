@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: symbolize_keys | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/symbolize-keys/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Why we can get params values by both symbol and string]]></title>
+    <link href="http://allenwei.github.io/blog/2010/02/15/why-we-can-get-params-values-by-both-symbol-and-string/"/>
+    <updated>2010-02-15T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/02/15/why-we-can-get-params-values-by-both-symbol-and-string</id>
+    <content type="html"><![CDATA[<p>Today, I met a weird bug converting <a href="http://apidock.com/rails/Rack/Request/params">params</a> to a hash only has symbol keys.</p>
+
+<p>I see there is a method which in ActiveSupport. <a href="http://apidock.com/rails/HashWithIndifferentAccess/symbolize_keys!,">symbolize_keys!</a> convert all keys of hash to symbol.</p>
+
+<p>So I did this:</p>
+
+<p><code>ruby
+def some_action
+  params.symbolize_keys!
+end
+</code></p>
+
+<p>But after print params, I found <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>symbolize_keys!</span></code></pre></td></tr></table></div></figure></notextile></div> doesn&rsquo;t work. The keys in <a href="http://apidock.com/rails/Rack/Request/params">params</a> still <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>String</span></code></pre></td></tr></table></div></figure></notextile></div>.</p>
+
+<p>After some googling, I find that class of <a href="http://apidock.com/rails/Rack/Request/params">params</a> is not hash, it is <a href="http://apidock.com/rails/HashWithIndifferentAccess">HashWithIndifferentAccess</a></p>
+
+<p>Then I find <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>symbolize_keys!</span></code></pre></td></tr></table></div></figure></notextile></div> method just return <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>self</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>The description of this class is:
+bq. This class has dubious semantics and we only have it so that people can write params[:key] instead of params[‘key’] and they get the same value for both keys.</p>
+
+<p>I realized that&rsquo;s why we can get values from <a href="http://apidock.com/rails/Rack/Request/params">params</a> by both <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Symbol</span></code></pre></td></tr></table></div></figure></notextile></div> and <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>String</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>So You can also use this powerful tool:<br/>
+<code>ruby
+  h = HashWithIndifferentAccess.new
+  h["allen"] = "wei"
+  puts h["allen"] # print "wei"
+  puts h[:allen]  # print "wei"
+</code></p>
+
+<p>You don&rsquo;t need  <a href="http://apidock.com/rails/HashWithIndifferentAccess/symbolize_keys!.">symbolize_keys!</a></p>
+]]></content>
+  </entry>
+  
+</feed>

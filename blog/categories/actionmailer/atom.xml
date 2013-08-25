@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: actionmailer | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/actionmailer/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Fix Action Mailer Encoding issue after upgrade to ruby 1.9]]></title>
+    <link href="http://allenwei.github.io/blog/2012/05/19/fix-action-mailer-encoding-issue-after-upgrade-to-ruby-1-9/"/>
+    <updated>2012-05-19T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2012/05/19/fix-action-mailer-encoding-issue-after-upgrade-to-ruby-1-9</id>
+    <content type="html"><![CDATA[<p>Put following code in our @application.rb@</p>
+
+<p><code>ruby
+Encoding.default_external = "UTF-8"
+</code></p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: rspec | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/rspec/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Fix Rcov After Upgrade Rspec to 2.8]]></title>
+    <link href="http://allenwei.github.io/blog/2012/01/14/fix-rcov-after-upgrade-rspec-to-2-8/"/>
+    <updated>2012-01-14T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2012/01/14/fix-rcov-after-upgrade-rspec-to-2-8</id>
+    <content type="html"><![CDATA[<p>Rcov doesn&rsquo;t work after I upgrade rspec to 2.8,</p>
+
+<p>here is a quick fix</p>
+
+<p>add following code into your @spec_helper@</p>
+
+<p><code>
+require 'rspec/autorun'
+</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rspec Tips - Implicit Subject "its"]]></title>
+    <link href="http://allenwei.github.io/blog/2011/04/07/rspec-tips-implicit-subject-its/"/>
+    <updated>2011-04-07T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2011/04/07/rspec-tips-implicit-subject-its</id>
+    <content type="html"><![CDATA[<p>Rspec has a convenient way to write simple test</p>
+
+<p><code>ruby
+describe [1, 2, 3, 3] do
+  its(:size) { should == 4 }
+  its("uniq.size") { should == 3 }
+end
+</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Clean Mongodb in UnitTest, Rspec, Cucumber using Mongoid]]></title>
+    <link href="http://allenwei.github.io/blog/2010/07/21/clean-mongodb-in-unittest-rspec-cucumber-using-mongoid/"/>
+    <updated>2010-07-21T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/07/21/clean-mongodb-in-unittest-rspec-cucumber-using-mongoid</id>
+    <content type="html"><![CDATA[<h2>Rails UnitTest</h2>
+
+<p>==<hr/>==
+in file <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>test/test_helper.rb</span></code></pre></td></tr></table></div></figure></notextile></div> in @class ActiveSupport::TestCase@ add</p>
+
+<p>``` ruby
+  teardown :clean_mongodb
+  def clean_mongodb</p>
+
+<pre><code>puts "cleaning mongodb...."
+Mongoid.database.collections.each do |collection|
+  unless collection.name =~ /^system\./
+    collection.remove
+  end
+end
+puts "finished cleaning mongodb."
+</code></pre>
+
+<p>  end
+```</p>
+
+<h2>Rspec</h2>
+
+<p>==<hr/>==
+in file <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>spec/spec_helper.rb</span></code></pre></td></tr></table></div></figure></notextile></div>, in @Spec::Runner.configure@ add</p>
+
+<p>``` ruby
+config.after(:each) do</p>
+
+<pre><code>puts "cleaning mongodb...."
+Mongoid.database.collections.each do |collection|
+  unless collection.name =~ /^system\./
+    collection.remove
+  end
+end
+puts "finished cleaning mongodb."
+</code></pre>
+
+<p>end
+```</p>
+
+<h2>Cucumber</h2>
+
+<p>==<hr/>==
+add new file <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>features/support/mongodb_clean.rb</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>``` ruby
+After do |scenario|
+  puts &ldquo;cleaning mongodb&hellip;.&rdquo;
+  Mongoid.database.collections.each do |collection|</p>
+
+<pre><code>unless collection.name =~ /^system\./
+  collection.remove
+end
+</code></pre>
+
+<p>  end
+  puts &ldquo;finished cleaning mongodb.&rdquo;
+end
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

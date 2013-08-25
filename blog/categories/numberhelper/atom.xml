@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: NumberHelper | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/numberhelper/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Use Rails NumberHelper in Sinatra application]]></title>
+    <link href="http://allenwei.github.io/blog/2012/03/19/use-rails-numberhelper-in-sinatra-application/"/>
+    <updated>2012-03-19T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2012/03/19/use-rails-numberhelper-in-sinatra-application</id>
+    <content type="html"><![CDATA[<p>first, see if actionpack in your gemfile.lock.
+if you are using action mailer, you should have actionpack</p>
+
+<p>put follow code in your Sinatra application</p>
+
+<p>``` ruby
+require &lsquo;action_view/helpers/number_helper&rsquo;</p>
+
+<p>include ActionView::Helpers::NumberHelper
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

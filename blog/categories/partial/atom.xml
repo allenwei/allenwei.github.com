@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: partial | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/partial/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Tips - variable in partial defined?]]></title>
+    <link href="http://allenwei.github.io/blog/2010/02/15/tips-variable-in-partial-defined/"/>
+    <updated>2010-02-15T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/02/15/tips-variable-in-partial-defined</id>
+    <content type="html"><![CDATA[<p>When we use variabel in partial, we will meet constant undefined error. How to avoid?  <code>ruby&lt;% if foo.nil? %&gt;</code> doesn&rsquo;t work</p>
+
+<p>assuming variable <em>foo</em>
+There are two ways:</p>
+
+<h1><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">local_assigns</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div> will get all local variables, using <div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">local_assigns</span><span class="o">[</span><span class="ss">:foo</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>,we can get variable value, If this variable is undefined, it will return <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>nil</span></code></pre></td></tr></table></div></figure></notextile></div>. Not Error.</h1>
+
+<h1><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">defined?</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div> method</h1>
+
+<p>Using
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">defined?</span> <span class="ss">:foo</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+</feed>

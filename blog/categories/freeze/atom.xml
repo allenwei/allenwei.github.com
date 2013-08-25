@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: freeze | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/freeze/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Tips - Freeze your Constant ]]></title>
+    <link href="http://allenwei.github.io/blog/2010/12/15/tips-freeze-your-constant/"/>
+    <updated>2010-12-15T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/12/15/tips-freeze-your-constant</id>
+    <content type="html"><![CDATA[<p>Today we met a strong problem. One of our constant is changed out of my expectation.</p>
+
+<p>In my mind, constant is the variable we can not change, but actually we are half right.</p>
+
+<p>See code bellow:
+``` ruby
+A_CONSTANT = &ldquo;value&rdquo;</p>
+
+<h1>this is correct we can not set new value to a constant</h1>
+
+<p>A_CONSTANT = &ldquo;another value&rdquo; #warning: already initialized constant A_CONSTANT</p>
+
+<h1>But</h1>
+
+<p>A_CONSTANT.insert(0, &ldquo;hack&rdquo;) #=>&ldquo;hackanother value&rdquo;</p>
+
+<p>A_HASH = {:key => &ldquo;value&rdquo;}</p>
+
+<p>A_HASH[:another_key] = &ldquo;another_key&rdquo;</p>
+
+<p>A_HASH #=> {:key => &ldquo;value&rdquo;, :another_key => &ldquo;another_key&rdquo;}
+```</p>
+
+<p>You may say, I won&rsquo;t change constant like that. But what if you assign a new variable to a constant, like:</p>
+
+<p>``` ruby
+A_HASH = {:key => &ldquo;value&rdquo;}
+a = A_HASH</p>
+
+<h1>&hellip; several lines of code</h1>
+
+<h1>you may forgot a is a constant</h1>
+
+<p>a[:another_key] = &ldquo;another_key&rdquo;
+```</p>
+
+<p>I&rsquo;m sure not everyone knows we can change constant &ldquo;internally&rdquo;.</p>
+
+<p>So for sure, we can freeze our constant</p>
+
+<p>``` ruby
+A_HASH = {:key => &ldquo;value&rdquo;}.freeze
+a = A_HASH</p>
+
+<h1>&hellip; several lines of code</h1>
+
+<h1>you may forgot a is a constant</h1>
+
+<p>a[:another_key] = &ldquo;another_value&rdquo; # TypeError: can&rsquo;t modify frozen Hash
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

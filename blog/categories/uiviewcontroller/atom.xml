@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: UIViewController | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/uiviewcontroller/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[iOS - Determine  Whether Current View is a Modal ]]></title>
+    <link href="http://allenwei.github.io/blog/2012/03/13/ios-determine-current-view-is-a-modal/"/>
+    <updated>2012-03-13T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2012/03/13/ios-determine-current-view-is-a-modal</id>
+    <content type="html"><![CDATA[<p>@UIViewController+ModalAdditions.h@</p>
+
+<p><code>c
+@interface UIViewController (ModalAdditions)
+-(BOOL)isModal;
+@end
+</code></p>
+
+<p>@UIViewController+ModalAdditions.m@</p>
+
+<p>``` c</p>
+
+<h1>import &ldquo;UIViewController+ModalAdditions.h&rdquo;</h1>
+
+<p>@implementation UIViewController (ModalAdditions)
+&ndash;(BOOL)isModal {</p>
+
+<pre><code>BOOL isModal = ((self.parentViewController &amp;&amp; self.parentViewController.modalViewController == self) || 
+                //or if I have a navigation controller, check if its parent modal view controller is self navigation controller
+                ( self.navigationController &amp;&amp; self.navigationController.parentViewController &amp;&amp; self.navigationController.parentViewController.modalViewController == self.navigationController) || 
+                //or if the parent of my UITabBarController is also a UITabBarController class, then there is no way to do that, except by using a modal presentation
+                [[[self tabBarController] parentViewController] isKindOfClass:[UITabBarController class]]);
+
+//iOS 5+
+if (!isModal &amp;&amp; [self respondsToSelector:@selector(presentingViewController)]) {
+
+    isModal = ((self.presentingViewController &amp;&amp; self.presentingViewController.modalViewController == self) || 
+               //or if I have a navigation controller, check if its parent modal view controller is self navigation controller
+               (self.navigationController &amp;&amp; self.navigationController.presentingViewController &amp;&amp; self.navigationController.presentingViewController.modalViewController == self.navigationController) || 
+               //or if the parent of my UITabBarController is also a UITabBarController class, then there is no way to do that, except by using a modal presentation
+               [[[self tabBarController] presentingViewController] isKindOfClass:[UITabBarController class]]);
+
+}
+
+return isModal;        
+</code></pre>
+
+<p>}
+@end
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

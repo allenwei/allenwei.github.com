@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: flash | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/flash/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[What Changed in Rails v2.3.6 - redirect_to with flash]]></title>
+    <link href="http://allenwei.github.io/blog/2010/08/15/what-changed-in-rails-v2-3-6-redirect_to-with-flash/"/>
+    <updated>2010-08-15T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/08/15/what-changed-in-rails-v2-3-6-redirect_to-with-flash</id>
+    <content type="html"><![CDATA[<p>In <a href="http://github.com/rails/rails/commit/e6cadd422b72ba9818cc2f3b22243a6aa754c9f8">this commit</a> rails team improved @redirect_to@ method, we can passing flash option directly.</p>
+
+<p>``` ruby</p>
+
+<h1>&hellip; in an action</h1>
+
+<h1>old style</h1>
+
+<p>flash[:notice] = &ldquo;Pay attention to the road&rdquo;
+redirect_to post_url(@post)</p>
+
+<h1>new way</h1>
+
+<p>redirect_to post_url(@post), :notice => &ldquo;Pay attention to the road&rdquo;
+```</p>
+
+<p>They also add some convenient  methods for flash object. Now you can get/set flash object in view by @alert,alert=(message),notice,notice=(message)@</p>
+]]></content>
+  </entry>
+  
+</feed>

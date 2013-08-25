@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: gcc | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/gcc/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Fix gcc issue after install xcode 4.2]]></title>
+    <link href="http://allenwei.github.io/blog/2011/10/28/fix-gcc-issue-after-install-xcode-4-2/"/>
+    <updated>2011-10-28T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2011/10/28/fix-gcc-issue-after-install-xcode-4-2</id>
+    <content type="html"><![CDATA[<p>I can not install gem after installed xcode 4.2. It throws bus error.</p>
+
+<p>the problem is xcode replace gcc with llvm-gcc</p>
+
+<p>How to fix it:
+1. Install standalone gcc
+<a href="http://cloud.github.com/downloads/kennethreitz/osx-gcc-installer/GCC-10.7-v2.pkg" target="_blank"> <a href="http://cloud.github.com/downloads/kennethreitz/osx-gcc-installer/GCC-10.7-v2.pkg">http://cloud.github.com/downloads/kennethreitz/osx-gcc-installer/GCC-10.7-v2.pkg</a></a></p>
+
+<ol>
+<li>add gcc environment in your bash
+<code>
+export CC=/usr/bin/gcc-4.2
+</code></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>

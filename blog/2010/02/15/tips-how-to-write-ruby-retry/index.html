@@ -1,0 +1,242 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Tips - How to write ruby retry  - Digruby</title>
+	<meta name="author" content="Allen Wei">
+
+	
+	<meta name="description" content="Tips - How to Write Ruby Retry 1
+2
+3
+4
+5
+6 retry_times = 3 begin # Exception here rescue Exception =&gt; e retry if (retry_times -= 1 ) &gt; 0 end &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Digruby" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://allenwei.github.io/blog/2010/02/15/tips-how-to-write-ruby-retry/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("digruby@gmail.com") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+</div>
+<hgroup>
+  <h1>Digruby</h1>
+  
+    <h2><a href="/">Allen Wei's Tech Notes</a></h2>
+  
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		<a class="twitter" href="http://twitter.com/allenwei" title="Twitter">Twitter</a>
+		
+		
+		<a class="github" href="https://github.com/allenwei" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		<a class="delicious" href="http://delicious.com/allenwei" title="Delicious">Delicious</a>
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Tips - How to Write Ruby Retry</h1>
+	<div class="entry-content" itemprop="articleBody"><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">retry_times</span> <span class="o">=</span> <span class="mi">3</span>
+</span><span class='line'>  <span class="k">begin</span>
+</span><span class='line'>    <span class="c1"># Exception here</span>
+</span><span class='line'>  <span class="k">rescue</span> <span class="no">Exception</span> <span class="o">=&gt;</span> <span class="n">e</span>
+</span><span class='line'>    <span class="k">retry</span> <span class="k">if</span> <span class="p">(</span><span class="n">retry_times</span> <span class="o">-=</span> <span class="mi">1</span> <span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Retryable method I wrote:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="c1"># If you want to get a proxy but afraid of proxy failture, you can use this method.</span>
+</span><span class='line'>  <span class="c1"># If retry times more than retry times in option parameter, will raise a RetryError.</span>
+</span><span class='line'>  <span class="c1"># * :retry_times - Retry times , Defaults 10</span>
+</span><span class='line'>  <span class="c1"># * :on - The Exception on which a retry will be performed. Defaults Exception</span>
+</span><span class='line'>  <span class="c1"># Notice: This method will call block many times, so don&#39;t put can&#39;t retryable code in it.</span>
+</span><span class='line'>  <span class="c1"># Example</span>
+</span><span class='line'>  <span class="c1"># =======</span>
+</span><span class='line'>  <span class="c1">#    begin </span>
+</span><span class='line'>  <span class="c1">#      retryable_proxy(:retry_times =&gt; 10,:on =&gt; Timeout::Error) do |ip,port|</span>
+</span><span class='line'>  <span class="c1">#         # your code here</span>
+</span><span class='line'>  <span class="c1">#      end</span>
+</span><span class='line'>  <span class="c1">#    rescue RetryError </span>
+</span><span class='line'>  <span class="c1">#      # handle error</span>
+</span><span class='line'>  <span class="c1">#    end </span>
+</span><span class='line'>  <span class="c1">#</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">retryable_proxy</span><span class="p">(</span><span class="n">options</span> <span class="o">=</span> <span class="p">{},</span><span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">opts</span> <span class="o">=</span> <span class="p">{</span><span class="ss">:retry_times</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">,</span><span class="ss">:on</span> <span class="o">=&gt;</span> <span class="no">Exception</span><span class="p">}</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">retry_times</span><span class="p">,</span> <span class="n">try_exception</span> <span class="o">=</span> <span class="n">opts</span><span class="o">[</span><span class="ss">:retry_times</span><span class="o">]</span><span class="p">,</span> <span class="n">opts</span><span class="o">[</span><span class="ss">:on</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">begin</span>
+</span><span class='line'>      <span class="n">proxy</span> <span class="o">=</span> <span class="ss">Lookup</span><span class="p">:</span><span class="ss">:Models</span><span class="o">::</span><span class="no">ProxyList</span><span class="o">.</span><span class="n">random</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">block</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">proxy</span><span class="o">.</span><span class="n">ip</span><span class="p">,</span><span class="n">proxy</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">rescue</span> <span class="n">try_exception</span> <span class="o">=&gt;</span> <span class="n">e</span>
+</span><span class='line'>      <span class="k">retry</span> <span class="k">if</span> <span class="p">(</span><span class="n">retry_times</span> <span class="o">-=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="k">raise</span> <span class="no">RetryError</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2013 - Allen Wei -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			
+
+<script type="text/javascript">
+      var disqus_shortname = 'digrubycom';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://allenwei.github.io/blog/2010/02/15/tips-how-to-write-ruby-retry/';
+        var disqus_url = 'http://allenwei.github.io/blog/2010/02/15/tips-how-to-write-ruby-retry/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

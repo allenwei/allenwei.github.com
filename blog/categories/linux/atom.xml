@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: linux | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/linux/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Send email out when your task done on linux]]></title>
+    <link href="http://allenwei.github.io/blog/2012/11/10/send-email-out-when-your-task-done-on-linux/"/>
+    <updated>2012-11-10T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2012/11/10/send-email-out-when-your-task-done-on-linux</id>
+    <content type="html"><![CDATA[<ol>
+<li>install postfix</li>
+<li>write email content in mail.txt</li>
+</ol>
+
+
+<p>```
+to: SEND_TO
+from: SEND_FROM
+subject: SUBJECT</p>
+
+<p>BODY
+```</p>
+
+<ol>
+<li>test it out</li>
+</ol>
+
+
+<p><code>
+sendmail -t &lt; mail.txt
+</code></p>
+
+<ol>
+<li>then put above command at end of your command, like</li>
+</ol>
+
+
+<p><code>
+YOUR COMMAND &amp;&amp; sendmail -t &lt; mail.txt
+</code></p>
+
+<ol>
+<li>if you want to the task continue after you logout remember use nohup</li>
+</ol>
+
+
+<p><code>
+nohup YOUR COMMAND &amp;&amp; sendmail -t &lt; mail.txt &amp;
+</code></p>
+]]></content>
+  </entry>
+  
+</feed>

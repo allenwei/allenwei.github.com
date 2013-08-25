@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: grep | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/grep/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Ack is Better than Grep]]></title>
+    <link href="http://allenwei.github.io/blog/2010/02/15/ack-is-better-than-grep/"/>
+    <updated>2010-02-15T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/02/15/ack-is-better-than-grep</id>
+    <content type="html"><![CDATA[<p><a href="http://betterthangrep.com/">Ack</a> written by perl, is a kind of grep, but faster than Grep, and smarter</p>
+
+<p>Install using port</p>
+
+<p><code>sudo port install p5-app-ack</code></p>
+
+<p>ok, try out.</p>
+
+<p>suppose you have a rails foler, run <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ack &mdash;ruby rails .</span></code></pre></td></tr></table></div></figure></notextile></div>,
+You can see it shows result very fast, and have keyword highlight.</p>
+
+<p>is it impressive?</p>
+
+<p>More usage <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>man ack</span></code></pre></td></tr></table></div></figure></notextile></div>, You will forget grep
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ack &mdash;help-typesack</span></code></pre></td></tr></table></div></figure></notextile></div>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>--[no]actionscript .as .mxml
+</span><span class='line'>--[no]ada          .ada .adb .ads
+</span><span class='line'>--[no]asm          .asm .s
+</span><span class='line'>--[no]batch        .bat .cmd
+</span><span class='line'>--[no]binary       Binary files, as defined by Perl's -B op (default: off)
+</span><span class='line'>--[no]cc           .c .h .xs
+</span><span class='line'>--[no]cfmx         .cfc .cfm .cfml
+</span><span class='line'>--[no]cpp          .cpp .cc .cxx .m .hpp .hh .h .hxx
+</span><span class='line'>--[no]csharp       .cs
+</span><span class='line'>--[no]css          .css
+</span><span class='line'>--[no]elisp        .el
+</span><span class='line'>--[no]erlang       .erl .hrl
+</span><span class='line'>--[no]fortran      .f .f77 .f90 .f95 .f03 .for .ftn .fpp
+</span><span class='line'>--[no]haskell      .hs .lhs
+</span><span class='line'>--[no]hh           .h
+</span><span class='line'>--[no]html         .htm .html .shtml .xhtml
+</span><span class='line'>--[no]java         .java .properties
+</span><span class='line'>--[no]js           .js
+</span><span class='line'>--[no]jsp          .jsp .jspx .jhtm .jhtml
+</span><span class='line'>--[no]lisp         .lisp .lsp
+</span><span class='line'>--[no]lua          .lua
+</span><span class='line'>--[no]make         Makefiles
+</span><span class='line'>--[no]mason        .mas .mhtml .mpl .mtxt
+</span><span class='line'>--[no]objc         .m .h
+</span><span class='line'>--[no]objcpp       .mm .h
+</span><span class='line'>--[no]ocaml        .ml .mli
+</span><span class='line'>--[no]parrot       .pir .pasm .pmc .ops .pod .pg .tg
+</span><span class='line'>--[no]perl         .pl .pm .pod .t
+</span><span class='line'>--[no]php          .php .phpt .php3 .php4 .php5
+</span><span class='line'>--[no]plone        .pt .cpt .metadata .cpy .py
+</span><span class='line'>--[no]python       .py
+</span><span class='line'>--[no]rake         Rakefiles
+</span><span class='line'>--[no]ruby         .rb .rhtml .rjs .rxml .erb .rake
+</span><span class='line'>--[no]scheme       .scm .ss
+</span><span class='line'>--[no]shell        .sh .bash .csh .tcsh .ksh .zsh
+</span><span class='line'>--[no]skipped      Files, but not directories, normally skipped by ack (default: off)
+</span><span class='line'>--[no]smalltalk    .st
+</span><span class='line'>--[no]sql          .sql .ctl
+</span><span class='line'>--[no]tcl          .tcl .itcl .itk
+</span><span class='line'>--[no]tex          .tex .cls .sty
+</span><span class='line'>--[no]text         Text files, as defined by Perl's -T op (default: off)
+</span><span class='line'>--[no]tt           .tt .tt2 .ttml
+</span><span class='line'>--[no]vb           .bas .cls .frm .ctl .vb .resx
+</span><span class='line'>--[no]vim          .vim
+</span><span class='line'>--[no]xml          .xml .dtd .xslt .ent
+</span><span class='line'>--[no]yaml         .yaml .yml
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+</feed>

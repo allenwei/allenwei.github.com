@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: gem | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/gem/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Manage Gems Separately in Different Projects Use Bundler]]></title>
+    <link href="http://allenwei.github.io/blog/2010/07/03/manage-gems-separately-in-different-projects-use-bundler/"/>
+    <updated>2010-07-03T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/07/03/manage-gems-separately-in-different-projects-use-bundler</id>
+    <content type="html"><![CDATA[<p>Before we use bundler, we unpack all dependencies into vendor folder. But we found it hard to use, especially one of your gem require @rubygems@ in code, yes it happens.</p>
+
+<p>The killer feature bunlder has in my view is: you can install gems in any folder, that&rsquo;s means you can install gems into your project folder directly. So each of your projects will has it&rsquo;s own gemset.I think this is a better solution than use rvm to create separate gemset for each project(see my <a href="http://www.allenwei.cn/manage-your-gem-using-rvm-gemset/">previous entry</a>.)</p>
+
+<p>If you have already installed bundler, or you have already using bundler, you can skip the first part, go  <a href="#passenger">bundler for passenger</a> directly</p>
+
+<h2>Upgrade Your Gem</h2>
+
+<p>First, check whether your gem version >= 1.3.6, if not upgrade your gem</p>
+
+<ul>
+<li>For mac user, just <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem update &mdash;system</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+<li>For linux user:
+
+<h2>Install rubygems-update gem <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem install rubygems-update</span></code></pre></td></tr></table></div></figure></notextile></div></h2>
+
+<h2>Upgrade rubygem, run <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>./bin/update_rubygems</span></code></pre></td></tr></table></div></figure></notextile></div>, if it says: &ldquo;can&rsquo;t find command&rdquo;, you can go to your gem @EXECUTABLE DIRECTORY@ which you can get by run command <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem environment</span></code></pre></td></tr></table></div></figure></notextile></div></h2></li>
+</ul>
+
+
+<h2>Install bundle</h2>
+
+<p>Install bundler using <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem install bundle</span></code></pre></td></tr></table></div></figure></notextile></div>, as this blog wrote, bundler verison is @0.9.26@</p>
+
+<p>h3(#passenger). Manage your gems use bundle</p>
+
+<p>There are good documents on <a href="http://gembundler.com/,">bundler website</a> you can check the basic usage there. I&rsquo;ll not mention here.</p>
+
+<p>ok, let&rsquo;s do it.</p>
+
+<p><code>bundle install .bundle</code></p>
+
+<p>Yes, that&rsquo;s it. Now your gems will only live in your project folder. It&rsquo;s very sweet when you need deploy multi projects on one machine.</p>
+
+<h3>Bundler with passenger</h3>
+
+<p>After you deploy your bundler enhanced project with passenger, passenger will yelling: @please gem install bundler@.
+the solution is add gem dependencies in @Gemfile@. Yes it&rsquo;s strange, but I google about it, I haven&rsquo;t better solution, if you know you can tell me.</p>
+]]></content>
+  </entry>
+  
+</feed>

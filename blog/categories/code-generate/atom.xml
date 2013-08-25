@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: code_generate | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/code-generate/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[The missing guide of rails 2 generator part 2]]></title>
+    <link href="http://allenwei.github.io/blog/2010/02/18/the-missing-guide-of-rails-2-generator-part-2/"/>
+    <updated>2010-02-18T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/02/18/the-missing-guide-of-rails-2-generator-part-2</id>
+    <content type="html"><![CDATA[<p>  Last post <a href="http://www.allenwei.cn/the-missing-guide-of-rails-2-generator-part-1/">The missing guide of rails 2 generator part 1</a> I showed you the basic knowledge about rails generator.</p>
+
+<p>This post I&rsquo;ll show you another type of generator <a href="http://edgedocs.planetargon.org/classes/Rails/Generator/NamedBase.html">Named Geneerator</a></p>
+
+<p>What&rsquo;s the different between basic generator and named generator?</p>
+
+<p>Commonly it used by this kind of generate <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>script/generate generator_name hello attr1:value1</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h1>named generator will get first argument you passed in as name attribute, and what&rsquo;s more it convert name to 3 types of string plural_name,singular_name,table_name</h1>
+
+<h1>For the reset of attributes will be parsed to <a href="http://api.rubyonrails.org/classes/Rails/Generator/GeneratedAttribute.html,">Rails::Generator::GeneratedAttribute</a> this class encapsulate you key-value pair.</h1>
+
+<p>for the example above.
+name attribute will be &ldquo;hello&rdquo;
+reset of attribute will create one GeneratedAttribute instance whose name is attr1, type is value1.
+You will think it is weird, yes. GeneratedAttribute is actually used for specify database column name and column type.</p>
+
+<p>According to your reqirement, you can choose basic generator or named generator.</p>
+
+<p>Keep DRY and using generator save your time.
+ rails generator.</p>
+
+<p>This post I&rsquo;ll show you another type of generator <a href="http://edgedocs.planetargon.org/classes/Rails/Generator/NamedBase.html">Named Geneerator</a></p>
+
+<p>What&rsquo;s the different between basic generator and named generator?</p>
+
+<p>Commonly it used by this kind of generate <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>script/generate generator_name hello attr1:value1</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h1>named generator will get first argument you passed in as name attribute, and what&rsquo;s more it convert name to 3 types of string plural_name,singular_name,table_name</h1>
+
+<h1>For the reset of attributes will be parsed to <a href="http://api.rubyonrails.org/classes/Rails/Generator/GeneratedAttribute.html,">Rails::Generator::GeneratedAttribute</a> this class encapsulate you key-value pair.</h1>
+
+<p>for the example above.
+name attribute will be &ldquo;hello&rdquo;
+reset of attribute will create one GeneratedAttribute instance whose name is attr1, type is value1.
+You will think it is weird, yes. GeneratedAttribute is actually used for specify database column name and column type.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The missing guide of rails 2 generator part 1]]></title>
+    <link href="http://allenwei.github.io/blog/2010/02/18/the-missing-guide-of-rails-2-generator-part-1/"/>
+    <updated>2010-02-18T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/02/18/the-missing-guide-of-rails-2-generator-part-1</id>
+    <content type="html"><![CDATA[<p>   When I try to find a guide about how to write rails generator, I can&rsquo;t find a good one. So I decide wrote one.
+   Though Rails 3 will come, but I think people will keep using rails 2 for a long period.</p>
+
+<p>Before we start you need know what is generator, rails provide many generator for us. You can type <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>script/generate</span></code></pre></td></tr></table></div></figure></notextile></div> in your RAILS_ROOT.
+You will find there is rails builtin: controller, helper, integration_test, mailer, metal, migration, model, observer, performance_test, plugin, resource, scaffold, session_migration
+I think the must familiar with some of these.</p>
+
+<p>Write your own generator is very simple, let me show you.</p>
+
+<p>Assuming we will create a hello generator</p>
+
+<ol>
+<li>create folder lib/generators/hello</li>
+<li>create a ruby file lib/generators/hello/hello_generator.rb
+<code>ruby
+class HelloGenerator &lt; Rails::Generator::Base
+def manifest # this method is default entrance of generator
+ puts "hello"
+end
+end
+</code></li>
+</ol>
+
+
+<p>3.run <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>script/generate hello</span></code></pre></td></tr></table></div></figure></notextile></div>, we print &ldquo;hello&rdquo;.</p>
+
+<p>It is not enough, we need other function, like create folder, create file according to some template, copy file etc.
+Rails is powerful. It support some basic command. I&rsquo;ll show you one by one.</p>
+
+<ol>
+<li><p>create folder, copy file
+<code>ruby
+class HelloGenerator &lt; Rails::Generator::Base
+def manifest # this method is default entrance of generator
+ record do |m| #Convenience method for generator subclasses to record a manifest.
+   m.directory File.join("app","view","hello")
+   m.file "relative_source","relative_destination"
+ end
+end
+end
+</code></p></li>
+<li><p>create file according to template
+<code>ruby
+class HelloGenerator &lt; Rails::Generator::Base
+def manifest # this method is default entrance of generator
+ record do |m| #Convenience method for generator subclasses to record a manifest.
+   m.directory File.join("app","view","hello")
+   m.template "hello",File.join("app","view","hello","hello.html.erb")
+ end
+end
+end
+</code>
+template is locate at your generator folder templates sub folder.</p></li>
+</ol>
+
+
+<p>For the example above, we create hello.html.erb according to hello template.
+hello template acctually is a erb file. you can put some ruby code there.
+for example
+``` html</p>
+
+<ul>
+  <% 3.times do |i| %>
+  <li><%= i%> times </li>
+  <% end %>
+</ul>
+
+
+<p>```</p>
+
+<p>After we know that, we do some fancy stuff, we can pass in some argument when we generate file.</p>
+
+<p>Think how we generate controller using rails builtin generator.
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>script/generate controller controller_name action1 action2</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>we can do the same think. But how we get the argument in generator?
+Assuming we call our generator using <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>script/generate hello china world</span></code></pre></td></tr></table></div></figure></notextile></div>
+we can get argument in generator from attribute <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>args</span></code></pre></td></tr></table></div></figure></notextile></div>
+``` ruby
+class HelloGenerator &lt; Rails::Generator::Base
+  def manifest # this method is default entrance of generator</p>
+
+<pre><code>record do |m| #Convenience method for generator subclasses to record a manifest. 
+  puts args.inspect # ["china","world"]
+  m.directory File.join("app","view","hello")
+  args.each do |word|
+    m.template "hello",File.join("app","view","hello","#{word}.html.erb")
+  end
+end
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<ol>
+<li>How we pass variable to template file?
+<code>ruby
+class HelloGenerator &lt; Rails::Generator::Base
+def manifest
+ record do |m|
+   m.template "hello",File.join("app","view","hello","hello.html.erb"),:assigns =&gt; {:var1 =&gt; "var1",:var2 =&gt; "var2"}
+ end
+end
+end
+</code></li>
+</ol>
+
+
+<p>OK, this is magic time. call this command <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>script/destroy hello china world</span></code></pre></td></tr></table></div></figure></notextile></div>
+See rails delete the resource we created using generator. Even if we didn&rsquo;t write any extra code for it.</p>
+
+<ol>
+<li>how we know it&rsquo;s create or destroy, you can get it from <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>options[:command]</span></code></pre></td></tr></table></div></figure></notextile></div>
+<code>ruby
+class HelloGenerator &lt; Rails::Generator::Base
+def manifest # this method is default entrance of generator
+ record do |m| #Convenience method for generator subclasses to record a manifest.
+   puts options[:command]
+ end
+end
+end
+</code></li>
+</ol>
+
+
+<p>More command rails generator support see <a href="http://api.rubyonrails.org/classes/Rails/Generator/Commands/Create.html">http://api.rubyonrails.org/classes/Rails/Generator/Commands/Create.html</a></p>
+
+<p>Next part I will introduce another generator Named Generator.
+like how we create scaffold <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>script/generate scaffold user name:string age:integer</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+</feed>

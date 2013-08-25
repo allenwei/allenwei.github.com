@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: retry | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/retry/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Tips - How to write ruby retry ]]></title>
+    <link href="http://allenwei.github.io/blog/2010/02/15/tips-how-to-write-ruby-retry/"/>
+    <updated>2010-02-15T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2010/02/15/tips-how-to-write-ruby-retry</id>
+    <content type="html"><![CDATA[<p>``` ruby
+  retry_times = 3
+  begin</p>
+
+<pre><code># Exception here
+</code></pre>
+
+<p>  rescue Exception => e</p>
+
+<pre><code>retry if (retry_times -= 1 ) &gt; 0
+</code></pre>
+
+<p>  end
+```</p>
+
+<p>Retryable method I wrote:
+``` ruby
+  # If you want to get a proxy but afraid of proxy failture, you can use this method.
+  # If retry times more than retry times in option parameter, will raise a RetryError.
+  # * :retry_times &ndash; Retry times , Defaults 10
+  # * :on &ndash; The Exception on which a retry will be performed. Defaults Exception
+  # Notice: This method will call block many times, so don&rsquo;t put can&rsquo;t retryable code in it.
+  # Example
+  # =======
+  #    begin
+  #      retryable_proxy(:retry_times => 10,:on => Timeout::Error) do |ip,port|
+  #         # your code here
+  #      end
+  #    rescue RetryError
+  #      # handle error
+  #    end
+  #
+  def retryable_proxy(options = {},&amp;block)</p>
+
+<pre><code>opts = {:retry_times =&gt; 10,:on =&gt; Exception}.merge(options)
+retry_times, try_exception = opts[:retry_times], opts[:on]
+begin 
+  proxy = Lookup::Models::ProxyList.random
+  return block.call(proxy.ip,proxy.port)
+rescue try_exception =&gt; e
+  retry if (retry_times -= 1) &gt; 0
+end
+raise RetryError 
+</code></pre>
+
+<p>  end</p>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: rcov | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/rcov/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Fix Rcov After Upgrade Rspec to 2.8]]></title>
+    <link href="http://allenwei.github.io/blog/2012/01/14/fix-rcov-after-upgrade-rspec-to-2-8/"/>
+    <updated>2012-01-14T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2012/01/14/fix-rcov-after-upgrade-rspec-to-2-8</id>
+    <content type="html"><![CDATA[<p>Rcov doesn&rsquo;t work after I upgrade rspec to 2.8,</p>
+
+<p>here is a quick fix</p>
+
+<p>add following code into your @spec_helper@</p>
+
+<p><code>
+require 'rspec/autorun'
+</code></p>
+]]></content>
+  </entry>
+  
+</feed>

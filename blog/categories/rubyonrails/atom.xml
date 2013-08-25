@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: RubyOnRails | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/rubyonrails/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Use Rails image_path outside the view]]></title>
+    <link href="http://allenwei.github.io/blog/2012/05/22/use-rails-image_path-outside-the-view/"/>
+    <updated>2012-05-22T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2012/05/22/use-rails-image_path-outside-the-view</id>
+    <content type="html"><![CDATA[<p>``` ruby
+  require &lsquo;action_view/helpers/asset_tag_helper&rsquo;</p>
+
+<p>  def image_path(source)</p>
+
+<pre><code>    @asset_paths ||= ActionView::Helpers::AssetTagHelper::AssetPaths.new(Bindo::Application.instance.config.action_controller)
+    @asset_paths.compute_public_path(source, "images")
+  end
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Fix Action Mailer Encoding issue after upgrade to ruby 1.9]]></title>
+    <link href="http://allenwei.github.io/blog/2012/05/19/fix-action-mailer-encoding-issue-after-upgrade-to-ruby-1-9/"/>
+    <updated>2012-05-19T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2012/05/19/fix-action-mailer-encoding-issue-after-upgrade-to-ruby-1-9</id>
+    <content type="html"><![CDATA[<p>Put following code in our @application.rb@</p>
+
+<p><code>ruby
+Encoding.default_external = "UTF-8"
+</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Use Rails NumberHelper in Sinatra application]]></title>
+    <link href="http://allenwei.github.io/blog/2012/03/19/use-rails-numberhelper-in-sinatra-application/"/>
+    <updated>2012-03-19T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2012/03/19/use-rails-numberhelper-in-sinatra-application</id>
+    <content type="html"><![CDATA[<p>first, see if actionpack in your gemfile.lock.
+if you are using action mailer, you should have actionpack</p>
+
+<p>put follow code in your Sinatra application</p>
+
+<p>``` ruby
+require &lsquo;action_view/helpers/number_helper&rsquo;</p>
+
+<p>include ActionView::Helpers::NumberHelper
+```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Fix Rcov After Upgrade Rspec to 2.8]]></title>
+    <link href="http://allenwei.github.io/blog/2012/01/14/fix-rcov-after-upgrade-rspec-to-2-8/"/>
+    <updated>2012-01-14T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2012/01/14/fix-rcov-after-upgrade-rspec-to-2-8</id>
+    <content type="html"><![CDATA[<p>Rcov doesn&rsquo;t work after I upgrade rspec to 2.8,</p>
+
+<p>here is a quick fix</p>
+
+<p>add following code into your @spec_helper@</p>
+
+<p><code>
+require 'rspec/autorun'
+</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS - Restkit Parse ActiveRecord Timestamp]]></title>
+    <link href="http://allenwei.github.io/blog/2011/10/28/restkit-parse-activerecord-timestamp/"/>
+    <updated>2011-10-28T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2011/10/28/restkit-parse-activerecord-timestamp</id>
+    <content type="html"><![CDATA[<p>If you are using Rails as your backend, Reskit will have trouble to parse ActiveRecord timestamp.</p>
+
+<p>Default ActiveRecord timestamp JSON out is @2008-12-29T00:27:42-08:00@</p>
+
+<p>You can not convert it to @NSDate@ directly use @NSDateFomatter@
+you must convert it to @2008-12-29T00:27:42-0800@</p>
+
+<p>But you have not chance to convert when you use Restkit Mapping.</p>
+
+<p>Here is my solution
+1. Monkey patch Time and DateTime class</p>
+
+<p>``` ruby
+class Time
+  def as_json(option=nil)</p>
+
+<pre><code>self.strftime("%Y-%m-%dT%H:%m:%S%z")
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>``` ruby
+class DateTime
+  def as_json(format=nil)</p>
+
+<pre><code>self.strftime("%Y-%m-%dT%H:%m:%S%z")
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<ol>
+<li>Add default date fomatter to RKObjectMapping
+<code>c
+ NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+ [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
+ [RKObjectMapping addDefaultDateFormatter:dateFormatter];
+</code></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>

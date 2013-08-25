@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: NSLog | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/nslog/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T15:35:14+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[iOS - Modern Logger Solution for iOS NSLogger]]></title>
+    <link href="http://allenwei.github.io/blog/2012/04/13/ios-modern-logger-solution-for-ios-nslogger/"/>
+    <updated>2012-04-13T00:00:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2012/04/13/ios-modern-logger-solution-for-ios-nslogger</id>
+    <content type="html"><![CDATA[<p><a href="https://github.com/fpillet/NSLogger">NSLogger</a>  is a replacement of NSLog which provide an GUI app to see and filter your log. you can log text, binary even image.</p>
+
+<p><a href="https://github.com/fpillet/NSLogger/raw/master/Screenshots/mainwindow.png" target="_blank"><image src="https://github.com/fpillet/NSLogger/raw/master/Screenshots/mainwindow.png" width="500px"></a></p>
+
+
+<p>But there is no log level control.
+You can use <a href="https://github.com/aharren/LibComponentLogging-NSLogger">LibComponentLogging-NSLog</a> LibComponentLogging extension</p>
+
+<p>or use your custom level control macro:</p>
+
+<p>``` c</p>
+
+<h1>import &ldquo;LoggerClient.h&rdquo;</h1>
+
+<h1>define BPLOGLEVEL_DEBUG    0</h1>
+
+<h1>define BPLOGLEVEL_INFO     1</h1>
+
+<h1>define BPLOGLEVEL_WARNING  2</h1>
+
+<h1>define BPLOGLEVEL_ERROR    3</h1>
+
+<h1>ifndef BPLOGLEVEL</h1>
+
+<h1>define BPLOGLEVEL BPLOGLEVEL_DEBUG</h1>
+
+<h1>endif</h1>
+
+<p>// you can refined tag in your file, using following code
+//
+// #undef BPLogTag
+// #define BPLogTag @&ldquo;OrderMessageReceiver&rdquo;</p>
+
+<h1>define BPLogTag @&ldquo;App&rdquo;</h1>
+
+<h1>ifdef DEBUG</h1>
+
+<pre><code>#define BPLog(level, tag, ...) \
+    if (level &gt;= BPLOGLEVEL) { \
+        LogMessageF(__FILE__,__LINE__,__FUNCTION__, tag, level,__VA_ARGS__); \
+    } 
+</code></pre>
+
+<h1>else</h1>
+
+<pre><code>#define BPLog(level, tag, ...)  ((void)0)
+</code></pre>
+
+<h1>endif // #ifdef DEBUG</h1>
+
+<h1>define BPLogError(&hellip;) BPLog(BPLOGLEVEL_ERROR, BPLogTag, <strong>VA_ARGS</strong>)</h1>
+
+<h1>define BPLogWarning(&hellip;) BPLog(BPLOGLEVEL_WARNING, BPLogTag, <strong>VA_ARGS</strong>)</h1>
+
+<h1>define BPLogInfo(&hellip;) BPLog(BPLOGLEVEL_INFO, BPLogTag, <strong>VA_ARGS</strong>)</h1>
+
+<h1>define BPLogDebug(&hellip;) BPLog(BPLOGLEVEL_DEBUG, BPLogTag, <strong>VA_ARGS</strong>)</h1>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+</feed>
