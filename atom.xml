@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Digruby]]></title>
+  <link href="http://allenwei.com/atom.xml" rel="self"/>
+  <link href="http://allenwei.com/"/>
+  <updated>2013-08-25T09:41:02+08:00</updated>
+  <id>http://allenwei.com/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Moving to Octopress]]></title>
+    <link href="http://allenwei.com/blog/2013/08/25/moving-to-octopress/"/>
+    <updated>2013-08-25T09:34:00+08:00</updated>
+    <id>http://allenwei.com/blog/2013/08/25/moving-to-octopress</id>
+    <content type="html"><![CDATA[<p>I used to use wordpress, which is easy to setup, easy to use, has lot&rsquo;s theme, plugins.</p>
+
+<p>But as a Ruby Developer, I think I need try write blog using Ruby way or
+Geek way.</p>
+]]></content>
+  </entry>
+  
+</feed>
