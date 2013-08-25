@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: DevOps | Digruby]]></title>
+  <link href="http://allenwei.github.io/blog/categories/devops/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T09:52:28+08:00</updated>
+  <id>http://allenwei.github.io/</id>
+  <author>
+    <name><![CDATA[Allen Wei]]></name>
+    <email><![CDATA[digruby@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[How to build high availability website]]></title>
+    <link href="http://allenwei.github.io/blog/2013/08/25/how-to-build-high-availability-website/"/>
+    <updated>2013-08-25T09:47:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2013/08/25/how-to-build-high-availability-website</id>
+    <content type="html"><![CDATA[<p>This is the topic I shared at Xi'an Rubyist Meetup</p>
+
+<p><script async="true" class="speakerdeck-embed" data-id="0e29a3c0ec20013021f056546b229879" src="//speakerdeck.com/assets/embed.js"> </script></p>
+]]></content>
+  </entry>
+  
+</feed>

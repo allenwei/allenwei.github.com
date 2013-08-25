@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Digruby]]></title>
-  <link href="http://allenwei.com/atom.xml" rel="self"/>
-  <link href="http://allenwei.com/"/>
-  <updated>2013-08-25T09:41:02+08:00</updated>
-  <id>http://allenwei.com/</id>
+  <link href="http://allenwei.github.io/atom.xml" rel="self"/>
+  <link href="http://allenwei.github.io/"/>
+  <updated>2013-08-25T09:52:28+08:00</updated>
+  <id>http://allenwei.github.io/</id>
   <author>
     <name><![CDATA[Allen Wei]]></name>
     <email><![CDATA[digruby@gmail.com]]></email>
@@ -14,10 +14,22 @@
 
   
   <entry>
+    <title type="html"><![CDATA[How to build high availability website]]></title>
+    <link href="http://allenwei.github.io/blog/2013/08/25/how-to-build-high-availability-website/"/>
+    <updated>2013-08-25T09:47:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2013/08/25/how-to-build-high-availability-website</id>
+    <content type="html"><![CDATA[<p>This is the topic I shared at Xi&#8217;an Rubyist Meetup</p>
+
+<script async="true" class="speakerdeck-embed" data-id="0e29a3c0ec20013021f056546b229879" src="http://allenwei.github.io//speakerdeck.com/assets/embed.js"> </script>
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Moving to Octopress]]></title>
-    <link href="http://allenwei.com/blog/2013/08/25/moving-to-octopress/"/>
+    <link href="http://allenwei.github.io/blog/2013/08/25/moving-to-octopress/"/>
     <updated>2013-08-25T09:34:00+08:00</updated>
-    <id>http://allenwei.com/blog/2013/08/25/moving-to-octopress</id>
+    <id>http://allenwei.github.io/blog/2013/08/25/moving-to-octopress</id>
     <content type="html"><![CDATA[<p>I used to use wordpress, which is easy to setup, easy to use, has lot&rsquo;s theme, plugins.</p>
 
 <p>But as a Ruby Developer, I think I need try write blog using Ruby way or

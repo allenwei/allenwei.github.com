@@ -1,23 +1,29 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://allenwei.com/blog/2013/08/25/moving-to-octopress/</loc>
+        <loc>http://allenwei.github.io/blog/2013/08/25/moving-to-octopress/</loc>
         <lastmod>2013-08-25T09:36:32+08:00</lastmod>
     </url>
     <url>
-        <loc>http://allenwei.com/404.html</loc>
+        <loc>
+            http://allenwei.github.io/blog/2013/08/25/how-to-build-high-availability-website/
+        </loc>
+        <lastmod>2013-08-25T09:51:06+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://allenwei.github.io/404.html</loc>
         <lastmod>2013-08-25T09:32:00+08:00</lastmod>
     </url>
     <url>
-        <loc>http://allenwei.com/blog/archives/</loc>
-        <lastmod>2013-08-25T09:36:32+08:00</lastmod>
+        <loc>http://allenwei.github.io/blog/archives/</loc>
+        <lastmod>2013-08-25T09:51:06+08:00</lastmod>
     </url>
     <url>
-        <loc>http://allenwei.com/blog/categories/</loc>
+        <loc>http://allenwei.github.io/blog/categories/</loc>
         <lastmod>2013-08-25T09:32:00+08:00</lastmod>
     </url>
     <url>
-        <loc>http://allenwei.com/</loc>
-        <lastmod>2013-08-25T09:36:32+08:00</lastmod>
+        <loc>http://allenwei.github.io/</loc>
+        <lastmod>2013-08-25T09:51:06+08:00</lastmod>
     </url>
 </urlset>
