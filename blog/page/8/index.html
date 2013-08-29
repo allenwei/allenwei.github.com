@@ -9,7 +9,7 @@
 	<meta name="author" content="Allen Wei">
 
 	
-	<meta name="description" content="Feb 15th, 2010 RubyOnRails, RubyOnRails, activerecord Don&#8217;t Override ActiveRecord Initialize Method Today I wrote an ActiveRecord initialize &hellip;">
+	<meta name="description" content="Feb 15th, 2010 Agile, RubyOnRails, ccb, ci, cruisecontrol.rb, hudson, ubuntu Install CI Hudson for Ruby on Ubuntu Before switch to Hudson, we use &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,6 +91,277 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-02-15T00:00:00+08:00" data-updated="true" itemprop="datePublished">Feb 15<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/agile/'>Agile</a>, <a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/ccb/'>ccb</a>, <a class='category' href='/blog/categories/ci/'>ci</a>, <a class='category' href='/blog/categories/cruisecontrol-dot-rb/'>cruisecontrol.rb</a>, <a class='category' href='/blog/categories/hudson/'>hudson</a>, <a class='category' href='/blog/categories/ubuntu/'>ubuntu</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/02/15/install-ci-hudson-for-ruby-on-ubuntu/" itemprop="url">Install CI Hudson for Ruby on Ubuntu</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Before switch to Hudson, we use CruiseControl.rb
+Compare to CruiseControl.rb, these features is what I favourite</p>
+
+<ul>
+<li>We can easily kill or start a new build</li>
+<li>We can test all branches or some branches in a git repository. It&rsquo;s</li>
+<li>It will send email to a mail list  when test broke and send another email to someone who break the test.</li>
+<li>It has code coverage plugin.</li>
+</ul>
+
+
+<h3>Then how to install on ubuntu</h3>
+
+<h4>Add Hudson source to ubuntu</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>wget -O - http://hudson-ci.org/debian/hudson-ci.org.key | sudo apt-key add -
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Add These line to</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/apt/sources.list</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>deb http://hudson-ci.org/debian binary/
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Install Hudson</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get update
+</span><span class='line'>sudo apt-get install hudson
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Start is easy</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo /etc/init.d/hudson start
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Configuration</h4>
+
+<p>Now you can enter with <code>your_server_url:8080</code></p>
+
+<h4>Install Hudson Plugin</h4>
+
+<p>Go to <code>Manage Hudson &gt; Manage Plugins &gt; Available</code>
+These plugins you need to install</p>
+
+<ul>
+<li>Rake</li>
+<li>Ruby Plugin</li>
+<li>Ruby metrics plugin</li>
+<li>Git Plugin (optional)</li>
+</ul>
+
+
+<h4>Create a new Hudson Job</h4>
+
+<ul>
+<li>Click</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>New Job</span></code></pre></td></tr></table></div></figure>
+
+
+<p> link
+* Enter your</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Job name</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Select</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Build a free-style software project</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Setup Git repository
+<strong> Enter Your URL of repository
+</strong> Branch Specifier, if you only want to test master you can type in</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>*/master</span></code></pre></td></tr></table></div></figure>
+
+
+<p>, leave blank hudson will test all your branches</p>
+
+<p>Ok, Save. We leave other configuration for now. we will back.</p>
+
+<p>Click</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Build Now</span></code></pre></td></tr></table></div></figure>
+
+
+<p> link at left. Hudson will clone your repository to it&rsquo;s workspace.
+If everything is ok, you can see your code in <code>/var/lib/hudson/jobs/YOUR_JOB_NAME/workspace</code></p>
+
+<h4>Add ci required rails plugins</h4>
+
+<p>Before you add these plugins, you need:</p>
+
+<ul>
+<li>create a new branch <code>git checkout -b ci</code></li>
+<li>Install ci_reporter plugin <code>./script/plugin install git://github.com/nicksieger/ci_reporter.git</code></li>
+<li>Install rails_rcov_engines plugin <code>./script/plugin install git://github.com/dam5s/rails_rcov_engines.git</code></li>
+<li><code>git add vendor/plugins/ci_reporter vendor/plugins/rails_rcov_engines</code></li>
+<li><code>git commit -m "add ci related plugins"</code></li>
+</ul>
+
+
+<h4>Continue Configuration</h4>
+
+<p>Back to you job configuration, finish reset parts of configuration</p>
+
+<ul>
+<li>Click the button</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Advanced..</span></code></pre></td></tr></table></div></figure>
+
+
+<p>, above &ldquo;Repository browser&rdquo;
+* Enter</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ci</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Build Triggers > Poll SCM</span></code></pre></td></tr></table></div></figure>
+
+
+<p> */10 * * * * , Poll git commit every 10 mins
+*</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Build > Add build step > Execute shell</span></code></pre></td></tr></table></div></figure>
+
+
+<p>, then enter</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake gems:install
+</span><span class='line'><span class="nb">export </span><span class="nv">CI_REPORTS</span><span class="o">=</span>results
+</span><span class='line'><span class="nb">export </span><span class="nv">RAILS_ENV</span><span class="o">=</span><span class="nb">test</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">CI_REPORTS</span><span class="o">=</span>results
+</span><span class='line'><span class="nb">export </span><span class="nv">RAILS_ENV</span><span class="o">=</span><span class="nb">test</span>
+</span><span class='line'><span class="c"># Prepare for rcov</span>
+</span><span class='line'><span class="o">[</span> -d <span class="s2">&quot;coverage&quot;</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> rm -rf coverage
+</span><span class='line'><span class="o">[</span> -d <span class="s2">&quot;results&quot;</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> rm -rf results
+</span><span class='line'>mkdir coverage
+</span><span class='line'>mkdir results
+</span><span class='line'><span class="c"># invoke rake</span>
+</span><span class='line'>rake db:create db:migrate ci:setup:testunit <span class="nb">test</span>:test:rcov <span class="nv">SHOW_ONLY</span><span class="o">=</span>models,helpers,controllers <span class="nv">RAILS_ENV</span><span class="o">=</span><span class="nb">test </span><span class="nv">RCOV_PARAMS</span><span class="o">=</span><span class="s2">&quot;--aggregate coverage/aggregate.data&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Post-build Actions > Publish JUnit test result report</span></code></pre></td></tr></table></div></figure>
+
+
+<p> enter</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>results/*.xml</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Post-build Actions > Publish Rcov report</span></code></pre></td></tr></table></div></figure>
+
+
+<p>, enter</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>coverage/test</span></code></pre></td></tr></table></div></figure>
+
+
+<p> in Rcov report directory
+*</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Post-build Actions > E-mail Notification</span></code></pre></td></tr></table></div></figure>
+
+
+<p>, config emails you want to send when test broke</p>
+
+<p>Ok, you can click Build Now. After build you will see the test result code coverage.</p>
+
+<blockquote><p>Test make perfect!</p></blockquote>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">

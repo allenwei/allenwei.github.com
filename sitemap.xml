@@ -391,12 +391,16 @@
         <lastmod>2013-08-25T12:52:01+08:00</lastmod>
     </url>
     <url>
+        <loc>http://allenwei.github.io/blog/2013/08/29/group-simplercov-results/</loc>
+        <lastmod>2013-08-29T11:13:24+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://allenwei.github.io/404.html</loc>
         <lastmod>2013-08-25T09:32:00+08:00</lastmod>
     </url>
     <url>
         <loc>http://allenwei.github.io/blog/archives/</loc>
-        <lastmod>2013-08-25T15:35:01+08:00</lastmod>
+        <lastmod>2013-08-29T11:13:24+08:00</lastmod>
     </url>
     <url>
         <loc>http://allenwei.github.io/blog/categories/</loc>
@@ -404,6 +408,6 @@
     </url>
     <url>
         <loc>http://allenwei.github.io/</loc>
-        <lastmod>2013-08-25T15:35:01+08:00</lastmod>
+        <lastmod>2013-08-29T11:13:24+08:00</lastmod>
     </url>
 </urlset>

@@ -9,7 +9,7 @@
 	<meta name="author" content="Allen Wei">
 
 	
-	<meta name="description" content="Mar 22nd, 2012 NSArray, iOS Dev, ios, objecitive-c iOS - Be Careful NSArray indexOfObject Method if you want to determine if an object in an array, &hellip;">
+	<meta name="description" content="Apr 13th, 2012 LibComponentLogging, Loging, NSLog, iOS Dev iOS - Modern Logger Solution for iOS NSLogger NSLogger is a replacement of NSLog which &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,6 +91,116 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-13T00:00:00+08:00" data-updated="true" itemprop="datePublished">Apr 13<span>th</span>, 2012</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/libcomponentlogging/'>LibComponentLogging</a>, <a class='category' href='/blog/categories/loging/'>Loging</a>, <a class='category' href='/blog/categories/nslog/'>NSLog</a>, <a class='category' href='/blog/categories/ios-dev/'>iOS Dev</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2012/04/13/ios-modern-logger-solution-for-ios-nslogger/" itemprop="url">iOS - Modern Logger Solution for iOS NSLogger</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p><a href="https://github.com/fpillet/NSLogger">NSLogger</a>  is a replacement of NSLog which provide an GUI app to see and filter your log. you can log text, binary even image.</p>
+
+<p><a href="https://github.com/fpillet/NSLogger/raw/master/Screenshots/mainwindow.png" target="_blank"><image src="https://github.com/fpillet/NSLogger/raw/master/Screenshots/mainwindow.png" width="500px"></a></p>
+
+
+<p>But there is no log level control.
+You can use <a href="https://github.com/aharren/LibComponentLogging-NSLogger">LibComponentLogging-NSLog</a> LibComponentLogging extension</p>
+
+<p>or use your custom level control macro:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#import &quot;LoggerClient.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#define BPLOGLEVEL_DEBUG    0</span>
+</span><span class='line'><span class="cp">#define BPLOGLEVEL_INFO     1</span>
+</span><span class='line'><span class="cp">#define BPLOGLEVEL_WARNING  2</span>
+</span><span class='line'><span class="cp">#define BPLOGLEVEL_ERROR    3</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#ifndef BPLOGLEVEL</span>
+</span><span class='line'><span class="cp">#define BPLOGLEVEL BPLOGLEVEL_DEBUG</span>
+</span><span class='line'><span class="cp">#endif</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// you can refined tag in your file, using following code</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'><span class="c1">// #undef BPLogTag</span>
+</span><span class='line'><span class="c1">// #define BPLogTag @&quot;OrderMessageReceiver&quot;</span>
+</span><span class='line'><span class="cp">#define BPLogTag @&quot;App&quot;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#ifdef DEBUG</span>
+</span><span class='line'>    <span class="err">#</span><span class="n">define</span> <span class="n">BPLog</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="p">...)</span> \
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">level</span> <span class="o">&gt;=</span> <span class="n">BPLOGLEVEL</span><span class="p">)</span> <span class="p">{</span> \
+</span><span class='line'>            <span class="n">LogMessageF</span><span class="p">(</span><span class="n">__FILE__</span><span class="p">,</span><span class="n">__LINE__</span><span class="p">,</span><span class="n">__FUNCTION__</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">level</span><span class="p">,</span><span class="n">__VA_ARGS__</span><span class="p">);</span> \
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'><span class="cp">#else</span>
+</span><span class='line'>    <span class="err">#</span><span class="n">define</span> <span class="n">BPLog</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="p">...)</span>  <span class="p">((</span><span class="kt">void</span><span class="p">)</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'><span class="cp">#endif </span><span class="c1">// #ifdef DEBUG</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#define BPLogError(...) BPLog(BPLOGLEVEL_ERROR, BPLogTag, __VA_ARGS__)</span>
+</span><span class='line'><span class="cp">#define BPLogWarning(...) BPLog(BPLOGLEVEL_WARNING, BPLogTag, __VA_ARGS__)</span>
+</span><span class='line'><span class="cp">#define BPLogInfo(...) BPLog(BPLOGLEVEL_INFO, BPLogTag, __VA_ARGS__)</span>
+</span><span class='line'><span class="cp">#define BPLogDebug(...) BPLog(BPLOGLEVEL_DEBUG, BPLogTag, __VA_ARGS__)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -644,60 +754,6 @@ you must convert it to @2008-12-29T00:27:42-0800@</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>export CC=/usr/bin/gcc-4.2</span></code></pre></td></tr></table></div></figure>
-
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-06T00:00:00+08:00" data-updated="true" itemprop="datePublished">Oct 6<span>th</span>, 2011</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/objective-c/'>Objective-c</a>, <a class='category' href='/blog/categories/ttimageview/'>TTImageView</a>, <a class='category' href='/blog/categories/three20/'>Three20</a>, <a class='category' href='/blog/categories/three20/'>Three20</a>, <a class='category' href='/blog/categories/uiimageview/'>UIImageView</a>, <a class='category' href='/blog/categories/ios-dev/'>iOS Dev</a>, <a class='category' href='/blog/categories/iphone/'>iPhone</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2011/10/06/three20-use-ttimageview-showing-remote-image/" itemprop="url">iOS - Three20 - Use TTImageView Instead of UIImageView Showing Remote Image</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>Thee20 is very good framework.</p>
-
-<p>The features of TTImageView
-1. Load image from remote
-2. Support default image
-3. Cache image, so you don&rsquo;t need load it again.
-4. Support reload image</p>
-
-<p>Find more to read source code of <a href="https://github.com/facebook/three20/blob/master/src/Three20UI/Headers/TTImageView.h">TTImageView</a></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#import &lt;Three20/Three20.h&gt;</span>
-</span><span class='line'><span class="n">TTImageView</span> <span class="o">*</span><span class="n">productImage</span> <span class="o">=</span> <span class="p">[[</span><span class="n">TTImageView</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">initWithFrame</span><span class="o">:</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">70</span><span class="p">)];</span>
-</span><span class='line'><span class="p">[</span><span class="n">productImage</span> <span class="n">setUrlPath</span><span class="o">:</span><span class="err">@</span><span class="s">&quot;http://a-image-url&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">productImage</span> <span class="n">setDefaultImage</span><span class="o">:</span><span class="p">[</span><span class="n">UIImage</span> <span class="n">imageNamed</span><span class="o">:</span><span class="err">@</span><span class="s">&quot;default_product_small.png&quot;</span><span class="p">]];</span>
-</span></code></pre></td></tr></table></div></figure>
 
 
 		

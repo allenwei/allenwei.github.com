@@ -9,7 +9,7 @@
 	<meta name="author" content="Allen Wei">
 
 	
-	<meta name="description" content="Mar 24th, 2010 RubyOnRails, capybara, cucumber, integration test, selenium, test, webrat Cucumber + Capybara - What We Need for Rails Integration &hellip;">
+	<meta name="description" content="Mar 30th, 2010 RubyOnRails, RubyOnRails, Tips, configuration, load order Rails Configuration Load Order As this blog post said. Rails configuration &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,6 +91,59 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-03-30T00:00:00+08:00" data-updated="true" itemprop="datePublished">Mar 30<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/configuration/'>configuration</a>, <a class='category' href='/blog/categories/load-order/'>load order</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/03/30/rails-configuration-load-order/" itemprop="url">Rails Configuration Load Order</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>As <a href="http://www.sekuda.com/rails_initialization_and_configuration_order">this blog post</a> said.</p>
+
+<p>Rails configuration load order is:</p>
+
+<h1>config/preinitializer.rb</h1>
+
+<h1>config/environment.rb</h1>
+
+<h1>config/environments/#{RAILS_ENV}.rb</h1>
+
+<h1>plugin initialization</h1>
+
+<h1>gem initialization</h1>
+
+<h1>config/initializer/*.rb</h1>
+
+<h1>all after_initialize blocks, in the order they were defined in (so same order as above)</h1>
+
+<h1>any junk left below the Rails::Initializer.run call/block in environment.rb</h1>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -1051,78 +1104,6 @@ Using</p>
 
 
 <p>p=. Same way you can add other helper method to your controller. :)</p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-02-15T00:00:00+08:00" data-updated="true" itemprop="datePublished">Feb 15<span>th</span>, 2010</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/private-method/'>private_method</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2010/02/15/tips-rewrite-private-method-gracefully/" itemprop="url">Tips - Rewrite Private Method Gracefully</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Test</span>
-</span><span class='line'>  <span class="kp">private</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">words</span>
-</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;origin word&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Test</span><span class="o">.</span><span class="n">class_eval</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">alias_method</span> <span class="ss">:origin_words</span><span class="p">,</span> <span class="ss">:words</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">words</span>
-</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;haha&quot;</span>
-</span><span class='line'>    <span class="n">origin_words</span>
-</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;haha end&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Test</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:words</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
 
 		
 		

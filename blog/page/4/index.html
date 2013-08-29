@@ -9,14 +9,7 @@
 	<meta name="author" content="Allen Wei">
 
 	
-	<meta name="description" content="Oct 25th, 2010 RubyOnRails, RubyOnRails, Tips, irb Tips - Simulate Rails Console in Ruby Project create a file: @console.rb@ 1
-2
-3
-4
-5
-6
-7
-#!/usr/ &hellip;">
+	<meta name="description" content="Nov 17th, 2010 RubyOnRails, json, ruby, yajl Faster JSON Parser Using Yajl-ruby There are there JSON library in ruby json json_pure and yajl-ruby &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -98,6 +91,95 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-11-17T00:00:00+08:00" data-updated="true" itemprop="datePublished">Nov 17<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/json/'>json</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/yajl/'>yajl</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/11/17/faster-json-parser-using-yajl-ruby/" itemprop="url">Faster JSON Parser Using Yajl-ruby</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>There are there JSON library in ruby <a href="http://flori.github.com/json/,">json</a> <a href="https://github.com/flori/json">json_pure</a> and <a href="https://github.com/brianmario/yajl-ruby">yajl-ruby</a></p>
+
+<h2>what&rsquo;s the different between these tree</h2>
+
+<p><a href="http://flori.github.com/json/">json</a> is C binding of original C implement</p>
+
+<p><a href="https://github.com/flori/json">json_pure</a> is pure ruby implement, this is for non-MRI ruby like JRuby/Maglev</p>
+
+<p><a href="https://github.com/brianmario/yajl-ruby">yajl-ruby</a> is C binding for <a href="http://lloyd.github.com/yajl/">yajl</a></p>
+
+<p>yajl stands for yet another json library</p>
+
+<h2>How is the speed</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>yail &gt; json &gt; json_pure    </span></code></pre></td></tr></table></div></figure>
+
+
+<p>here is the <a href="https://github.com/brianmario/yajl-ruby/tree/master/benchmark/">benchmark</a> from yajl source.</p>
+
+<p>According to my test yajl is ~3x faster than json</p>
+
+<h2>what&rsquo;s the feature of yajl</h2>
+
+<p>bq. JSON parsing and encoding directly to and from an IO stream (file, socket, etc) or String. Compressed stream parsing and encoding supported for Bzip2, Gzip and Deflate.
+Parse and encode multiple JSON objects to and from streams or strings continuously.
+JSON gem compatibility API &ndash; allows yajl-ruby to be used as a drop-in replacement for the JSON gem
+Basic HTTP client (only GET requests supported for now) which parses JSON directly off the response body as it’s being received
+~3.5x faster than JSON.generate
+~1.9x faster than JSON.parse
+~4.5x faster than YAML.load
+~377.5x faster than YAML.dump
+~1.5x faster than Marshal.load
+~2x faster than Marshal.dump</p>
+
+<h2>How to use</h2>
+
+<p>There already bunch of example on github pages, but doesn&rsquo;t have example about parse a file with more than one json object. The difference is use block.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;yajl&#39;</span>
+</span><span class='line'><span class="n">json</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;test.json&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="c1"># file with more than one json</span>
+</span><span class='line'><span class="n">parser</span> <span class="o">=</span> <span class="ss">Yajl</span><span class="p">:</span><span class="ss">:Parser</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">json</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="nb">hash</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="nb">hash</span><span class="o">.</span><span class="n">inspect</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -754,92 +836,6 @@ the solution is add gem dependencies in @Gemfile@. Yes it&rsquo;s strange, but I
 </span><span class='line'>   <span class="s2">&quot;cat&quot;</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="ss">:count</span><span class="p">)</span><span class="o">.</span><span class="n">arity</span>     <span class="c1">#=&gt; -1</span>
 </span></code></pre></td></tr></table></div></figure>
 
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-06-05T00:00:00+08:00" data-updated="true" itemprop="datePublished">Jun 5<span>th</span>, 2010</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/gemset/'>gemset</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/rvm/'>rvm</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2010/06/05/manage-your-gem-using-rvm-gemset/" itemprop="url">Manage Your Gem Using RVM Gemset</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>I think you already heard of <a href="http://rvm.beginrescueend.com/,">RVM</a> a great tool for ruby version management.</p>
-
-<p>What I like most is <a href="http://rvm.beginrescueend.com/gemsets/basics/,">Gemset</a> It allow you manage you gems in separate namespace.</p>
-
-<p>First, Install RVM. The official website have great <a href="http://rvm.beginrescueend.com/rvm/install/">document</a></p>
-
-<p>Then Install ruby, I&rsquo;ll install ruby 1.8.7</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rvm install 1.8.7</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After you installed ruby, you will have @default@ gemset and @global@ gemset
-List all you gemset</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rvm gemset list</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Create new gemset</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rvm gemset create new_gemset</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Use your newly created gemset</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rvm gemset use new_gemset</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You can also set your newly created gemset as default</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rvm use 1.8.7@new_gemset --default</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Here you may ask, do I need install all basic gem like @ruby-debug@ for every gemset?</p>
-
-<p><a href="http://rvm.beginrescueend.com/">RVM</a> has already solved your problem.</p>
-
-<p>First, switch to your global gemset.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rvm use 1.8.7@global</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then Install gems which you think it is default gem</p>
-
-<p>Then, you can switch back to your gemset.</p>
-
-<p>You may think, I may installed some gems twice, here you can uninstall the gem you have already installed in @global@ gemset.</p>
 
 		
 		

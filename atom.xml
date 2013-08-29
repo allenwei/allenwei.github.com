@@ -4,7 +4,7 @@
   <title><![CDATA[Digruby]]></title>
   <link href="http://allenwei.github.io/atom.xml" rel="self"/>
   <link href="http://allenwei.github.io/"/>
-  <updated>2013-08-25T15:35:14+08:00</updated>
+  <updated>2013-08-29T11:13:43+08:00</updated>
   <id>http://allenwei.github.io/</id>
   <author>
     <name><![CDATA[Allen Wei]]></name>
@@ -12,6 +12,42 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Group simplercov results]]></title>
+    <link href="http://allenwei.github.io/blog/2013/08/29/group-simplercov-results/"/>
+    <updated>2013-08-29T11:05:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2013/08/29/group-simplercov-results</id>
+    <content type="html"><![CDATA[<p>If you want SimpleCov group coverage results, you can use</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="no">SimpleCov</span><span class="o">.</span><span class="n">start</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">add_group</span> <span class="s1">&#39;Controllers&#39;</span><span class="p">,</span> <span class="s1">&#39;app/controllers&#39;</span>
+</span><span class='line'>    <span class="n">add_group</span> <span class="s1">&#39;Helpers&#39;</span><span class="p">,</span> <span class="s1">&#39;app/helpers&#39;</span>
+</span><span class='line'>    <span class="n">add_group</span> <span class="s1">&#39;Mailers&#39;</span><span class="p">,</span> <span class="s1">&#39;app/mailers&#39;</span>
+</span><span class='line'>    <span class="n">add_group</span> <span class="s1">&#39;Models&#39;</span><span class="p">,</span> <span class="s1">&#39;app/models&#39;</span>
+</span><span class='line'>    <span class="n">add_group</span> <span class="s1">&#39;Views&#39;</span><span class="p">,</span> <span class="s1">&#39;app/views&#39;</span>
+</span><span class='line'>    <span class="n">add_group</span> <span class="s1">&#39;Libraries&#39;</span><span class="p">,</span> <span class="s1">&#39;lib&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>which will helpful if your project structure is not normal.</p>
+
+<p>It will looks like:</p>
+
+<p><img src="http://colszowka.github.com/simplecov/devise_result-0.5.3.png" alt="SimpleCov coverage report" /></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to build high availability website]]></title>
@@ -722,34 +758,6 @@ you must convert it to @2008-12-29T00:27:42-0800@</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>export CC=/usr/bin/gcc-4.2</span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS - Three20 - Use TTImageView instead of UIImageView showing remote image]]></title>
-    <link href="http://allenwei.github.io/blog/2011/10/06/three20-use-ttimageview-showing-remote-image/"/>
-    <updated>2011-10-06T00:00:00+08:00</updated>
-    <id>http://allenwei.github.io/blog/2011/10/06/three20-use-ttimageview-showing-remote-image</id>
-    <content type="html"><![CDATA[<p>Thee20 is very good framework.</p>
-
-<p>The features of TTImageView
-1. Load image from remote
-2. Support default image
-3. Cache image, so you don&rsquo;t need load it again.
-4. Support reload image</p>
-
-<p>Find more to read source code of <a href="https://github.com/facebook/three20/blob/master/src/Three20UI/Headers/TTImageView.h">TTImageView</a></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#import &lt;Three20/Three20.h&gt;</span>
-</span><span class='line'><span class="n">TTImageView</span> <span class="o">*</span><span class="n">productImage</span> <span class="o">=</span> <span class="p">[[</span><span class="n">TTImageView</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">initWithFrame</span><span class="o">:</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">70</span><span class="p">)];</span>
-</span><span class='line'><span class="p">[</span><span class="n">productImage</span> <span class="n">setUrlPath</span><span class="o">:</span><span class="err">@</span><span class="s">&quot;http://a-image-url&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">productImage</span> <span class="n">setDefaultImage</span><span class="o">:</span><span class="p">[</span><span class="n">UIImage</span> <span class="n">imageNamed</span><span class="o">:</span><span class="err">@</span><span class="s">&quot;default_product_small.png&quot;</span><span class="p">]];</span>
-</span></code></pre></td></tr></table></div></figure>
 
 ]]></content>
   </entry>

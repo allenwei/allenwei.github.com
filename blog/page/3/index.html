@@ -9,7 +9,7 @@
 	<meta name="author" content="Allen Wei">
 
 	
-	<meta name="description" content="Jun 4th, 2011 RubyOnRails, RubyOnRails, devise Devise Do Not Redirect to Login Page When Session Timeout By default, devise will redirect to login &hellip;">
+	<meta name="description" content="Oct 6th, 2011 Objective-c, TTImageView, Three20, Three20, UIImageView, iOS Dev, iPhone iOS - Three20 - Use TTImageView Instead of UIImageView &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,6 +91,60 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-06T00:00:00+08:00" data-updated="true" itemprop="datePublished">Oct 6<span>th</span>, 2011</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/objective-c/'>Objective-c</a>, <a class='category' href='/blog/categories/ttimageview/'>TTImageView</a>, <a class='category' href='/blog/categories/three20/'>Three20</a>, <a class='category' href='/blog/categories/three20/'>Three20</a>, <a class='category' href='/blog/categories/uiimageview/'>UIImageView</a>, <a class='category' href='/blog/categories/ios-dev/'>iOS Dev</a>, <a class='category' href='/blog/categories/iphone/'>iPhone</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2011/10/06/three20-use-ttimageview-showing-remote-image/" itemprop="url">iOS - Three20 - Use TTImageView Instead of UIImageView Showing Remote Image</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Thee20 is very good framework.</p>
+
+<p>The features of TTImageView
+1. Load image from remote
+2. Support default image
+3. Cache image, so you don&rsquo;t need load it again.
+4. Support reload image</p>
+
+<p>Find more to read source code of <a href="https://github.com/facebook/three20/blob/master/src/Three20UI/Headers/TTImageView.h">TTImageView</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#import &lt;Three20/Three20.h&gt;</span>
+</span><span class='line'><span class="n">TTImageView</span> <span class="o">*</span><span class="n">productImage</span> <span class="o">=</span> <span class="p">[[</span><span class="n">TTImageView</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">initWithFrame</span><span class="o">:</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">70</span><span class="p">)];</span>
+</span><span class='line'><span class="p">[</span><span class="n">productImage</span> <span class="n">setUrlPath</span><span class="o">:</span><span class="err">@</span><span class="s">&quot;http://a-image-url&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">productImage</span> <span class="n">setDefaultImage</span><span class="o">:</span><span class="p">[</span><span class="n">UIImage</span> <span class="n">imageNamed</span><span class="o">:</span><span class="err">@</span><span class="s">&quot;default_product_small.png&quot;</span><span class="p">]];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -1237,95 +1291,6 @@
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-11-17T00:00:00+08:00" data-updated="true" itemprop="datePublished">Nov 17<span>th</span>, 2010</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/json/'>json</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/yajl/'>yajl</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2010/11/17/faster-json-parser-using-yajl-ruby/" itemprop="url">Faster JSON Parser Using Yajl-ruby</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>There are there JSON library in ruby <a href="http://flori.github.com/json/,">json</a> <a href="https://github.com/flori/json">json_pure</a> and <a href="https://github.com/brianmario/yajl-ruby">yajl-ruby</a></p>
-
-<h2>what&rsquo;s the different between these tree</h2>
-
-<p><a href="http://flori.github.com/json/">json</a> is C binding of original C implement</p>
-
-<p><a href="https://github.com/flori/json">json_pure</a> is pure ruby implement, this is for non-MRI ruby like JRuby/Maglev</p>
-
-<p><a href="https://github.com/brianmario/yajl-ruby">yajl-ruby</a> is C binding for <a href="http://lloyd.github.com/yajl/">yajl</a></p>
-
-<p>yajl stands for yet another json library</p>
-
-<h2>How is the speed</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>yail &gt; json &gt; json_pure    </span></code></pre></td></tr></table></div></figure>
-
-
-<p>here is the <a href="https://github.com/brianmario/yajl-ruby/tree/master/benchmark/">benchmark</a> from yajl source.</p>
-
-<p>According to my test yajl is ~3x faster than json</p>
-
-<h2>what&rsquo;s the feature of yajl</h2>
-
-<p>bq. JSON parsing and encoding directly to and from an IO stream (file, socket, etc) or String. Compressed stream parsing and encoding supported for Bzip2, Gzip and Deflate.
-Parse and encode multiple JSON objects to and from streams or strings continuously.
-JSON gem compatibility API &ndash; allows yajl-ruby to be used as a drop-in replacement for the JSON gem
-Basic HTTP client (only GET requests supported for now) which parses JSON directly off the response body as it’s being received
-~3.5x faster than JSON.generate
-~1.9x faster than JSON.parse
-~4.5x faster than YAML.load
-~377.5x faster than YAML.dump
-~1.5x faster than Marshal.load
-~2x faster than Marshal.dump</p>
-
-<h2>How to use</h2>
-
-<p>There already bunch of example on github pages, but doesn&rsquo;t have example about parse a file with more than one json object. The difference is use block.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;yajl&#39;</span>
-</span><span class='line'><span class="n">json</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;test.json&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="c1"># file with more than one json</span>
-</span><span class='line'><span class="n">parser</span> <span class="o">=</span> <span class="ss">Yajl</span><span class="p">:</span><span class="ss">:Parser</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">json</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="nb">hash</span><span class="o">|</span>
-</span><span class='line'>  <span class="nb">puts</span> <span class="nb">hash</span><span class="o">.</span><span class="n">inspect</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
 
 		
 		
