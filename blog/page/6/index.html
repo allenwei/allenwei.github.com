@@ -9,7 +9,7 @@
 	<meta name="author" content="Allen Wei">
 
 	
-	<meta name="description" content="Mar 30th, 2010 RubyOnRails, RubyOnRails, Tips, configuration, load order Rails Configuration Load Order As this blog post said. Rails configuration &hellip;">
+	<meta name="description" content="Mar 30th, 2010 RubyOnRails, RubyOnRails, Tips, active_record, metaprograming Tips - Send Method Into Active Record If you want to enhance @ &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,6 +91,132 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-03-30T00:00:00+08:00" data-updated="true" itemprop="datePublished">Mar 30<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/active-record/'>active_record</a>, <a class='category' href='/blog/categories/metaprograming/'>metaprograming</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/03/30/tips-send-method-into-active-record/" itemprop="url">Tips - Send Method Into Active Record</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h4>If you want to enhance @ActiveRecord@, what you need do?</h4>
+
+<p>Write a piece of code in @lib@ like this</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Usage</span>
+</span><span class='line'><span class="c1"># =========</span>
+</span><span class='line'><span class="c1"># class SomeModel</span>
+</span><span class='line'><span class="c1">#   money :amount,:consideration_value</span>
+</span><span class='line'><span class="c1"># end</span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'><span class="c1"># options</span>
+</span><span class='line'><span class="c1"># ========</span>
+</span><span class='line'><span class="c1"># precision =&gt; 2</span>
+</span><span class='line'><span class="c1"># delimiter =&gt; &quot;,&quot;</span>
+</span><span class='line'><span class="k">module</span> <span class="nn">Moneyable</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">base</span><span class="o">.</span><span class="n">extend</span> <span class="no">ClassMethods</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">ClassMethods</span>
+</span><span class='line'>    <span class="kp">include</span> <span class="o">::</span><span class="no">CurrencyRounding</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">money</span><span class="p">(</span><span class="o">*</span><span class="n">names</span><span class="p">)</span>
+</span><span class='line'>      <span class="kp">include</span> <span class="no">CurrencyRounding</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">names</span><span class="o">.</span><span class="n">last</span><span class="o">.</span><span class="n">kind_of?</span><span class="p">(</span><span class="no">Hash</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">options</span> <span class="o">=</span> <span class="n">names</span><span class="o">.</span><span class="n">pop</span>
+</span><span class='line'>      <span class="k">else</span>
+</span><span class='line'>        <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>      <span class="n">cattr_accessor</span> <span class="ss">:variables_need_format</span>
+</span><span class='line'>      <span class="n">names</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span>  <span class="o">|</span><span class="nb">name</span><span class="o">|</span>
+</span><span class='line'>        <span class="nb">self</span><span class="o">.</span><span class="n">variables_need_format</span> <span class="o">||=</span> <span class="o">[]</span>
+</span><span class='line'>        <span class="nb">self</span><span class="o">.</span><span class="n">variables_need_format</span> <span class="o">&lt;&lt;</span> <span class="nb">name</span><span class="o">.</span><span class="n">to_sym</span>
+</span><span class='line'>        <span class="n">define_method</span> <span class="s2">&quot;formatted_</span><span class="si">#{</span><span class="nb">name</span><span class="o">.</span><span class="n">to_s</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">do</span>
+</span><span class='line'>          <span class="n">nice_rounding_with_format</span><span class="p">(</span><span class="nb">send</span><span class="p">(</span><span class="nb">name</span><span class="p">),</span><span class="n">options</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then Hack @AcitveRecord@
+puts code below in enviroment.rb</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># in &#39;Rails::Initializer.run do |config|&#39; block</span>
+</span><span class='line'><span class="c1"># if there is &#39;no config.after_initialize&#39; </span>
+</span><span class='line'> <span class="n">config</span><span class="o">.</span><span class="n">after_initialize</span> <span class="k">do</span>
+</span><span class='line'>    <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:include</span><span class="p">,</span> <span class="no">Moneyable</span><span class="p">)</span>
+</span><span class='line'> <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -1056,54 +1182,6 @@ Using</p>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Account</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="ss">:all</span><span class="p">,</span> <span class="ss">:conditions</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="s1">&#39;name LIKE :name AND updated_at &lt; :date&#39;</span><span class="p">,</span> <span class="p">{</span><span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;aname&quot;</span><span class="p">,</span> <span class="ss">:date</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="o">.</span><span class="n">days</span><span class="o">.</span><span class="n">ago</span><span class="p">}</span><span class="o">]</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-02-15T00:00:00+08:00" data-updated="true" itemprop="datePublished">Feb 15<span>th</span>, 2010</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/actioncontroller/'>actioncontroller</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2010/02/15/tips-use-number_to_currency-in-controller/" itemprop="url">Tips - Use Number_to_currency in Controller</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>Just include</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NumberHelper</span></code></pre></td></tr></table></div></figure>
-
-
-<p>, like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="kp">include</span> <span class="ss">ActionView</span><span class="p">:</span><span class="ss">:Helpers</span><span class="o">::</span><span class="no">NumberHelper</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>p=. Same way you can add other helper method to your controller. :)</p>
 
 		
 		

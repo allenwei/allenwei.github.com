@@ -9,7 +9,7 @@
 	<meta name="author" content="Allen Wei">
 
 	
-	<meta name="description" content="Apr 13th, 2012 LibComponentLogging, Loging, NSLog, iOS Dev iOS - Modern Logger Solution for iOS NSLogger NSLogger is a replacement of NSLog which &hellip;">
+	<meta name="description" content="May 10th, 2012 UIScrolView, iOS Dev, ios, keyboard iOS - Right Way to Handle Keyboard Appear/disappear in iOS 5 Because after iOS 5, keyboard will &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,6 +91,154 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-10T00:00:00+08:00" data-updated="true" itemprop="datePublished">May 10<span>th</span>, 2012</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/uiscrolview/'>UIScrolView</a>, <a class='category' href='/blog/categories/ios-dev/'>iOS Dev</a>, <a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/keyboard/'>keyboard</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2012/05/10/ios-right-way-to-handle-keyboard-appeardisappear-in-ios-5/" itemprop="url">iOS - Right Way to Handle Keyboard Appear/disappear in iOS 5</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Because after iOS 5, keyboard will have dynamic height,event more split and doc feature will position keyboard in directly location, so the good way to handle keyboard is:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@interface KeyboardScrollView : UIScrollView
+</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#import &quot;KeyboardScrollView.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">@</span><span class="n">implementation</span> <span class="n">KeyboardScrollView</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">drawRect</span><span class="o">:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="n">rect</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[[</span><span class="n">NSNotificationCenter</span> <span class="n">defaultCenter</span><span class="p">]</span> <span class="n">addObserver</span><span class="o">:</span><span class="n">self</span>
+</span><span class='line'>                                             <span class="nl">selector:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">keyboardFrameChanged</span><span class="o">:</span><span class="p">)</span>
+</span><span class='line'>                                                 <span class="nl">name:</span><span class="n">UIKeyboardDidChangeFrameNotification</span> <span class="n">object</span><span class="o">:</span><span class="n">nil</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">drawRect</span><span class="o">:</span><span class="n">rect</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">keyboardFrameChanged</span><span class="o">:</span><span class="p">(</span><span class="n">NSNotification</span><span class="o">*</span><span class="p">)</span><span class="n">aNotification</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSDictionary</span><span class="o">*</span> <span class="n">info</span> <span class="o">=</span> <span class="p">[</span><span class="n">aNotification</span> <span class="n">userInfo</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">CGPoint</span> <span class="n">from</span> <span class="o">=</span> <span class="p">[[</span><span class="n">info</span> <span class="n">objectForKey</span><span class="o">:</span><span class="n">UIKeyboardFrameBeginUserInfoKey</span><span class="p">]</span> <span class="n">CGRectValue</span><span class="p">].</span><span class="n">origin</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">CGPoint</span> <span class="n">to</span> <span class="o">=</span> <span class="p">[[</span><span class="n">info</span> <span class="n">objectForKey</span><span class="o">:</span><span class="n">UIKeyboardFrameEndUserInfoKey</span><span class="p">]</span> <span class="n">CGRectValue</span><span class="p">].</span><span class="n">origin</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">float</span> <span class="n">height</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">UIInterfaceOrientationIsLandscape</span><span class="p">([</span><span class="n">UIApplication</span> <span class="n">sharedApplication</span><span class="p">].</span><span class="n">statusBarOrientation</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">height</span> <span class="o">=</span> <span class="n">to</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">from</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">height</span> <span class="o">=</span> <span class="n">to</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">from</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="n">setContentSize</span><span class="o">:</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">+</span> <span class="n">height</span><span class="p">)];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">touchesBegan</span><span class="o">:</span><span class="p">(</span><span class="n">NSSet</span> <span class="o">*</span><span class="p">)</span><span class="n">touches</span> <span class="n">withEvent</span><span class="o">:</span><span class="p">(</span><span class="n">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="n">event</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="n">UITouch</span> <span class="o">*</span><span class="n">touch</span> <span class="n">in</span> <span class="n">touches</span><span class="p">){</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="n">touch</span><span class="p">.</span><span class="n">view</span> <span class="o">==</span> <span class="n">self</span><span class="p">){</span>
+</span><span class='line'>          <span class="p">[</span><span class="n">self</span> <span class="n">findAndResignFirstResponder</span><span class="p">];</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">touchesBegan</span><span class="o">:</span><span class="n">touches</span> <span class="n">withEvent</span><span class="o">:</span><span class="n">event</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="o">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">findAndResignFirstResponder</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">for</span> <span class="p">(</span><span class="n">UIView</span> <span class="o">*</span><span class="n">aView</span> <span class="n">in</span> <span class="p">[</span><span class="n">self</span> <span class="n">subviews</span><span class="p">]){</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">([</span><span class="n">aView</span> <span class="n">isFirstResponder</span><span class="p">]</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>          <span class="p">[</span><span class="n">aView</span> <span class="n">resignFirstResponder</span><span class="p">];</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">dealloc</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[[</span><span class="n">NSNotificationCenter</span> <span class="n">defaultCenter</span><span class="p">]</span> <span class="n">removeObserver</span><span class="o">:</span><span class="n">self</span> <span class="n">name</span><span class="o">:</span><span class="n">UIKeyboardDidChangeFrameNotification</span> <span class="n">object</span><span class="o">:</span><span class="n">nil</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -704,56 +852,6 @@ you must convert it to @2008-12-29T00:27:42-0800@</p>
 </span><span class='line'><span class="p">[</span><span class="n">dateFormatter</span> <span class="n">setDateFormat</span><span class="o">:</span><span class="err">@</span><span class="s">&quot;yyyy-MM-dd&#39;T&#39;HH:mm:ssZ&quot;</span><span class="p">];</span>
 </span><span class='line'><span class="p">[</span><span class="n">RKObjectMapping</span> <span class="n">addDefaultDateFormatter</span><span class="o">:</span><span class="n">dateFormatter</span><span class="p">];</span>
 </span></code></pre></td></tr></table></div></figure>
-
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-28T00:00:00+08:00" data-updated="true" itemprop="datePublished">Oct 28<span>th</span>, 2011</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/gcc/'>gcc</a>, <a class='category' href='/blog/categories/ios-dev/'>iOS Dev</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/xcode/'>xcode</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2011/10/28/fix-gcc-issue-after-install-xcode-4-2/" itemprop="url">Fix Gcc Issue After Install Xcode 4.2</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>I can not install gem after installed xcode 4.2. It throws bus error.</p>
-
-<p>the problem is xcode replace gcc with llvm-gcc</p>
-
-<p>How to fix it:
-1. Install standalone gcc
-<a href="http://cloud.github.com/downloads/kennethreitz/osx-gcc-installer/GCC-10.7-v2.pkg" target="_blank"> <a href="http://cloud.github.com/downloads/kennethreitz/osx-gcc-installer/GCC-10.7-v2.pkg">http://cloud.github.com/downloads/kennethreitz/osx-gcc-installer/GCC-10.7-v2.pkg</a></a></p>
-
-<ol>
-<li>add gcc environment in your bash</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>export CC=/usr/bin/gcc-4.2</span></code></pre></td></tr></table></div></figure>
 
 
 		

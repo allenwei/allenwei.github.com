@@ -4,7 +4,7 @@
   <title><![CDATA[Digruby]]></title>
   <link href="http://allenwei.github.io/atom.xml" rel="self"/>
   <link href="http://allenwei.github.io/"/>
-  <updated>2013-08-29T11:13:43+08:00</updated>
+  <updated>2013-10-25T22:41:41+08:00</updated>
   <id>http://allenwei.github.io/</id>
   <author>
     <name><![CDATA[Allen Wei]]></name>
@@ -12,6 +12,22 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS7 transparent navigation bar]]></title>
+    <link href="http://allenwei.github.io/blog/2013/10/25/ios7-transparent-navigation-bar/"/>
+    <updated>2013-10-25T22:35:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2013/10/25/ios7-transparent-navigation-bar</id>
+    <content type="html"><![CDATA[<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">.</span><span class="n">navigationBar</span> <span class="nl">setBackgroundImage:</span><span class="p">[</span><span class="n">UIImage</span> <span class="n">new</span><span class="p">]</span> <span class="nl">forBarMetrics:</span><span class="n">UIBarMetricsDefault</span><span class="p">];</span>
+</span><span class='line'><span class="n">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">.</span><span class="n">navigationBar</span><span class="p">.</span><span class="n">shadowImage</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIImage</span> <span class="n">new</span><span class="p">];</span>
+</span><span class='line'><span class="n">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">.</span><span class="n">navigationBar</span><span class="p">.</span><span class="n">translucent</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Group simplercov results]]></title>
@@ -734,30 +750,6 @@ you must convert it to @2008-12-29T00:27:42-0800@</p>
 </span><span class='line'><span class="p">[</span><span class="n">dateFormatter</span> <span class="n">setDateFormat</span><span class="o">:</span><span class="err">@</span><span class="s">&quot;yyyy-MM-dd&#39;T&#39;HH:mm:ssZ&quot;</span><span class="p">];</span>
 </span><span class='line'><span class="p">[</span><span class="n">RKObjectMapping</span> <span class="n">addDefaultDateFormatter</span><span class="o">:</span><span class="n">dateFormatter</span><span class="p">];</span>
 </span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Fix gcc issue after install xcode 4.2]]></title>
-    <link href="http://allenwei.github.io/blog/2011/10/28/fix-gcc-issue-after-install-xcode-4-2/"/>
-    <updated>2011-10-28T00:00:00+08:00</updated>
-    <id>http://allenwei.github.io/blog/2011/10/28/fix-gcc-issue-after-install-xcode-4-2</id>
-    <content type="html"><![CDATA[<p>I can not install gem after installed xcode 4.2. It throws bus error.</p>
-
-<p>the problem is xcode replace gcc with llvm-gcc</p>
-
-<p>How to fix it:
-1. Install standalone gcc
-<a href="http://cloud.github.com/downloads/kennethreitz/osx-gcc-installer/GCC-10.7-v2.pkg" target="_blank"> <a href="http://cloud.github.com/downloads/kennethreitz/osx-gcc-installer/GCC-10.7-v2.pkg">http://cloud.github.com/downloads/kennethreitz/osx-gcc-installer/GCC-10.7-v2.pkg</a></a></p>
-
-<ol>
-<li>add gcc environment in your bash</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>export CC=/usr/bin/gcc-4.2</span></code></pre></td></tr></table></div></figure>
 
 ]]></content>
   </entry>

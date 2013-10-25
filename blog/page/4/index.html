@@ -9,7 +9,7 @@
 	<meta name="author" content="Allen Wei">
 
 	
-	<meta name="description" content="Nov 17th, 2010 RubyOnRails, json, ruby, yajl Faster JSON Parser Using Yajl-ruby There are there JSON library in ruby json json_pure and yajl-ruby &hellip;">
+	<meta name="description" content="Dec 1st, 2010 Tips, benchmark, define_method, eval, metaprograming, ruby Tips - Move Eval From Runtime to Parse Time As we @eval@ some code on &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,6 +91,121 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-12-01T00:00:00+08:00" data-updated="true" itemprop="datePublished">Dec 1<span>st</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/benchmark/'>benchmark</a>, <a class='category' href='/blog/categories/define-method/'>define_method</a>, <a class='category' href='/blog/categories/eval/'>eval</a>, <a class='category' href='/blog/categories/metaprograming/'>metaprograming</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/12/01/tips-move-eval-from-runtime-to-parse-time/" itemprop="url">Tips - Move Eval From Runtime to Parse Time</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>As we @eval@ some code on runtime, but do you know eval is slow?</p>
+
+<p>A best practice is move eval from uuntime to parse time</p>
+
+<p>Here is the benchmark:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>            user     system      total        real
+</span><span class='line'>runtime     0.180000   0.020000   0.200000 (  0.201734)
+</span><span class='line'>parse time  0.270000   0.030000   0.300000 (  0.323348)
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here is the code</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;benchmark&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Benchmark</span><span class="o">.</span><span class="n">bm</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">x</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="s2">&quot;runtime&quot;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">class</span> <span class="nc">PersonA</span>
+</span><span class='line'>      <span class="mi">10_000</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>        <span class="n">define_method</span> <span class="s2">&quot;method_</span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">do</span>
+</span><span class='line'>          <span class="nb">eval</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="n">a</span> <span class="o">=</span> <span class="no">PersonA</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="mi">10_000</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">a</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;method_</span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="n">x</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="s2">&quot;parse time&quot;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">class</span> <span class="nc">PersonB</span>
+</span><span class='line'>      <span class="mi">10_000</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>        <span class="nb">eval</span> <span class="s2">&quot;define_method &#39;method_</span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">&#39; do </span>
+</span><span class='line'><span class="s2">        </span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2"></span>
+</span><span class='line'><span class="s2">    end&quot;</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">b</span> <span class="o">=</span> <span class="no">PersonB</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="mi">10_000</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">b</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;method_</span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -752,88 +867,6 @@ the solution is add gem dependencies in @Gemfile@. Yes it&rsquo;s strange, but I
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">h</span> <span class="o">=</span> <span class="no">Hash</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;default&quot;</span><span class="p">)</span>
 </span><span class='line'><span class="n">h</span><span class="o">[</span><span class="s2">&quot;wrong_value&quot;</span><span class="o">]</span> <span class="c1"># =&gt; &quot;default&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-06-10T00:00:00+08:00" data-updated="true" itemprop="datePublished">Jun 10<span>th</span>, 2010</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2010/06/10/tips-how-many-argument-a-method-has/" itemprop="url">Tips - How Many Argument a Method Has</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>Find a method in @arity@</p>
-
-<p>Here is doc from ruby doc</p>
-
-<p>bq. Returns an indication of the number of arguments accepted by a method. Returns a nonnegative integer for methods that take a fixed number of arguments. For Ruby methods that take a variable number of arguments, returns -n-1, where n is the number of required arguments. For methods written in C, returns -1 if the call takes a variable number of arguments.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">class</span> <span class="nc">C</span>
-</span><span class='line'>     <span class="k">def</span> <span class="nf">one</span><span class="p">;</span>    <span class="k">end</span>
-</span><span class='line'>     <span class="k">def</span> <span class="nf">two</span><span class="p">(</span><span class="n">a</span><span class="p">);</span> <span class="k">end</span>
-</span><span class='line'>     <span class="k">def</span> <span class="nf">three</span><span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="p">);</span>  <span class="k">end</span>
-</span><span class='line'>     <span class="k">def</span> <span class="nf">four</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">);</span> <span class="k">end</span>
-</span><span class='line'>     <span class="k">def</span> <span class="nf">five</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="o">*</span><span class="n">c</span><span class="p">);</span>    <span class="k">end</span>
-</span><span class='line'>     <span class="k">def</span> <span class="nf">six</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="o">*</span><span class="n">c</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">d</span><span class="p">);</span> <span class="k">end</span>
-</span><span class='line'>   <span class="k">end</span>
-</span><span class='line'>   <span class="n">c</span> <span class="o">=</span> <span class="n">C</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'>   <span class="n">c</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="ss">:one</span><span class="p">)</span><span class="o">.</span><span class="n">arity</span>     <span class="c1">#=&gt; 0</span>
-</span><span class='line'>   <span class="n">c</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="ss">:two</span><span class="p">)</span><span class="o">.</span><span class="n">arity</span>     <span class="c1">#=&gt; 1</span>
-</span><span class='line'>   <span class="n">c</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="ss">:three</span><span class="p">)</span><span class="o">.</span><span class="n">arity</span>   <span class="c1">#=&gt; -1</span>
-</span><span class='line'>   <span class="n">c</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="ss">:four</span><span class="p">)</span><span class="o">.</span><span class="n">arity</span>    <span class="c1">#=&gt; 2</span>
-</span><span class='line'>   <span class="n">c</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="ss">:five</span><span class="p">)</span><span class="o">.</span><span class="n">arity</span>    <span class="c1">#=&gt; -3</span>
-</span><span class='line'>   <span class="n">c</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="ss">:six</span><span class="p">)</span><span class="o">.</span><span class="n">arity</span>     <span class="c1">#=&gt; -3</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="s2">&quot;cat&quot;</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="ss">:size</span><span class="p">)</span><span class="o">.</span><span class="n">arity</span>      <span class="c1">#=&gt; 0</span>
-</span><span class='line'>   <span class="s2">&quot;cat&quot;</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="ss">:replace</span><span class="p">)</span><span class="o">.</span><span class="n">arity</span>   <span class="c1">#=&gt; 1</span>
-</span><span class='line'>   <span class="s2">&quot;cat&quot;</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="ss">:squeeze</span><span class="p">)</span><span class="o">.</span><span class="n">arity</span>   <span class="c1">#=&gt; -1</span>
-</span><span class='line'>   <span class="s2">&quot;cat&quot;</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="ss">:count</span><span class="p">)</span><span class="o">.</span><span class="n">arity</span>     <span class="c1">#=&gt; -1</span>
 </span></code></pre></td></tr></table></div></figure>
 
 

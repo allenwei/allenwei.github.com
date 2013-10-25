@@ -9,22 +9,8 @@
 	<meta name="author" content="Allen Wei">
 
 	
-	<meta name="description" content="Feb 15th, 2010 RubyOnRails, RubyOnRails, Tips, private_method, ruby Tips - Rewrite Private Method Gracefully 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16 &hellip;">
+	<meta name="description" content="Feb 15th, 2010 RubyOnRails, RubyOnRails, Tips, actioncontroller Tips - Use Number_to_currency in Controller Just include 1
+NumberHelper , like this &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -106,6 +92,54 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-02-15T00:00:00+08:00" data-updated="true" itemprop="datePublished">Feb 15<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/actioncontroller/'>actioncontroller</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/02/15/tips-use-number_to_currency-in-controller/" itemprop="url">Tips - Use Number_to_currency in Controller</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Just include</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NumberHelper</span></code></pre></td></tr></table></div></figure>
+
+
+<p>, like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="kp">include</span> <span class="ss">ActionView</span><span class="p">:</span><span class="ss">:Helpers</span><span class="o">::</span><span class="no">NumberHelper</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>p=. Same way you can add other helper method to your controller. :)</p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -649,97 +683,6 @@ end</p>
 
 <p>You&rsquo;d better add some keyword in benchmark name, it is good to search in log.<br/>
 You can see result in your log.</p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-02-15T00:00:00+08:00" data-updated="true" itemprop="datePublished">Feb 15<span>th</span>, 2010</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/log/'>log</a>, <a class='category' href='/blog/categories/logrotate/'>logrotate</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2010/02/15/rotate-your-log-file/" itemprop="url">Rotate Your Log File</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>Configuring</p>
-
-<p>config file locate at</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/logrotate.conf</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Sample:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>   # Rotate Rails application logs
-</span><span class='line'>   /path/to/your/rails/applicaton/log/*.log {
-</span><span class='line'>     daily
-</span><span class='line'>     missingok
-</span><span class='line'>     rotate 7
-</span><span class='line'>     compress
-</span><span class='line'>     delaycompress
-</span><span class='line'>     notifempty
-</span><span class='line'>     copytruncate
-</span><span class='line'>   }</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li><p>/path/to/your/rails/applicaton/log/<em>.log &ndash; Use the full path to the log directory of your Rails application (symbolic links are acceptable too). &ldquo;</em>.log&rdquo; will rotate any file in the log directory with .log at the end. If you only want to rotate certain log files you can be more specific.</p></li>
-<li><p>daily &ndash; Rotates the log files every day. You could specify weekly or monthly instead.</p></li>
-<li><p>missingok &ndash; Don&rsquo;t issue an error message if log files are missing.</p></li>
-<li><p>rotate 7 &ndash; The maximum number of log files to keep. Once you have more than this number, the oldest file will be deleted. I set it to keep seven days worth but feel free to change this number.</p></li>
-<li><p>compress &ndash; Compress old versions of log files to save space (uses gzip by default).</p></li>
-<li><p>delaycompress &ndash; Delays the compression until the next log rotation. It&rsquo;s a minor point and probably not strictly necessary, but it makes sure that the log file is truly no longer active before compressing it.</p></li>
-<li><p>notifempty &ndash; If the log file is empty, there&rsquo;s no need to rotate it. You can remove this option if you want to rotate even blank log files; just keep in mind that you may erase a log file that has lots of information to make room for your blank log file.</p></li>
-<li><p>copytruncate &ndash; Makes a backup copy of the current log and then clears the log file for continued writing. The alternative is to use create which will perform the rotation by renaming the current file and then creating a new log file with the same name as the old file. I strongly recommend that you use copytruncate unless you know that you need create. The reason why is that Rails, FastCGI, Mongrel, etc. may still keep pointing to the old log file even though its name has changed and they may require restarting to locate the new log file. copytruncate avoids this by keeping the same file as the active file.</p></li>
-</ul>
-
-
-<p>If you have more than one Rails application, you can repeat this code to rotate them all one-after-another. There other options you can specify, man logrotate will show you them all. I haven&rsquo;t used them but the options to mail log files on creation or deletion look interesting. It is also possible to have rotate the logs once they get to a certain size instead of at a certain time.</p>
-
-<p>Using <a href="http://linuxcommand.org/man_pages/logrotate8.html">logrotate</a></p>
-
-<p>To use the log rotation you just configured, you have two choices.</p>
-
-<h1>Wait for the next day (or whatever time period you specified). If you configured it correctly, rotation should occur automatically and without further commands.</h1>
-
-<h1>Run it immediately by typing /usr/sbin/logrotate -f /etc/logrotate.conf on the command line. (The -f is for &ldquo;force&rdquo; it to run now.)</h1>
-
-<p>That&rsquo;s all there is to it! Now your log files won&rsquo;t fill up to an unmanagable size yet you&rsquo;ll still be able to go back and track any recent errors.</p>
-
-<p>By default, logrotate will add cron task to /etc/cron.daily/logrotate. So you don&rsquo;t need to worry how to add cron task.</p>
 
 		
 		
