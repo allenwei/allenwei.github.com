@@ -9,7 +9,7 @@
 	<meta name="author" content="Allen Wei">
 
 	
-	<meta name="description" content="Jun 10th, 2010 RubyOnRails, Tips, ruby Tips - How Many Argument a Method Has Find a method in @arity@ Here is doc from ruby doc bq. Returns an &hellip;">
+	<meta name="description" content="Jun 10th, 2010 RubyOnRails, Tips, Tips, hash, ruby Tips - Set Default Value for a Hash Can hash have a default value, when it doesn&rsquo;t have a &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,6 +91,50 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-06-10T00:00:00+08:00" data-updated="true" itemprop="datePublished">Jun 10<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/hash/'>hash</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/06/10/tips-set-default-value-for-a-hash/" itemprop="url">Tips - Set Default Value for a Hash</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Can hash have a default value, when it doesn&rsquo;t have a key?</p>
+
+<p>Answer is yes!</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">h</span> <span class="o">=</span> <span class="no">Hash</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;default&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">h</span><span class="o">[</span><span class="s2">&quot;wrong_value&quot;</span><span class="o">]</span> <span class="c1"># =&gt; &quot;default&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -959,61 +1003,6 @@ this this what your @.vim@ folder structure look like</p>
 <p>If you want to change it, open the jsBeautify plugin file, at the bottom you can find the keymap definition.</p>
 
 <p>It also have a web site to format your js code <a href="http://jsbeautifier.org/">http://jsbeautifier.org/</a></p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-04-01T00:00:00+08:00" data-updated="true" itemprop="datePublished">Apr 1<span>st</span>, 2010</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/active-record/'>active_record</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2010/04/01/tips-merge-activerecord-condtions/" itemprop="url">Tips - Merge ActiveRecord Condtions</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>Assuming We have @Member@ model.
-And one record with @name Hnery Miller@, with @state draft@</p>
-
-<p>I have two conditions:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">condition1</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;name like ?&#39;</span><span class="p">,</span><span class="s1">&#39;Hnery%&#39;</span><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">condition2</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;state = ?&#39;</span><span class="p">,</span><span class="s1">&#39;draft&#39;</span><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>What I gonna do is merge these two conditions, using Rails @ActiveRecord@ buildin method <a href="http://apidock.com/rails/ActiveRecord/Base/merge_conditions/class">merge_conditions</a></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Member</span><span class="o">.</span><span class="n">first</span><span class="p">(</span><span class="ss">:conditions</span> <span class="o">=&gt;</span> <span class="no">Member</span><span class="o">.</span><span class="n">merge_conditions</span><span class="p">(</span><span class="n">condition1</span><span class="p">,</span><span class="n">condition2</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure>
-
 
 		
 		

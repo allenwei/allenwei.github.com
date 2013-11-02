@@ -1,0 +1,228 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Objective-C Support attributes in categories - Digruby</title>
+	<meta name="author" content="Allen Wei">
+
+	
+	<meta name="description" content="Objective-C Support Attributes in Categories Sometimes we need extra logic from code using Objective-C Category, but Category doesn&rsquo;t support &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Digruby" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://allenwei.github.io/blog/2013/11/02/objective-c-support-attributes-in-categories/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("digruby@gmail.com") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+</div>
+<hgroup>
+  <h1>Digruby</h1>
+  
+    <h2><a href="/">Allen Wei's Tech Notes</a></h2>
+  
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		<a class="twitter" href="http://twitter.com/allenwei" title="Twitter">Twitter</a>
+		
+		
+		<a class="github" href="https://github.com/allenwei" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		<a class="delicious" href="http://delicious.com/allenwei" title="Delicious">Delicious</a>
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Objective-C Support Attributes in Categories</h1>
+	<div class="entry-content" itemprop="articleBody"><p>Sometimes we need extra logic from code using Objective-C <code>Category</code>, but <code>Category</code> doesn&rsquo;t support adding attributes.</p>
+
+<p>Objective-C <a href="https://developer.apple.com/library/mac/documentation/cocoa/reference/objcruntimeref/Reference/reference.html">Associative References</a> is a recure.</p>
+
+<p>let&rsquo;s see a example</p>
+
+<figure class='code'><figcaption><span>AFHTTPClient.h</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@interface</span> <span class="nc">AFHTTPClient</span> <span class="nl">(Logging)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">AFHTTPClientLogger</span> <span class="o">*</span><span class="n">logger</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>AFHTTPClient.m</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@implementation</span> <span class="nc">AFHTTPClient</span> <span class="nl">(Logging)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">static</span> <span class="kt">char</span> <span class="n">AFHTTPClientLoggerObject</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">AFHTTPClientLogger</span> <span class="o">*</span><span class="p">)</span><span class="nf">logger</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">AFHTTPClientLogger</span> <span class="o">*</span><span class="n">logger</span> <span class="o">=</span> <span class="n">objc_getAssociatedObject</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">AFHTTPClientLoggerObject</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">logger</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">logger</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AFHTTPClientLogger</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithBaseURL:</span><span class="n">self</span><span class="p">.</span><span class="n">baseURL</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">objc_setAssociatedObject</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">AFHTTPClientLoggerObject</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">OBJC_ASSOCIATION_RETAIN_NONATOMIC</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="n">logger</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This code is copied from <a href="https://github.com/jparise/AFHTTPClientLogger">https://github.com/jparise/AFHTTPClientLogger</a></p>
+
+<ol>
+<li>define property in header file</li>
+<li>define a getter method in implement file using objc_getAssociatedObject</li>
+<li>define a setter method in implement file using objc_setAssociatedObject</li>
+</ol>
+
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2013 - Allen Wei -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			
+
+<script type="text/javascript">
+      var disqus_shortname = 'digrubycom';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://allenwei.github.io/blog/2013/11/02/objective-c-support-attributes-in-categories/';
+        var disqus_url = 'http://allenwei.github.io/blog/2013/11/02/objective-c-support-attributes-in-categories/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

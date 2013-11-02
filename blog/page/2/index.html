@@ -9,7 +9,7 @@
 	<meta name="author" content="Allen Wei">
 
 	
-	<meta name="description" content="May 10th, 2012 UIScrolView, iOS Dev, ios, keyboard iOS - Right Way to Handle Keyboard Appear/disappear in iOS 5 Because after iOS 5, keyboard will &hellip;">
+	<meta name="description" content="May 19th, 2012 RubyOnRails, Tips, actionmailer, ruby, ruby1.9 Fix Action Mailer Encoding Issue After Upgrade to Ruby 1.9 Put following code in our @ &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,6 +91,46 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-19T00:00:00+08:00" data-updated="true" itemprop="datePublished">May 19<span>th</span>, 2012</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/actionmailer/'>actionmailer</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/ruby1-dot-9/'>ruby1.9</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2012/05/19/fix-action-mailer-encoding-issue-after-upgrade-to-ruby-1-9/" itemprop="url">Fix Action Mailer Encoding Issue After Upgrade to Ruby 1.9</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Put following code in our @application.rb@</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Encoding</span><span class="o">.</span><span class="n">default_external</span> <span class="o">=</span> <span class="s2">&quot;UTF-8&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -764,93 +804,6 @@ if you are using action mailer, you should have actionpack</p>
 </span><span class='line'>    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="p">[</span><span class="n">self</span> <span class="n">isFinished</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="p">[[</span><span class="n">NSRunLoop</span> <span class="n">currentRunLoop</span><span class="p">]</span> <span class="n">runMode</span><span class="o">:</span> <span class="n">NSDefaultRunLoopMode</span> <span class="n">beforeDate</span><span class="o">:</span><span class="n">loopUntil</span><span class="p">])</span> <span class="p">{</span>
 </span><span class='line'>        <span class="n">loopUntil</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDate</span> <span class="n">dateWithTimeIntervalSinceNow</span><span class="o">:</span><span class="mf">0.1</span><span class="p">];</span>
 </span><span class='line'>    <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-28T00:00:00+08:00" data-updated="true" itemprop="datePublished">Oct 28<span>th</span>, 2011</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/nsdatefomatter/'>NSDateFomatter</a>, <a class='category' href='/blog/categories/restkit/'>Restkit</a>, <a class='category' href='/blog/categories/restkit/'>Restkit</a>, <a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/activerecord/'>activerecord</a>, <a class='category' href='/blog/categories/ios-dev/'>iOS Dev</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2011/10/28/restkit-parse-activerecord-timestamp/" itemprop="url">iOS - Restkit Parse ActiveRecord Timestamp</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>If you are using Rails as your backend, Reskit will have trouble to parse ActiveRecord timestamp.</p>
-
-<p>Default ActiveRecord timestamp JSON out is @2008-12-29T00:27:42-08:00@</p>
-
-<p>You can not convert it to @NSDate@ directly use @NSDateFomatter@
-you must convert it to @2008-12-29T00:27:42-0800@</p>
-
-<p>But you have not chance to convert when you use Restkit Mapping.</p>
-
-<p>Here is my solution
-1. Monkey patch Time and DateTime class</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Time</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">as_json</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="kp">nil</span><span class="p">)</span>
-</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-%dT%H:%m:%S%z&quot;</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">DateTime</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">as_json</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="kp">nil</span><span class="p">)</span>
-</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-%dT%H:%m:%S%z&quot;</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>Add default date fomatter to RKObjectMapping</li>
-</ol>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">NSDateFormatter</span><span class="o">*</span> <span class="n">dateFormatter</span> <span class="o">=</span> <span class="p">[[[</span><span class="n">NSDateFormatter</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">]</span> <span class="n">autorelease</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">dateFormatter</span> <span class="n">setDateFormat</span><span class="o">:</span><span class="err">@</span><span class="s">&quot;yyyy-MM-dd&#39;T&#39;HH:mm:ssZ&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">RKObjectMapping</span> <span class="n">addDefaultDateFormatter</span><span class="o">:</span><span class="n">dateFormatter</span><span class="p">];</span>
 </span></code></pre></td></tr></table></div></figure>
 
 

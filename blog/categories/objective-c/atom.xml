@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Objective-c | Digruby]]></title>
+  <title><![CDATA[Category: objective-c | Digruby]]></title>
   <link href="http://allenwei.github.io/blog/categories/objective-c/atom.xml" rel="self"/>
   <link href="http://allenwei.github.io/"/>
-  <updated>2013-10-26T06:11:53+08:00</updated>
+  <updated>2013-11-02T10:42:14+08:00</updated>
   <id>http://allenwei.github.io/</id>
   <author>
     <name><![CDATA[Allen Wei]]></name>
@@ -14,28 +14,55 @@
 
   
   <entry>
-    <title type="html"><![CDATA[iOS - Three20 - Use TTImageView instead of UIImageView showing remote image]]></title>
-    <link href="http://allenwei.github.io/blog/2011/10/06/three20-use-ttimageview-showing-remote-image/"/>
-    <updated>2011-10-06T00:00:00+08:00</updated>
-    <id>http://allenwei.github.io/blog/2011/10/06/three20-use-ttimageview-showing-remote-image</id>
-    <content type="html"><![CDATA[<p>Thee20 is very good framework.</p>
+    <title type="html"><![CDATA[Objective-C Support attributes in categories]]></title>
+    <link href="http://allenwei.github.io/blog/2013/11/02/objective-c-support-attributes-in-categories/"/>
+    <updated>2013-11-02T10:12:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2013/11/02/objective-c-support-attributes-in-categories</id>
+    <content type="html"><![CDATA[<p>Sometimes we need extra logic from code using Objective-C <code>Category</code>, but <code>Category</code> doesn&rsquo;t support adding attributes.</p>
 
-<p>The features of TTImageView
-1. Load image from remote
-2. Support default image
-3. Cache image, so you don&rsquo;t need load it again.
-4. Support reload image</p>
+<p>Objective-C <a href="https://developer.apple.com/library/mac/documentation/cocoa/reference/objcruntimeref/Reference/reference.html">Associative References</a> is a recure.</p>
 
-<p>Find more to read source code of <a href="https://github.com/facebook/three20/blob/master/src/Three20UI/Headers/TTImageView.h">TTImageView</a></p>
+<p>let&rsquo;s see a example</p>
 
-<p>``` c</p>
+<p>``` objective-c AFHTTPClient.h</p>
 
-<h1>import &lt;Three20/Three20.h></h1>
+<p>@interface AFHTTPClient (Logging)</p>
 
-<p>TTImageView *productImage = [[TTImageView alloc] initWithFrame: CGRectMake(30, 30, 70, 70)];
-[productImage setUrlPath:@&ldquo;<a href="http://a-image-url">http://a-image-url</a>&rdquo;];
-[productImage setDefaultImage:[UIImage imageNamed:@&ldquo;default_product_small.png&rdquo;]];
-```</p>
+<p>@property (readonly, nonatomic) AFHTTPClientLogger *logger;</p>
+
+<p>@end</p>
+
+<p>```</p>
+
+<p>``` objective-c AFHTTPClient.m</p>
+
+<p>@implementation AFHTTPClient (Logging)</p>
+
+<p>static char AFHTTPClientLoggerObject;</p>
+
+<ul>
+<li><p>(AFHTTPClientLogger <em>)logger {
+  AFHTTPClientLogger </em>logger = objc_getAssociatedObject(self, &amp;AFHTTPClientLoggerObject);
+  if (logger == nil) {
+      logger = [[AFHTTPClientLogger alloc] initWithBaseURL:self.baseURL];
+      objc_setAssociatedObject(self, &amp;AFHTTPClientLoggerObject, logger, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+  }</p>
+
+<p>  return logger;
+}</p></li>
+</ul>
+
+
+<p>@end
+```
+This code is copied from <a href="https://github.com/jparise/AFHTTPClientLogger">https://github.com/jparise/AFHTTPClientLogger</a></p>
+
+<ol>
+<li>define property in header file</li>
+<li>define a getter method in implement file using objc_getAssociatedObject</li>
+<li>define a setter method in implement file using objc_setAssociatedObject</li>
+</ol>
+
 ]]></content>
   </entry>
   

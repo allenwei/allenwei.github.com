@@ -9,7 +9,7 @@
 	<meta name="author" content="Allen Wei">
 
 	
-	<meta name="description" content="Dec 1st, 2010 Tips, benchmark, define_method, eval, metaprograming, ruby Tips - Move Eval From Runtime to Parse Time As we @eval@ some code on &hellip;">
+	<meta name="description" content="Dec 15th, 2010 RubyOnRails, Tips, capybara, cucumber, firebug, selenium Tips - Add Firebug Extension to Capybara First, make sure your Capybara &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,6 +91,72 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-12-15T00:00:00+08:00" data-updated="true" itemprop="datePublished">Dec 15<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/capybara/'>capybara</a>, <a class='category' href='/blog/categories/cucumber/'>cucumber</a>, <a class='category' href='/blog/categories/firebug/'>firebug</a>, <a class='category' href='/blog/categories/selenium/'>selenium</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/12/15/tips-add-firebug-extension-to-capybara/" itemprop="url">Tips - Add Firebug Extension to Capybara</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>First, make sure your Capybara version is >= 0.4.0</p>
+
+<p>Then, download firebug plugin and save it to @features/support/firebug-1.6.0-fx.xpi@</p>
+
+<p>And add following line into @features/support/env.rb@</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Capybara</span><span class="o">.</span><span class="n">register_driver</span> <span class="ss">:selenium_with_firebug</span> <span class="k">do</span> <span class="o">|</span><span class="n">app</span><span class="o">|</span>
+</span><span class='line'>  <span class="ss">Capybara</span><span class="p">:</span><span class="ss">:Driver</span><span class="o">::</span><span class="no">Selenium</span>
+</span><span class='line'>  <span class="n">profile</span> <span class="o">=</span> <span class="ss">Selenium</span><span class="p">:</span><span class="ss">:WebDriver</span><span class="o">::</span><span class="ss">Firefox</span><span class="p">:</span><span class="ss">:Profile</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="n">profile</span><span class="o">.</span><span class="n">add_extension</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s2">&quot;features/support/firebug-1.6.0-fx.xpi&quot;</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="ss">Capybara</span><span class="p">:</span><span class="ss">:Driver</span><span class="o">::</span><span class="no">Selenium</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="p">{</span> <span class="ss">:browser</span> <span class="o">=&gt;</span> <span class="ss">:firefox</span><span class="p">,</span> <span class="ss">:profile</span> <span class="o">=&gt;</span> <span class="n">profile</span> <span class="p">})</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Before</span><span class="p">(</span><span class="s2">&quot;@selenium_with_firebug&quot;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>  <span class="no">Capybara</span><span class="o">.</span><span class="n">current_driver</span> <span class="o">=</span> <span class="ss">:selenium_with_firebug</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You will found that firefox will create a new firebug page tab. I have no idea how to close it, but seems it doesn&rsquo;t affect our test result.</p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -825,50 +891,6 @@ add new file</p>
 
 <p>After you deploy your bundler enhanced project with passenger, passenger will yelling: @please gem install bundler@.
 the solution is add gem dependencies in @Gemfile@. Yes it&rsquo;s strange, but I google about it, I haven&rsquo;t better solution, if you know you can tell me.</p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-06-10T00:00:00+08:00" data-updated="true" itemprop="datePublished">Jun 10<span>th</span>, 2010</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/hash/'>hash</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2010/06/10/tips-set-default-value-for-a-hash/" itemprop="url">Tips - Set Default Value for a Hash</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>Can hash have a default value, when it doesn&rsquo;t have a key?</p>
-
-<p>Answer is yes!</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">h</span> <span class="o">=</span> <span class="no">Hash</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;default&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="n">h</span><span class="o">[</span><span class="s2">&quot;wrong_value&quot;</span><span class="o">]</span> <span class="c1"># =&gt; &quot;default&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
 
 		
 		

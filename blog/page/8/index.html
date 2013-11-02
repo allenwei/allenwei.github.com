@@ -9,11 +9,10 @@
 	<meta name="author" content="Allen Wei">
 
 	
-	<meta name="description" content="Feb 15th, 2010 RubyOnRails, RubyOnRails, log, logrotate Rotate Your Log File Configuring config file locate at 1
-/etc/logrotate.conf Sample: 1
+	<meta name="description" content="Feb 15th, 2010 RubyOnRails, RubyOnRails, Tips, actionview, benchmark Tips - Benchmark Your View 1
 2
 3
-4 &hellip;">
+&lt;% benchmark &quot;My View&quot; do %&gt; & &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -95,6 +94,51 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-02-15T00:00:00+08:00" data-updated="true" itemprop="datePublished">Feb 15<span>th</span>, 2010</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/rubyonrails/'>RubyOnRails</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/actionview/'>actionview</a>, <a class='category' href='/blog/categories/benchmark/'>benchmark</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2010/02/15/tips-benchmark-your-view/" itemprop="url">Tips - Benchmark Your View</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sx">% benchmark </span><span class="s2">&quot;My View&quot;</span> <span class="k">do</span> <span class="sx">%&gt; </span>
+</span><span class='line'><span class="sx">&lt;!-- View Segment Here--&gt;</span>
+</span><span class='line'><span class="o">&lt;%</span> <span class="k">end</span><span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You&rsquo;d better add some keyword in benchmark name, it is good to search in log.<br/>
+You can see result in your log.</p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">

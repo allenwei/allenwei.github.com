@@ -4,7 +4,7 @@
   <title><![CDATA[Digruby]]></title>
   <link href="http://allenwei.github.io/atom.xml" rel="self"/>
   <link href="http://allenwei.github.io/"/>
-  <updated>2013-10-26T06:11:53+08:00</updated>
+  <updated>2013-11-02T10:42:14+08:00</updated>
   <id>http://allenwei.github.io/</id>
   <author>
     <name><![CDATA[Allen Wei]]></name>
@@ -12,6 +12,76 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Objective-C Support attributes in categories]]></title>
+    <link href="http://allenwei.github.io/blog/2013/11/02/objective-c-support-attributes-in-categories/"/>
+    <updated>2013-11-02T10:12:00+08:00</updated>
+    <id>http://allenwei.github.io/blog/2013/11/02/objective-c-support-attributes-in-categories</id>
+    <content type="html"><![CDATA[<p>Sometimes we need extra logic from code using Objective-C <code>Category</code>, but <code>Category</code> doesn&rsquo;t support adding attributes.</p>
+
+<p>Objective-C <a href="https://developer.apple.com/library/mac/documentation/cocoa/reference/objcruntimeref/Reference/reference.html">Associative References</a> is a recure.</p>
+
+<p>let&rsquo;s see a example</p>
+
+<figure class='code'><figcaption><span>AFHTTPClient.h</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@interface</span> <span class="nc">AFHTTPClient</span> <span class="nl">(Logging)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">AFHTTPClientLogger</span> <span class="o">*</span><span class="n">logger</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>AFHTTPClient.m</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@implementation</span> <span class="nc">AFHTTPClient</span> <span class="nl">(Logging)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">static</span> <span class="kt">char</span> <span class="n">AFHTTPClientLoggerObject</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">AFHTTPClientLogger</span> <span class="o">*</span><span class="p">)</span><span class="nf">logger</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">AFHTTPClientLogger</span> <span class="o">*</span><span class="n">logger</span> <span class="o">=</span> <span class="n">objc_getAssociatedObject</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">AFHTTPClientLoggerObject</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">logger</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">logger</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AFHTTPClientLogger</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithBaseURL:</span><span class="n">self</span><span class="p">.</span><span class="n">baseURL</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">objc_setAssociatedObject</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">AFHTTPClientLoggerObject</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">OBJC_ASSOCIATION_RETAIN_NONATOMIC</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="n">logger</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This code is copied from <a href="https://github.com/jparise/AFHTTPClientLogger">https://github.com/jparise/AFHTTPClientLogger</a></p>
+
+<ol>
+<li>define property in header file</li>
+<li>define a getter method in implement file using objc_getAssociatedObject</li>
+<li>define a setter method in implement file using objc_setAssociatedObject</li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS7 transparent navigation bar]]></title>
@@ -688,67 +758,6 @@ if you are using action mailer, you should have actionpack</p>
 </span><span class='line'>    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="p">[</span><span class="n">self</span> <span class="n">isFinished</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="p">[[</span><span class="n">NSRunLoop</span> <span class="n">currentRunLoop</span><span class="p">]</span> <span class="n">runMode</span><span class="o">:</span> <span class="n">NSDefaultRunLoopMode</span> <span class="n">beforeDate</span><span class="o">:</span><span class="n">loopUntil</span><span class="p">])</span> <span class="p">{</span>
 </span><span class='line'>        <span class="n">loopUntil</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDate</span> <span class="n">dateWithTimeIntervalSinceNow</span><span class="o">:</span><span class="mf">0.1</span><span class="p">];</span>
 </span><span class='line'>    <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS - Restkit Parse ActiveRecord Timestamp]]></title>
-    <link href="http://allenwei.github.io/blog/2011/10/28/restkit-parse-activerecord-timestamp/"/>
-    <updated>2011-10-28T00:00:00+08:00</updated>
-    <id>http://allenwei.github.io/blog/2011/10/28/restkit-parse-activerecord-timestamp</id>
-    <content type="html"><![CDATA[<p>If you are using Rails as your backend, Reskit will have trouble to parse ActiveRecord timestamp.</p>
-
-<p>Default ActiveRecord timestamp JSON out is @2008-12-29T00:27:42-08:00@</p>
-
-<p>You can not convert it to @NSDate@ directly use @NSDateFomatter@
-you must convert it to @2008-12-29T00:27:42-0800@</p>
-
-<p>But you have not chance to convert when you use Restkit Mapping.</p>
-
-<p>Here is my solution
-1. Monkey patch Time and DateTime class</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Time</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">as_json</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="kp">nil</span><span class="p">)</span>
-</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-%dT%H:%m:%S%z&quot;</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">DateTime</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">as_json</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="kp">nil</span><span class="p">)</span>
-</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-%dT%H:%m:%S%z&quot;</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>Add default date fomatter to RKObjectMapping</li>
-</ol>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">NSDateFormatter</span><span class="o">*</span> <span class="n">dateFormatter</span> <span class="o">=</span> <span class="p">[[[</span><span class="n">NSDateFormatter</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">]</span> <span class="n">autorelease</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">dateFormatter</span> <span class="n">setDateFormat</span><span class="o">:</span><span class="err">@</span><span class="s">&quot;yyyy-MM-dd&#39;T&#39;HH:mm:ssZ&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">RKObjectMapping</span> <span class="n">addDefaultDateFormatter</span><span class="o">:</span><span class="n">dateFormatter</span><span class="p">];</span>
 </span></code></pre></td></tr></table></div></figure>
 
 ]]></content>
