@@ -127,7 +127,11 @@
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@implementation</span> <span class="nc">AFHTTPClient</span> <span class="nl">(Logging)</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &quot;&lt;objc/runtime.h&gt;&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">AFHTTPClient</span> <span class="nl">(Logging)</span>
 </span><span class='line'>
 </span><span class='line'><span class="k">static</span> <span class="kt">char</span> <span class="n">AFHTTPClientLoggerObject</span><span class="p">;</span>
 </span><span class='line'>
@@ -149,6 +153,7 @@
 
 <ol>
 <li>define property in header file</li>
+<li>add <code>#import "&lt;objc/runtime.h&gt;"</code> at top of implement file</li>
 <li>define a getter method in implement file using objc_getAssociatedObject</li>
 <li>define a setter method in implement file using objc_setAssociatedObject</li>
 </ol>

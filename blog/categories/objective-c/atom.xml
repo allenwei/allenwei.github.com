@@ -4,7 +4,7 @@
   <title><![CDATA[Category: objective-c | Digruby]]></title>
   <link href="http://allenwei.github.io/blog/categories/objective-c/atom.xml" rel="self"/>
   <link href="http://allenwei.github.io/"/>
-  <updated>2013-11-02T10:42:14+08:00</updated>
+  <updated>2013-11-02T10:46:23+08:00</updated>
   <id>http://allenwei.github.io/</id>
   <author>
     <name><![CDATA[Allen Wei]]></name>
@@ -36,6 +36,8 @@
 
 <p>``` objective-c AFHTTPClient.m</p>
 
+<h1>import &ldquo;&lt;objc/runtime.h>&rdquo;</h1>
+
 <p>@implementation AFHTTPClient (Logging)</p>
 
 <p>static char AFHTTPClientLoggerObject;</p>
@@ -59,6 +61,7 @@ This code is copied from <a href="https://github.com/jparise/AFHTTPClientLogger"
 
 <ol>
 <li>define property in header file</li>
+<li>add <code>#import "&lt;objc/runtime.h&gt;"</code> at top of implement file</li>
 <li>define a getter method in implement file using objc_getAssociatedObject</li>
 <li>define a setter method in implement file using objc_setAssociatedObject</li>
 </ol>
